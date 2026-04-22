@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Redirect root (/) to index.php with empty url param
+RewriteRule ^$ index.php?url=/ [L,QSA]
+
+# Redirect everything else to index.php?url=...
+RewriteRule ^(.+)$ index.php?url=$1 [L,QSA]

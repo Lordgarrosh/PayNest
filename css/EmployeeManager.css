@@ -1,0 +1,66 @@
+.nav-logo {
+    color: white;
+    font-size: 2em;
+    /* margin-left: 1em; */
+}
+
+.navbar a {
+    color: white;
+}
+
+.emp-nav {
+    background-color: #547a95;
+}
+
+
+
+.mainContainer {
+    height: 80vh;
+
+}
+
+.dashboardContainer {
+    background-color: #c2a56d;
+    border-radius: 1.5em;
+    color: white;
+    box-shadow: 10pt 8px 7px 7px rgb(0, 0, 0, 0.5) !important;
+}
+.dashboardline {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border: none;
+    opacity: 1;
+   
+}
+
+.dashBoardDetail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3em;
+    width: 50%;
+}
+
+
+.system-buttons {
+    background-color: #547a95;
+   
+    height: 2cm;
+    font-size: 1.3em;
+    border: none;
+    border-radius: 1em;
+    width: 2.5in;
+    color: white;
+     display: grid;
+     grid-template-columns: 1fr 3fr;
+     padding: 0 1em;
+    text-align: start;
+    align-items: center;
+    
+}
+
+
+.button-icons {
+    color: #c2a56d;
+}
+

@@ -1,0 +1,15 @@
+.login-box {
+    background-color: #c2a56d;
+    color: black;
+}
+
+.login-field {
+    box-shadow: 1px 1px 7px 7px rgb(0, 0, 0, 0.2) !important;
+    border: solid rgba(0, 0, 0) 3px;
+    font-size: 2em;
+}
+
+.login-field:focus {
+      border: solid rgba(0, 0, 0) 3px !important;
+       box-shadow: 1px 1px 7px 7px rgb(0, 0, 0, 0.2) !important;
+}
