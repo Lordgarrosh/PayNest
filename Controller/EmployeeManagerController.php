@@ -20,6 +20,10 @@ class EmployeeManagerController extends Controller {
         $this->view("EmployeeManager/subscriptionPlan", $userDatas);
     }
 
+    private function fetchUserSubscription () {
+        
+    }
+
 
 private function userProfile () {
         $users = new Users();
