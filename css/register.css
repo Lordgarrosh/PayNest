@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Namdhinggo:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+main {   
+    width: 100%;
+}
+
+.registerContainer {
+     background-color: #9ad872;
+     width: 80%;
+}
+
+.namdhinggo-regular {
+  font-family: "Namdhinggo", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2cm !important;
+}
+
+
+
+label {
+    font-weight: 700;   
+}

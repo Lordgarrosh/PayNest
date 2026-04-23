@@ -9,7 +9,7 @@
 }
 
 .emp-nav {
-    background-color: #547a95;
+    background-color: #ebc26e;
 }
 
 
@@ -64,3 +64,14 @@
     color: #c2a56d;
 }
 
+
+
+.nav-image {
+    width: 1.5cm;
+    border-radius: 50%;
+}
+
+.navbar-nav {
+    justify-content: center;
+    align-items: center;
+}

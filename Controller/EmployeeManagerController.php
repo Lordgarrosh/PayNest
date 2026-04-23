@@ -10,6 +10,15 @@ class EmployeeManagerController extends Controller {
         $this->view("/EmployeeManager/dashboard", $userDatas);
     }
 
+    public function addEmployee () {
+        $userDatas = $this->userProfile();
+        $this->view("/EmployeeManager/addEmployee", $userDatas);
+    }
+
+    public function subscriptionPlan () {
+        $userDatas = $this->userProfile();
+        $this->view("EmployeeManager/subscriptionPlan", $userDatas);
+    }
 
 
 private function userProfile () {

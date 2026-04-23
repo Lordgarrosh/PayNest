@@ -16,21 +16,7 @@
         <title>PayNest</title>
     </head>
     <body>
-    <nav class="navbar navbar-expand-lg emp-nav py-3"> 
-        <div class="container-fluid">
-            
-
-                <a href="PayNest" class="nav-link nav-logo ms-5" >PayNest</a>
-        
-            
-            <ul class="navbar-nav gap-5 me-5">
-                <li class="nav-item"><a href="" class="nav-link">DashBoard</a></li>
-                <li class="nav-item"><a href="" class="nav-link">Inventory</a></li>
-                <li class="nav-item"><a href="" class="nav-link">Employee</a></li>
-                <li class="nav-item"><a href="" class="nav-link">Payroll</a></li>
-            </ul>
-        </div>
-    </nav>
+<?php require __DIR__ . "/../../View/Components/EmployeeNavbar.php" ?>
 
     <main class="mainContainer d-flex justify-content-center gap-5 ms-auto align-items-center ">
         
@@ -64,7 +50,7 @@
 </svg>
               <label>Add Sale</label>
             </button>
-            <button class="system-buttons">
+            <button onclick="window.location.href='/EmployeeManager/addEmployee'" class="system-buttons">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-fill-add button-icons" viewBox="0 0 16 16">
   <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
   <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>

@@ -8,7 +8,7 @@
       
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+      <link rel="stylesheet" href="../css/register.css">
     <!-- <link rel="stylesheet" href="../css/landingheader.css"> -->
 
     <title>PayNest</title>
@@ -18,7 +18,6 @@
       max-width: 300px;
       height: 300px;
       border: 2px dashed #ccc;
-      border-radius: 50%;
       position: relative;
       cursor: pointer;
       overflow: hidden;
@@ -31,7 +30,7 @@
     .image-upload-container img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: fill;
       display: none;
     }
 
@@ -49,52 +48,58 @@
   </style>
 </head>
 
-<body class="bg-light" >
+<body>
 
 
-<main class="container py-5 d-flex justify-content-center" >
+<main class="px-5 mt-5 d-flex justify-content-center" >
+  <div class="registerContainer px-5 py-5" >
+        <div class="title pb-5">
+<h1 class="text-center namdhinggo-regular" >PayNest<h1>
+</div>
 <form action="/register" method="POST" enctype="multipart/form-data">
 
-    <div class="title pb-5">
-<h1 class="text-center" >Register<h1>
-</div>
-<div class="prof-image-container d-flex justify-content-center pb-5">
+
+<!-- <div class="d-flex"> -->
+  <div class="d-flex gap-5">
+    <div style="width: 30%;">
+<div class="prof-image-container d-flex pb-5">
  <label for="imageInput" class="image-upload-container">
       <span class="image-upload-label">Click to upload image</span>
       <img id="imagePreview" alt="Image Preview">
       <input type="file" id="imageInput" name="profPic" accept="image/*">
     </label>
 </div>
-   
-<div class="row mb-3">
+   </div>
+   <div style="width: 70%;">
+<div class="row mb-1">
     
     <div class="col-md-4">
-        <label for="fname" class="form-label"  >First Name</label>
+        <label for="fname"   >First Name</label>
         <input type="text" name="fname" id="fname" class="form-control" placeholder="Enter your First Name">
     </div>
 
     <div class="col-md-4">
-        <label for="mname" class="form-label">Middle Name</label>
-        <input type="text" name="mname" id="mname" class="form-control" placeholder="Enter your Second Name">
+        <label for="mname" >Middle Name</label>
+        <input type="text" name="mname" id="mname" class="form-control" placeholder="Enter your Middle Name">
     </div>
 
     <div class="col-md-4">
-        <label for="lname" class="form-label">Last Name</label>
+        <label for="lname" >Last Name</label>
         <input type="text" name="lname" id="lname" class="form-control" placeholder="Enter your Last Name">
     </div>
 </div>
 <div class="col">
   
-         <div class="col py-3">
-       <label for="number" class="form-label">Number</label>
+         <div class="col py-2">
+       <label for="number" >Number</label>
         <input type="number" name="number" id="number" class="form-control" placeholder="Enter your Number  ">
         </div>
-    <div class="col py-3">
-       <label for="email" class="form-label">Email</label>
+    <div class="col py-2">
+       <label for="email" >Email</label>
         <input type="text" name="email" id="email" class="form-control" placeholder="Enter your Email">
         </div>
       <div class="col pb-4">
-  <label for="password" class="form-label">Password</label>
+  <label for="password" >Password</label>
   <div class="input-group">
     <input type="password" id="password" class="form-control" name="password" placeholder="Enter Password">
     <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
@@ -102,9 +107,16 @@
     </span>
   </div>
 </div>
-        <input type="submit" name="submit" value="Register" class="btn btn-primary register">
 </div>
+<div class="d-flex flex-column align-items-center gap-3" >
+  <input type="submit" name="submit" value="Register" style="background-color: #ffa02e; width:  20%; height: 1cm;" class="btn register">
+
+<a href="/login" style="color: black;" >Already have an account?</a>
+        </div>
+</div>
+
 </form>
+  </div>
 </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

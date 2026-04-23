@@ -1,15 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Namdhinggo:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 .login-box {
-    background-color: #c2a56d;
+    background-color: #9ad872;
     color: black;
+    width: 30%;
 }
 
 .login-field {
     box-shadow: 1px 1px 7px 7px rgb(0, 0, 0, 0.2) !important;
     border: solid rgba(0, 0, 0) 3px;
-    font-size: 2em;
+    font-size: 1em;
 }
 
 .login-field:focus {
       border: solid rgba(0, 0, 0) 3px !important;
        box-shadow: 1px 1px 7px 7px rgb(0, 0, 0, 0.2) !important;
+}
+
+.namdhinggo-regular {
+  font-family: "Namdhinggo", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2cm !important;
 }

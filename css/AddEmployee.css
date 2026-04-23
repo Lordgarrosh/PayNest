@@ -1,0 +1,40 @@
+body {
+    background-color: #547a95   ;
+}
+
+.addEmployeeContainer {
+    background-color: white;
+    width: 70%;
+    height: 100%;
+}
+
+
+.addEmployeeIcon {
+    color: #c2a56d;
+    background-color: #547a95;
+    border-radius: 50%;
+    
+}
+
+.employeeFields {
+    width: 50%;
+}
+
+.userEmployeeFields {
+    font-size: 1.5em;
+}
+
+.salaryField {
+    border-radius: 1em;
+    border: solid black 1pt;
+    padding-left: 1em;
+    width: 100%;
+}
+
+.btn-salary {
+    border: solid black 1pt;
+}
+
+.salary-container p {
+    margin: 0;
+}

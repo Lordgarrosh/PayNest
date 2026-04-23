@@ -12,6 +12,8 @@ require __DIR__ . "/../Controller/EmployeeManagerController.php";
     RouteHandler::post('/login', [new AuthController(), 'loginUser']);
         RouteHandler::group(['prefix' => '/EmployeeManager'], function() {
                     RouteHandler::get('/dashboard', [new EmployeeManagerController(), 'dashboard']);
+                    RouteHandler::get('/addEmployee', [new EmployeeManagerController(), 'addEmployee']);
+                    RouteHandler::get('/subscriptionPlan', [new EmployeeManagerController(), 'subscriptionPlan']);
                 //    RouteHandler::get('/profileSettings', [new SellerController(), 'userSettings']); 
                 //     RouteHandler::get('/addproduct', [new SellerController(), 'addNewProductForm']); 
                 //      RouteHandler::post('/addproduct', [new SellerController(), 'addProductData']); 
