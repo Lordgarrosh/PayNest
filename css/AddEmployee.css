@@ -38,3 +38,15 @@ body {
 .salary-container p {
     margin: 0;
 }
+
+
+.btn-check:checked + label {
+    background-color: #c2a56d !important;
+}
+
+.pesoSign {
+    border: solid 1px black;
+    width: 2em;
+    text-align: center;
+    border-radius: 5pt;
+}

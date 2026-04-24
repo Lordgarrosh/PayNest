@@ -4,13 +4,14 @@ class UserSubscription {
     private int $userSubscriptionID;
     private string $subscriptionPlan;
     private int $userID;
+    private string $subscriptionPeriod;
     protected $conn;
 protected Database $database;
 
 
-    public function __construct ($subscriptionPlan, $userID) {
+    public function __construct ($subscriptionPlan, $subscriptionPeriod, $userID) {
         $this->subscriptionPlan = $subscriptionPlan;
-
+        $this->subscriptionPeriod = $subscriptionPeriod;
         $this->userID = $userID;
     }
 
@@ -27,6 +28,10 @@ protected Database $database;
         return $this->userID;
     }
 
+    public function getSubscriptionPeriod () {
+        return $this->subscriptionPeriod;
+    }
+
     //setters
 
 
@@ -40,6 +45,10 @@ protected Database $database;
 
         public function setUserID (int $userID) {
         $this->userID = $userID;
+    }
+
+    public function setSubscriptionPeriod (string $subscriptionPeriod) {
+        $this->subscriptionPeriod = $subscriptionPeriod;
     }
 
 

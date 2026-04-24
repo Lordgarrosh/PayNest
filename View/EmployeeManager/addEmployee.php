@@ -19,7 +19,9 @@
     <body>
     <?php require __DIR__ . "/../../View/Components/EmployeeNavbar.php" ?>
     <main class="mainContainer d-flex justify-content-center mt-3 gap-5 ms-auto align-items-center ">
-        <div class="addEmployeeContainer py-5 d-flex gap-5">
+       
+        <div class="addEmployeeContainer py-5 ">
+             <form action="/EmployeeManager/addEmployee" class="d-flex gap-5" method="post">
             <div class="d-flex flex-column gap-5 employeeFields ms-5" >
                   <div class="d-flex gap-5 align-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-person-fill addEmployeeIcon" viewBox="0 0 16 16">
@@ -38,18 +40,24 @@
             <div class="d-flex justify-content-center flex-column salary-container gap-3">
                 <p>Salary Type</p>
                 <div class="d-flex gap-3">
-                    <button class="btn" style="background-color: #c2a56d; width: 1in;">Daily</button>
-                    <button class="btn btn-outline-secondary" style="width: 1in;">Weekly</button>
-                     <button class="btn btn-outline-secondary" style="width: 1in;">Monthly</button>
+<input type="radio" id="btn-check" class="btn-check" name="salaryType">
+<label class="btn btn-outline-secondary testBtn" for="btn-check">Daily</label>
+
+<input type="radio" id="btn-check-2" class="btn-check" name="salaryType">
+<label class="btn btn-outline-secondary testBtn" for="btn-check-2">Weekly</label>
+
+<input type="radio" id="btn-check-3" class="btn-check" name="salaryType">
+<label class="btn btn-outline-secondary testBtn" for="btn-check-3">Monthly</label>
                 </div>
                 <p>Basic Salary</p>
                 <div class="d-flex gap-1">
-                <button class="btn btn-outline-secondary btn-salary">₱</button>
+                <p class="pesoSign">₱</p>
                 <input type="text" placeholder="Enter your Salary" class="salaryField" name="" id="">
                 </div>
-                <button class="btn" style="background-color: #c2a56d; width: 2in;">Save Employee</button>
+                <button class="btn" name="submitBtn" style="background-color: #c2a56d; width: 2in;">Save Employee</button>
                 
             </div>
+             </form>
         </div>
     </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

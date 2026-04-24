@@ -86,11 +86,11 @@
                 headers: {
                     'Content-Type' : 'application/x-www-form-urlencoded'
                 },
-                body: 'subscriptionPlan=Basic Plan'
+                body: 'subscriptionPlan=Basic Plan&subscriptionPeriod=' + (document.getElementById("subscriptionToggleBtn").checked ? 'Yearly' : 'Monthly')
             })
             .then(res => res.json())
             .then(() => {
-                window.location.href = "/EmployeeManager/test";
+                window.location.href = "/EmployeeManager/dashboard";
             });
         }
 });
@@ -112,11 +112,11 @@
                 headers: {
                     'Content-Type' : 'application/x-www-form-urlencoded'
                 },
-                body: 'subscriptionPlan=Premium Plan'
+                body: 'subscriptionPlan=Premium Plan&subscriptionPeriod=' + (document.getElementById("subscriptionToggleBtn").checked ? 'Yearly' : 'Monthly')
             })
             .then(res => res.json())
             .then(() => {
-                window.location.href = "/EmployeeManager/test";
+                window.location.href = "/EmployeeManager/dashboard";
             });
         }
 });
