@@ -14,6 +14,14 @@ require __DIR__ . "/../Controller/EmployeeManagerController.php";
                     RouteHandler::get('/dashboard', [new EmployeeManagerController(), 'dashboard']);
                     RouteHandler::get('/addEmployee', [new EmployeeManagerController(), 'addEmployee']);
                     RouteHandler::get('/subscriptionPlan', [new EmployeeManagerController(), 'subscriptionPlan']);
+                    RouteHandler::post('/subscriptionPlan', [new EmployeeManagerController(), 'chooseSubscriptionPlan']);
+                    RouteHandler::get('/test', function () {
+                        if (session_status() === PHP_SESSION_NONE) {
+                            session_start();
+                        }
+                        $subscriptionPlan = $_SESSION['subscriptionPlan'];
+                        echo $subscriptionPlan;
+                    });
                 //    RouteHandler::get('/profileSettings', [new SellerController(), 'userSettings']); 
                 //     RouteHandler::get('/addproduct', [new SellerController(), 'addNewProductForm']); 
                 //      RouteHandler::post('/addproduct', [new SellerController(), 'addProductData']); 

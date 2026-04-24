@@ -40,7 +40,7 @@
                     <li>Manage Inventories & Track</li>
                     <li>Add Employee (Limited of 2)</li>
                 </ul>
-                <button class="btn btn-outline-secondary namdhinggo-regular mt-3 mb-5" style="font-size: 2em;" >Try for free</button>
+                <button class="btn btn-outline-secondary namdhinggo-regular mt-3 mb-5" id="basicPriceBtn" style="font-size: 2em;" >Try for free</button>
             </div>
             <div class="subscriptionContainer px-5 pt-4 pb-5" style=" box-shadow: 
     0 -1em 0 0 orange,  
@@ -54,7 +54,7 @@
                         <li>Unlimited add Employee</li>
                         <li>Access to generated government mandated contributions (Generated pay roll and pay slip)</li>
                     </ul>
-               <button class="btn btn-outline-secondary namdhinggo-regular mt-3" style="font-size: 2em;">Try for free</button>
+               <button class="btn btn-outline-secondary namdhinggo-regular mt-3" id="premiumPriceBtn" style="font-size: 2em;">Try for free</button>
             </div>
         </div>
         </div>
@@ -65,9 +65,61 @@
         <script>
              document.getElementById("subscriptionToggleBtn").addEventListener('change', (event) => {
                
-                   let basicPlanPrice = document.getElementById("basicPlanPrice").innerHTML =  (event.target.checked) ? "₱98/Month" : "₱12/Month";
-                    let premiumPlanPrice = document.getElementById("premiumPlanPrice").innerHTML =  (event.target.checked) ? "₱98765/Year" : "₱12345/Month";
+                  document.getElementById("basicPlanPrice").innerHTML =  (event.target.checked) ? "₱98/Month" : "₱12/Month";
+                  document.getElementById("premiumPlanPrice").innerHTML =  (event.target.checked) ? "₱98765/Year" : "₱12345/Month";
                 
+             });
+             document.getElementById("basicPriceBtn").addEventListener('click', () => {
+                // let price = (event.target.checked) ? 98 : 12;
+                         Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/EmployeeManager/subscriptionPlan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/x-www-form-urlencoded'
+                },
+                body: 'subscriptionPlan=Basic Plan'
+            })
+            .then(res => res.json())
+            .then(() => {
+                window.location.href = "/EmployeeManager/test";
+            });
+        }
+});
+             });
+             document.getElementById("premiumPriceBtn").addEventListener('click', () => {
+                // let price = (event.target.checked) ? 98765 : 12345;
+                         Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/EmployeeManager/subscriptionPlan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/x-www-form-urlencoded'
+                },
+                body: 'subscriptionPlan=Premium Plan'
+            })
+            .then(res => res.json())
+            .then(() => {
+                window.location.href = "/EmployeeManager/test";
+            });
+        }
+});
              });
         </script>
     </body>
