@@ -10,14 +10,13 @@ class Employee {
     private string $salaryType;
     private string $salaryCurrencyType;
     private float $salaryAmount;
-    private int $userID;
     private int $userSubscriptionID;
     protected $conn;
 protected Database $database;
 
 
     public function __construct(int $employeeID, string $tin, string $sss, string $philHealth, string $pagIbig, string $salaryType, string $salaryCurrencyType,
-    float $salaryAmount, int $userID, int $userSubscriptionID
+    float $salaryAmount,int $userSubscriptionID
     ) {
         $this->employeeID = $employeeID;
         $this->tin = $tin;
@@ -27,8 +26,7 @@ protected Database $database;
         $this->salaryType = $salaryType;
         $this->salaryCurrencyType = $salaryCurrencyType;
         $this->salaryAmount = $salaryAmount;
-        $this->userID = $userID;
-        $this->userSubscriptionID = $userID;
+        $this->userSubscriptionID = $userSubscriptionID;
     }
 
     //getters
@@ -65,9 +63,7 @@ protected Database $database;
         return $this->salaryAmount;
     }
 
-    public function getUserID () {
-        return $this->userID;
-    }
+   
 
     public function getUserSubscriptionID() {
         return $this->userSubscriptionID;
@@ -104,10 +100,6 @@ protected Database $database;
 
     public function setSalaryAmount(string $salaryAmount) {
         $this->salaryAmount = $salaryAmount;
-    }
-
-    public function setUserID(string $userID) {
-        $this->userID = $userID;
     }
 
     public function setUserSubscriptionID(string $userSubscriptionID) {

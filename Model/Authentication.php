@@ -47,11 +47,8 @@ class Authentication extends Users {
         // if (session_status() === PHP_SESSION_NONE) {
         //     session_start();
         // }
-       echo "<script>alert('Password: " . $this->getPassword() . "');</script>";
-echo "<script>alert('Email: " . $this->getEmail() . "');</script>";
         $this->setUserValidation("Validated");
     
-echo "<script>alert('asd');</script>";
                 if (session_status() === PHP_SESSION_NONE) {    
     session_start();
 }

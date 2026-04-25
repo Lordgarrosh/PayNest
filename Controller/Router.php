@@ -14,6 +14,12 @@ require __DIR__ . "/../Controller/EmployeeManagerController.php";
                     RouteHandler::get('/dashboard', [new EmployeeManagerController(), 'dashboard']);
                     RouteHandler::get('/addEmployee', [new EmployeeManagerController(), 'addEmployeeForm']);
                     RouteHandler::get('/subscriptionPlan', [new EmployeeManagerController(), 'subscriptionPlan']);
+                     RouteHandler::get('/inventory', [new EmployeeManagerController(), 'inventoryForm']);
+                      RouteHandler::get('/employee', [new EmployeeManagerController(), 'employeeForm']);
+                       RouteHandler::get('/payroll', [new EmployeeManagerController(), 'payrollForm']);
+                        RouteHandler::get('/salesForm', [new EmployeeManagerController(), 'salesForm']);
+                         RouteHandler::get('/employeeAttendance', [new EmployeeManagerController(), 'employeeAttendancePage']);
+                          RouteHandler::post('/addAttendance', [new EmployeeManagerController(), 'addAttendance']);
                     RouteHandler::post('/subscriptionPlan', [new EmployeeManagerController(), 'chooseSubscriptionPlan']);
                     RouteHandler::post('/addEmployee', [new EmployeeManagerController(), 'addEmployeeData']);
                     // RouteHandler::get('/test', function () {

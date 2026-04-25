@@ -12,11 +12,16 @@ class EmployeeManagerController extends Controller {
         
         if ($userSubscription !== null) {
             $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/addEmployee", $userDatas);
+        $this->view("/EmployeeManager/dashboard", $userDatas);
         }
         else {
             $this->redirect("/subscriptionPlan");
         }
+    }
+
+    public function employeeAttendancePage() {
+        $userDatas = $this->userProfile();
+        $this->view("/EmployeeManager/employeeAttendance", $userDatas);
     }
 
     public function addEmployeeForm () {
@@ -24,29 +29,89 @@ class EmployeeManagerController extends Controller {
         $this->view("/EmployeeManager/addEmployee", $userDatas);
     }
 
+    public function inventoryForm () {
+        $userDatas = $this->userProfile();
+        $this->view("/EmployeeManager/inventory", $userDatas);
+    }
+
+    public function employeeForm () {
+        $userDatas = $this->userProfile();
+        $this->view("/EmployeeManager/employee", $userDatas);
+    }
+
+    public function payrollForm () {
+        $userDatas = $this->userProfile();
+        $this->view("/EmployeeManager/payroll", $userDatas);
+    }
+
+    public function salesForm () {
+        $userDatas = $this->userProfile();
+        $this->view("/EmployeeManager/sales", $userDatas);
+    }
+
     public function subscriptionPlan () {
         $userDatas = $this->userProfile();
         $this->view("EmployeeManager/subscriptionPlan", $userDatas);
     }
 
+    public function addAttendance () {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addAttendance'])) {
+            $employeeID = $_POST['employeeID'];
+            $timeIn = $_POST['timeIn'];
+            $timeOut = $_POST['timeOut'];
+            $this->startSession();
+            $this->database = new Database();
+            $this->conn = $this->database->connect();
+            $attendanceQuery = "INSERT INTO ";
+            echo "Employee ID $employeeID\n";
+            echo "timein $timeIn\n";
+            echo "timeOut $timeOut";
+        }
+    }
+
     public function addEmployeeData () {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submitBtn'])) {
-            $this->startSession();
+            
             $employeeName = $_POST['employeeName'];
-            $tin = $_POST['sss'];
+            $tin = $_POST['tin'];
+            $sss = $_POST['sss'];
             $philHealth = $_POST['philHealth'];
             $pagIbig = $_POST['pagIbig'];
-            $salaryType = $_POST['salaryType'];
+            $salaryType = $_POST['salaryType'] ?? null;
             $salaryAmount = $_POST['salaryAmount'];
-            $userDatas = $this->userProfile();
+            if (empty($employeeName) || empty($tin) || empty($sss) || empty($philHealth) || empty($pagIbig) || empty($salaryType) || empty($salaryAmount)) {
+              $this->view("/EmployeeManager/addEmployee", [
+                "userValidation" => "Not Validated",
+                    "messageReport" => "Please input all the input fields"
+              ]);
+        
+            }
+            else {
+                 $this->startSession();
             $userSubscription = $this->fetchUserSubscription();
             $this->database = new Database();
             $this->conn = $this->database->connect();
-            $employeeQuery = "INSERT INTO employee (employeeName, tin, sss, philHealth, pagIbig, salaryType, salaryAmount, userID, userSubscriptionID) VALUES 
-            (:employeeName, :tin, :sss, :philHealth, :pagIbig, :salaryType, :salaryAmount, :userID, :userSubscriptionID)";
+            $employeeQuery = "INSERT INTO employee (employeeName, tin, sss, philHealth, pagIbig, salaryType, salaryAmount,  userSubscriptionID) VALUES 
+            (:employeeName, :tin, :sss, :philHealth, :pagIbig, :salaryType, :salaryAmount, :userSubscriptionID)";
             $stmt = $this->conn->prepare($employeeQuery);
+            $stmt->bindValue(":employeeName", $employeeName);
+            $stmt->bindValue(":tin", $tin);
+            $stmt->bindValue(":sss", $sss);
+            $stmt->bindValue(":philHealth", $philHealth);
+            $stmt->bindValue(":pagIbig", $pagIbig);
+            $stmt->bindValue(":salaryType", $salaryType);
+            $stmt->bindValue(":salaryAmount", $salaryAmount);
+            $stmt->bindValue(":userSubscriptionID", $userSubscription['userSubscriptionID']);
+            $stmt->execute();   
+             $this->view("/EmployeeManager/addEmployee", [
+                    "userValidation" => "Validated",
+                    "messageReport" => "Employee Added Successfully"
+              ]);
+            }
+
             
         }
+   
     }
 
     private function fetchUserSubscription () {

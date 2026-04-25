@@ -30,7 +30,7 @@
 <h1>Add Employee</h1>
             </div>
       <div class="d-flex flex-column gap-3">
-                <input type="text" class="userEmployeeFields" name="fname"  placeholder="Full Name">
+                <input type="text" class="userEmployeeFields" name="employeeName"  placeholder="Full Name">
                 <input type="text" class="userEmployeeFields" name="tin"  placeholder="TIN">
                 <input type="text" class="userEmployeeFields" name="sss"  placeholder="SSS Number">
                 <input type="text" class="userEmployeeFields" name="philHealth"  placeholder="PhilHealth Number">
@@ -40,19 +40,19 @@
             <div class="d-flex justify-content-center flex-column salary-container gap-3">
                 <p>Salary Type</p>
                 <div class="d-flex gap-3">
-<input type="radio" id="btn-check" class="btn-check" name="salaryType">
+<input type="radio" id="btn-check" class="btn-check" name="salaryType" value="Daily">
 <label class="btn btn-outline-secondary testBtn" for="btn-check">Daily</label>
 
-<input type="radio" id="btn-check-2" class="btn-check" name="salaryType">
+<input type="radio" id="btn-check-2" class="btn-check" name="salaryType" value="Weekly">
 <label class="btn btn-outline-secondary testBtn" for="btn-check-2">Weekly</label>
 
-<input type="radio" id="btn-check-3" class="btn-check" name="salaryType">
+<input type="radio" id="btn-check-3" class="btn-check" name="salaryType" value="Monthly">
 <label class="btn btn-outline-secondary testBtn" for="btn-check-3">Monthly</label>
                 </div>
                 <p>Basic Salary</p>
                 <div class="d-flex gap-1">
                 <p class="pesoSign">₱</p>
-                <input type="text" placeholder="Enter your Salary" class="salaryField" name="" id="">
+                <input type="text" placeholder="Enter your Salary" class="salaryField" name="salaryAmount" id="">
                 </div>
                 <button class="btn" name="submitBtn" style="background-color: #c2a56d; width: 2in;">Save Employee</button>
                 
@@ -64,3 +64,37 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </body>
     </html>
+
+
+
+<?php
+if (!empty($userValidation) && !empty($messageReport)) {
+if ($userValidation == "Not Validated" || empty($messageReport)) {
+    echo "<script>Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: ' $messageReport '
+            });</script>";
+}
+else if ($userValidation == "Validated") {
+    echo "<script>
+  
+         Swal.fire({
+                icon: 'success',
+                title: 'Registration Success',
+                text: '$messageReport'
+            }).then(() => {
+              window.location.href = '/EmployeeManager/dashboard';
+            });
+    </script>";
+}
+}
+else {
+      echo "<script>Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: 'err'
+            });</script>";
+}
+
+?>
