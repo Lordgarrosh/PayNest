@@ -7,19 +7,41 @@ require_once __DIR__ . "/../Model/Database.php";
 class EmployeeManagerController extends Controller {
     private $conn;
     private $database;
-    public function dashboard () {
+
+    public function userCurrentPage ($currentPage) {
         $userSubscription = $this->fetchUserSubscription();
-        
-        if ($userSubscription !== null) {
+          $this->startSession();
+          
+        if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+           $this->redirect("/login");
+        }
+        else if ($userSubscription !== null) {
             $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/dashboard", $userDatas);
+        $this->view("/EmployeeManager/$currentPage", $userDatas);
         }
         else {
-            $this->redirect("/subscriptionPlan");
+            $this->redirect("/EmployeeManager/subscriptionPlan");
         }
     }
 
+        // public function dashboard () {
+        //     $userSubscription = $this->fetchUserSubscription();
+            
+        //     if ($userSubscription !== null) {
+        //         $userDatas = $this->userProfile();
+        //     $this->view("/EmployeeManager/dashboard", $userDatas);
+        //     }
+        //     else {
+        //         $this->redirect("/subscriptionPlan");
+        //     }
+        // }
+
+    // public function test ($word) {
+    //     echo $word;
+    // }
+
     public function employeeAttendancePage() {
+        
         $userDatas = $this->userProfile();
         $this->view("/EmployeeManager/employeeAttendance", $userDatas);
     }
@@ -29,40 +51,52 @@ class EmployeeManagerController extends Controller {
         $this->view("/EmployeeManager/addEmployee", $userDatas);
     }
 
-    public function inventoryForm () {
-        $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/inventory", $userDatas);
-    }
+    // public function inventoryForm () {
+    //     $userDatas = $this->userProfile();
+    //     $this->view("/EmployeeManager/inventory", $userDatas);
+    // }
 
-    public function employeeForm () {
-        $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/employee", $userDatas);
-    }
+    // public function employeeForm () {
+    //     $userDatas = $this->userProfile();
+    //     $this->view("/EmployeeManager/employee", $userDatas);
+    // }
 
-    public function payrollForm () {
-        $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/payroll", $userDatas);
-    }
+    // public function payrollForm () {
+    //     $userDatas = $this->userProfile();
+    //     $this->view("/EmployeeManager/payroll", $userDatas);
+    // }
 
-    public function salesForm () {
-        $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/sales", $userDatas);
-    }
+    // public function salesForm () {
+    //     $userDatas = $this->userProfile();
+    //     $this->view("/EmployeeManager/sales", $userDatas);
+    // }
 
     public function subscriptionPlan () {
-        $userDatas = $this->userProfile();
-        $this->view("EmployeeManager/subscriptionPlan", $userDatas);
+           $userSubscription = $this->fetchUserSubscription();
+          $this->startSession();
+          
+        if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+           $this->redirect("/login");
+        }
+        else if ($userSubscription !== null) {
+            $userDatas = $this->userProfile();
+        $this->view("/EmployeeManager/subscription", $userDatas);
+        }
+        else {
+            $this->redirect("/EmployeeManager/dashboard");
+        }
     }
-
+    
     public function addAttendance () {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addAttendance'])) {
             $employeeID = $_POST['employeeID'];
             $timeIn = $_POST['timeIn'];
             $timeOut = $_POST['timeOut'];
+            $employeeAttendance = $_POST['attendanceStatus'];
             $this->startSession();
             $this->database = new Database();
             $this->conn = $this->database->connect();
-            $attendanceQuery = "INSERT INTO ";
+            $attendanceQuery = "INSERT INTO employeeAttendance (timein, timeout, attendanceStatus, userSubscriptionID) VALUES (:timeIn, :timeOut, :employeeAttendance)";
             echo "Employee ID $employeeID\n";
             echo "timein $timeIn\n";
             echo "timeOut $timeOut";
@@ -155,8 +189,8 @@ $stmt->execute();
 
 private function userProfile () {
         $users = new Users();
-          $this->startSession();
-        $email = $_SESSION['email'];
+         $this->startSession();
+           $email = $_SESSION['email'];
         $password = $_SESSION['password'];
           $this->database = new Database();
 $this->conn =  $this->database->connect();

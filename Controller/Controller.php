@@ -17,13 +17,16 @@ class Controller {
         return new $modelName;  
     }
 
-    protected function redirect($url,  array $params = []) {
-        extract($params);
-        $url = trim($url, '/');
-      
-        header("Location: $url");
-        
-    }
+ protected function redirect($url, array $params = []) {
+    extract($params);
+
+    $base = "/"; // change if your project is in subfolder like "/your-project/"
+
+    $url = $base . ltrim($url, '/');
+
+    header("Location: $url");
+    exit;
+}
 
 
     public function FetchUserDatas () {

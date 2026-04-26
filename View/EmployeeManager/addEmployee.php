@@ -14,10 +14,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="../css/EmployeeManager.css">
         <link rel="stylesheet" href="../css/AddEmployee.css">
+          <link rel="stylesheet" href="../css/sidenav.css">
         <title>PayNest</title>
     </head>
     <body>
-    <?php require __DIR__ . "/../../View/Components/EmployeeNavbar.php" ?>
+    <?php require __DIR__ . "/../../View/Components/EmployeeSideNav.php" ?>
     <main class="mainContainer d-flex justify-content-center mt-3 gap-5 ms-auto align-items-center ">
        
         <div class="addEmployeeContainer py-5 ">
@@ -88,13 +89,6 @@ else if ($userValidation == "Validated") {
             });
     </script>";
 }
-}
-else {
-      echo "<script>Swal.fire({
-                icon: 'error',
-                title: 'Login Failed',
-                text: 'err'
-            });</script>";
 }
 
 ?>

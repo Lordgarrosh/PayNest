@@ -14,10 +14,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="../css/EmployeeManager.css">
          <link rel="stylesheet" href="../css/subscriptionPlan.css">
+           <link rel="stylesheet" href="../css/sidenav.css">
         <title>PayNest</title>
     </head>
     <body>
-<?php require __DIR__ . "/../../View/Components/EmployeeNavbar.php" ?>
+<?php require __DIR__ . "/../../View/Components/EmployeeSideNav.php" ?>
 
     <main class="container text-center">
         <h1>Subscription Plan</h1>

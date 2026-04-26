@@ -1,3 +1,11 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background: url('../assets/system-bg.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
 .nav-logo {
     color: white;
     font-size: 2em;
@@ -16,7 +24,7 @@
 
 .mainContainer {
     height: 80vh;
-
+    margin-left: 23% !important;
 }
 
 .dashboardContainer {
@@ -76,4 +84,12 @@
     align-items: center;
 }
 
+.sidenavLinks a{
+    color: black;
+    font-size: 1.5em;
+}
 
+.sidenavLinks p{
+    margin-bottom: 0;
+    
+}

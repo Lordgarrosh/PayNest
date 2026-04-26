@@ -11,13 +11,34 @@ require __DIR__ . "/../Controller/EmployeeManagerController.php";
     RouteHandler::post('/register', [new AuthController(), 'registerData']);
     RouteHandler::post('/login', [new AuthController(), 'loginUser']);
         RouteHandler::group(['prefix' => '/EmployeeManager'], function() {
-                    RouteHandler::get('/dashboard', [new EmployeeManagerController(), 'dashboard']);
-                    RouteHandler::get('/addEmployee', [new EmployeeManagerController(), 'addEmployeeForm']);
+            
+
+                    
+                    RouteHandler::get('/dashboard', function () {
+                         (new EmployeeManagerController())->userCurrentPage("dashboard");
+                    });
+                  RouteHandler::get('/inventory', function () {
+                         (new EmployeeManagerController())->userCurrentPage("inventory");
+                    });
+                     RouteHandler::get('/employee', function () {
+                         (new EmployeeManagerController())->userCurrentPage("employee");
+                    });
+                    RouteHandler::get('/payroll', function () {
+                         (new EmployeeManagerController())->userCurrentPage("payroll");
+                    });
+                    RouteHandler::get('/sales', function () {
+                         (new EmployeeManagerController())->userCurrentPage("sales");
+                    });
+                    RouteHandler::get('/addEmployee', function () {
+                         (new EmployeeManagerController())->userCurrentPage("addEmployee");
+                    });
+                    
+                 
                     RouteHandler::get('/subscriptionPlan', [new EmployeeManagerController(), 'subscriptionPlan']);
-                     RouteHandler::get('/inventory', [new EmployeeManagerController(), 'inventoryForm']);
-                      RouteHandler::get('/employee', [new EmployeeManagerController(), 'employeeForm']);
-                       RouteHandler::get('/payroll', [new EmployeeManagerController(), 'payrollForm']);
-                        RouteHandler::get('/salesForm', [new EmployeeManagerController(), 'salesForm']);
+                    //  RouteHandler::get('/inventory', [new EmployeeManagerController(), 'inventoryForm']);
+                    //   RouteHandler::get('/employee', [new EmployeeManagerController(), 'employeeForm']);
+                    //    RouteHandler::get('/payroll', [new EmployeeManagerController(), 'payrollForm']);
+                    //     RouteHandler::get('/salesForm', [new EmployeeManagerController(), 'salesForm']);
                          RouteHandler::get('/employeeAttendance', [new EmployeeManagerController(), 'employeeAttendancePage']);
                           RouteHandler::post('/addAttendance', [new EmployeeManagerController(), 'addAttendance']);
                     RouteHandler::post('/subscriptionPlan', [new EmployeeManagerController(), 'chooseSubscriptionPlan']);

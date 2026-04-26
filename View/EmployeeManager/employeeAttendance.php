@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="../css/EmployeeManager.css">
       <link rel="stylesheet" href="../css/EmployeeAttendance.css">
+        <link rel="stylesheet" href="../css/sidenav.css">
         <title>PayNest</title>
     </head>
     <body>
@@ -39,12 +40,20 @@
                 <input type="time" name="timeOut"  class="form-control">
                 </div>
                 </div>
+                <select class="form-select mt-5" name="attendanceStatus" aria-label="Default select example">
+  <option selected>Employee Attendance</option>
+  <option value="Present">Present</option>
+  <option value="Absent">Absent</option>
+  <option value="Late">Late</option>
+  <option value="On Leave">On Leave</option>
+  <option value="Early Out">Early out</option>
+</select>
                 <button type="submit" name="addAttendance" class="btn btn-primary mt-5">Add Attendance</button>
                 </form>
             </div>
         </div>
-    <?php require __DIR__ . "/../../View/Components/EmployeeNavbar.php" ?>
-        <main class="container mt-5">
+<?php require __DIR__ . "/../../View/Components/EmployeeSideNav.php" ?>
+        <main class="container ">
             <div class="bg-white p-5" >
                 <div>
                 <h1 class="mb-5" >Employee Attendance Report</h1>
