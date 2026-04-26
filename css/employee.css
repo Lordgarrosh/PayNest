@@ -1,0 +1,15 @@
+.employeeActions {
+    border: solid 2px black;
+}
+
+.testinghere {
+    margin-bottom: 1em;
+}
+
+    .employeeTitle {
+        margin: 0;
+    
+        background: url('../assets/system-bg.jpg') no-repeat center center;
+        background-size: cover;
+        position: relative;
+    }
