@@ -33,7 +33,7 @@
             <p>Report</p>
             </a>
 
-            <a class="d-flex align-items-center gap-3 mt-4" href="">
+            <a class="d-flex align-items-center gap-3 mt-4" href="/EmployeeManager/inventory">
                 <svg width="40" height="38" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect width="55" height="55" fill="url(#pattern0_13_26)"/>
 <defs>

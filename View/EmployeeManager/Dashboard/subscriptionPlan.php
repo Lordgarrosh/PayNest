@@ -18,7 +18,7 @@
         <title>PayNest</title>
     </head>
     <body>
-<?php require __DIR__ . "/../../View/Components/EmployeeSideNav.php" ?>
+<!-- <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?> -->
 
     <main class="container text-center">
         <h1>Subscription Plan</h1>

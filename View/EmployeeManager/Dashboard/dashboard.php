@@ -17,7 +17,7 @@
         <title>PayNest</title>
     </head>
     <body>
-<?php require __DIR__ . "/../../View/Components/EmployeeSideNav.php" ?>
+<?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
 
 
     <main class="mainContainer d-flex justify-content-center gap-5 ms-auto align-items-center ">

@@ -1,0 +1,29 @@
+.addInventoryIcon {
+    width: 1cm;
+    height: 1cm;
+}
+
+.addInventoryIconContainer {
+      width: 1.7cm;
+    height: 1.7cm;
+     background-color: rgb(0, 255, 0);
+    border-radius: 50%;
+}
+
+.containerShadow {
+    box-shadow: 1px 5pt 5pt rgb(0, 0, 0, 0.3);
+    border-radius: 1em;
+}
+
+.detailIcon {
+       width: 1.7cm;
+    height: 1.7cm;
+     background-color: #D4F1C5;
+    border-radius: 50%;
+}
+
+.detailInputShadow {
+      box-shadow: 1px 5pt 5pt rgb(0, 0, 0, 0.3);
+    border-radius: 1em;
+    border: none;
+}

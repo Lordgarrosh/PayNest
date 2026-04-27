@@ -71,21 +71,7 @@ class EmployeeManagerController extends Controller {
     //     $this->view("/EmployeeManager/sales", $userDatas);
     // }
 
-    public function subscriptionPlan () {
-           $userSubscription = $this->fetchUserSubscription();
-          $this->startSession();
-          
-        if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
-           $this->redirect("/login");
-        }
-        else if ($userSubscription !== null) {
-            $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/subscription", $userDatas);
-        }
-        else {
-            $this->redirect("/EmployeeManager/dashboard");
-        }
-    }
+ 
     
     public function addAttendance () {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addAttendance'])) {

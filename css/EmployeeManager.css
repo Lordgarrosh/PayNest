@@ -1,7 +1,7 @@
 body {
     margin: 0;
     height: 100vh;
-    background: url('../assets/system-bg.jpg') no-repeat center center;
+    background: url('../assets/system-bg.jpg') fixed no-repeat center center;
     background-size: cover;
     position: relative;
 }
@@ -23,7 +23,7 @@ body {
 
 
 .mainContainer {
-    height: 80vh;
+    /* padding-top: 1in; */
     margin-left: 23% !important;
 }
 

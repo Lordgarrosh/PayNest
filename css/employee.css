@@ -1,5 +1,6 @@
 .employeeActions {
-    border: solid 2px black;
+    box-shadow: 0 2pt 5pt rgba(0, 0, 0, 0.5);
+    
 }
 
 .testinghere {
@@ -8,8 +9,17 @@
 
     .employeeTitle {
         margin: 0;
-    
-        background: url('../assets/system-bg.jpg') no-repeat center center;
-        background-size: cover;
-        position: relative;
+    background-color: gray;
+    }
+
+    .employeeTitle h3{
+        margin: 0;
+    }
+
+
+    .redirectEmployee {
+        color: green;
+        text-decoration: none;
+        width: 100%;
+        
     }

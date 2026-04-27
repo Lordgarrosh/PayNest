@@ -15,26 +15,41 @@ require __DIR__ . "/../Controller/EmployeeManagerController.php";
 
                     
                     RouteHandler::get('/dashboard', function () {
-                         (new EmployeeManagerController())->userCurrentPage("dashboard");
+                         (new EmployeeManagerController())->userCurrentPage("Dashboard/dashboard");
                     });
                   RouteHandler::get('/inventory', function () {
-                         (new EmployeeManagerController())->userCurrentPage("inventory");
+                         (new EmployeeManagerController())->userCurrentPage("inventories/inventory");
+                    });
+                    RouteHandler::get('/addInventory', function () {
+                         (new EmployeeManagerController())->userCurrentPage("inventories/addInventory");
                     });
                      RouteHandler::get('/employee', function () {
                          (new EmployeeManagerController())->userCurrentPage("employee");
                     });
                     RouteHandler::get('/payroll', function () {
-                         (new EmployeeManagerController())->userCurrentPage("payroll");
+                         (new EmployeeManagerController())->userCurrentPage("Payroll/payroll");
                     });
                     RouteHandler::get('/sales', function () {
                          (new EmployeeManagerController())->userCurrentPage("sales");
                     });
                     RouteHandler::get('/addEmployee', function () {
-                         (new EmployeeManagerController())->userCurrentPage("addEmployee");
+                         (new EmployeeManagerController())->userCurrentPage("Employees/addEmployee");
+                    });
+                    RouteHandler::get('/employeeList', function () {
+                         (new EmployeeManagerController())->userCurrentPage("Employees/employeeList");
+                    });
+                      RouteHandler::get('/employeeRoleManage', function () {
+                         (new EmployeeManagerController())->userCurrentPage("Employees/employeeRoles");
+                    });
+                      RouteHandler::get('/leaveRequest', function () {
+                         (new EmployeeManagerController())->userCurrentPage("Employees/employeeLeaveRequest");
+                    });
+                     RouteHandler::get('/subscriptionPlan', function () {
+                         (new EmployeeManagerController())->userCurrentPage("Dashboard/subscriptionPlan");
                     });
                     
                  
-                    RouteHandler::get('/subscriptionPlan', [new EmployeeManagerController(), 'subscriptionPlan']);
+                   
                     //  RouteHandler::get('/inventory', [new EmployeeManagerController(), 'inventoryForm']);
                     //   RouteHandler::get('/employee', [new EmployeeManagerController(), 'employeeForm']);
                     //    RouteHandler::get('/payroll', [new EmployeeManagerController(), 'payrollForm']);
@@ -42,7 +57,7 @@ require __DIR__ . "/../Controller/EmployeeManagerController.php";
                          RouteHandler::get('/employeeAttendance', [new EmployeeManagerController(), 'employeeAttendancePage']);
                           RouteHandler::post('/addAttendance', [new EmployeeManagerController(), 'addAttendance']);
                     RouteHandler::post('/subscriptionPlan', [new EmployeeManagerController(), 'chooseSubscriptionPlan']);
-                    RouteHandler::post('/addEmployee', [new EmployeeManagerController(), 'addEmployeeData']);
+                
                     // RouteHandler::get('/test', function () {
                     //     if (session_status() === PHP_SESSION_NONE) {
                     //         session_start();

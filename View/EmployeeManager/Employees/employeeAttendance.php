@@ -52,7 +52,7 @@
                 </form>
             </div>
         </div>
-<?php require __DIR__ . "/../../View/Components/EmployeeSideNav.php" ?>
+<?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
         <main class="container ">
             <div class="bg-white p-5" >
                 <div>
