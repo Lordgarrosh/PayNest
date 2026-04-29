@@ -1,12 +1,12 @@
 <div class="sidenav">
     <div class="userContainer mt-5 d-flex flex-column align-items-center">
-        <img src="<?php echo "/ProfilePic/". $profPic ?>" alt="ad" class="userProfile">
-        <h2 class="mt-4" ><?= $fname . " " . $lname  ?></h2>
-        <p><?= $email ?></p>
+        <img src="<?php echo "/ProfilePic/". $userDatas['profPic'] ?>" alt="ad" class="userProfile">
+        <h2 class="mt-4" ><?= $userDatas['fname'] . " " . $userDatas['lname']  ?></h2>
+        <p><?= $userDatas['email'] ?></p>
     </div>
     <div class="d-flex flex-column align-items-center sidenavLinks">
        <div>
-            <a class="d-flex align-items-center gap-3 mt-4" href="">
+            <a class="d-flex align-items-center gap-3 mt-4" href="/EmployeeManager/dashboard">
                 <svg width="40" height="38" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect width="55" height="55" fill="url(#pattern0_13_24)"/>
 <defs>

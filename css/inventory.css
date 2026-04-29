@@ -19,7 +19,7 @@
 
 .searchbar label {
     position: absolute;
-    left: 15px;
+    left: 7pt;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0.5;
@@ -36,4 +36,29 @@
 .btn-success {
     height: 48px;
     white-space: nowrap;
+}
+
+
+.productTable {
+    width: 100%;
+}
+
+.productTable th {
+    background-color: gray;
+    padding: 1em;
+}
+
+.productTable td {
+    border-bottom: solid 2px black;
+    padding: 1em;
+}
+
+.paginationLinks a {
+    background-color: gray;
+    color: black;
+    width: 1cm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5pt;
 }

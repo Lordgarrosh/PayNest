@@ -7,6 +7,25 @@ require_once __DIR__ . "/../Model/Database.php";
 class EmployeeManagerController extends Controller {
     private $conn;
     private $database;
+    private string $messageReport;
+    private string $formValidation;
+
+
+    public function getMessageReport () {
+        return $this->messageReport;
+    }
+
+    public function getFormValidation () {
+        return $this->formValidation;
+    }
+
+    public function setMessageReport (string $messageReport) {
+        $this->messageReport = $messageReport;
+    }
+
+    public function setFormValidation (string $formValidation) {
+        $this->formValidation = $formValidation;
+    }
 
     public function userCurrentPage ($currentPage) {
         $userSubscription = $this->fetchUserSubscription();
@@ -17,28 +36,176 @@ class EmployeeManagerController extends Controller {
         }
         else if ($userSubscription !== null) {
             $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/$currentPage", $userDatas);
+            $data = [
+                "userDatas" => $userDatas
+            ];
+        $this->view("/EmployeeManager/$currentPage", $data);
         }
         else {
             $this->redirect("/EmployeeManager/subscriptionPlan");
         }
     }
 
-        // public function dashboard () {
-        //     $userSubscription = $this->fetchUserSubscription();
-            
-        //     if ($userSubscription !== null) {
-        //         $userDatas = $this->userProfile();
-        //     $this->view("/EmployeeManager/dashboard", $userDatas);
-        //     }
-        //     else {
-        //         $this->redirect("/subscriptionPlan");
-        //     }
-        // }
 
-    // public function test ($word) {
-    //     echo $word;
-    // }
+
+    public function subscriptionPlan () {
+              $userSubscription = $this->fetchUserSubscription();
+          $this->startSession();
+          
+        if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+           $this->redirect("/login");
+        }
+        else if ($userSubscription !== null) {
+            $userDatas = $this->userProfile();
+            $data = [
+                "userDatas" => $userDatas
+            ];
+        $this->view("/EmployeeManager/Dashboard/dashboard", $data);
+        }
+        else {
+        $this->view("/EmployeeManager/Dashboard/subscriptionPlan");
+        }
+    }
+
+    public function inventoryForm () {
+    $userSubscription = $this->fetchUserSubscription();
+          $this->startSession();
+         $this->database = new Database();
+        $this->conn = $this->database->connect();
+            $categoryChosen = $_GET['category'] ?? '';
+            $inventoryItemSearch = $_GET['search'] ?? '';
+            $startTable = 0;
+            $startPage = isset($_GET['page']) ? (int)$_GET['page']: 1;
+            if (isset($_GET['page'])) {
+                if ($_GET['page'] != 1) {
+                    $startTable = ($_GET['page'] - 1) * 5;
+                }
+            }
+            $endPage = $startTable;
+          
+            $countInventoriesQuery = "SELECT COUNT(*) FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName ";
+            $countInventorySTMT = $this->conn->prepare($countInventoriesQuery);
+            $countInventorySTMT->bindValue(":itemCategory", "%$categoryChosen%");
+            $countInventorySTMT->bindValue(":itemName", "%$inventoryItemSearch%");
+            $countInventorySTMT->execute();
+            $totalInventories = $countInventorySTMT->fetchColumn();
+            //  echo "<script>alert('$totalInventories')</script>";
+            $paginationCount = $totalInventories / 5;
+            $paginationCount = ceil($paginationCount);
+           
+            $sqlCategories = "SELECT * FROM categories";
+            $inventoryCategories = $this->conn->query($sqlCategories);
+            $sqlInventories = "SELECT inventoryID, itemName, itemCategory, itemQuantity, itemSellingPrice FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName LIMIT :startTable, 5";
+            $inventorySTMT = $this->conn->prepare($sqlInventories);
+            $inventorySTMT->bindValue(":itemCategory", "%$categoryChosen%");
+            $inventorySTMT->bindValue(':startTable', $startTable, PDO::PARAM_INT);
+            $inventorySTMT->bindValue(":itemName", "%$inventoryItemSearch%");
+            $inventorySTMT->execute();
+            $productInventories = $inventorySTMT->fetchAll(PDO::FETCH_ASSOC);
+                 if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+           $this->redirect("/login");
+        }
+        else if ($userSubscription !== null) {
+            $userDatas = $this->userProfile();
+            $data = [
+                "userDatas" => $userDatas,
+                "categories" => $inventoryCategories,
+                "inventoryCategories" => $productInventories,
+                "paginationCount" => $paginationCount,
+                "totalInventories" => $totalInventories,
+                "currentPage" => $startTable + 1,
+                "endPage" => $endPage,
+                "categoryChosen" => $categoryChosen,
+                "inventoryItemSearch" => $inventoryItemSearch
+            ];
+        $this->view("/EmployeeManager/inventories/inventory", $data);
+        }
+        else {
+            $this->redirect("/EmployeeManager/subscriptionPlan");
+        }
+    }
+
+    public function addInventoryForm () {
+        $userSubscription = $this->fetchUserSubscription();
+          $this->startSession();
+         $this->database = new Database();
+        $this->conn = $this->database->connect();
+
+            $sqlCategories = "SELECT * FROM categories";
+            $inventoryCategories = $this->conn->query($sqlCategories);
+            
+                 if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+           $this->redirect("/login");
+        }
+        else if ($userSubscription !== null) {
+            $userDatas = $this->userProfile();
+            $data = [
+                "userDatas" => $userDatas,
+                "categories" => $inventoryCategories
+            ];
+        $this->view("/EmployeeManager/inventories/addInventory", $data);
+        }
+        else {
+            $this->redirect("/EmployeeManager/subscriptionPlan");
+        }
+
+    }
+
+    public function addInventory () {
+          $this->startSession();
+         $this->database = new Database();
+        $this->conn = $this->database->connect();
+            $sqlCategories = "SELECT * FROM categories";
+            $inventoryCategories = $this->conn->prepare($sqlCategories);
+             $userDatas = $this->userProfile();
+        $this->setFormValidation("Not Validated");
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addInventory'])) {
+            
+            $this->startSession();
+            $itemName = $_POST['itemName'];
+            $itemCategory = $_POST['itemCategory'];
+            $itemBarcode = $_POST['itemBarcode'];
+            $itemQuantity = $_POST['itemQuantity'];
+            $itemReorderLevel = $_POST['itemReorderLevel'];
+            $itemExpirationDate = $_POST['itemExpirationDate'];
+            $itemCostPrice = $_POST['itemCostPrice'];
+            $itemSellingPrice = $_POST['itemSellingPrice'];
+           if (empty($itemName) || empty($itemCategory) || empty($itemBarcode) || empty($itemQuantity) || empty($itemReorderLevel) || empty($itemExpirationDate)
+            || empty($itemCostPrice) || empty($itemSellingPrice)) {
+                $this->setMessageReport("Please fill all the input fields");
+           }
+           else if ($itemQuantity <= $itemReorderLevel) {
+                $this->setMessageReport("The Item quantity is lower than the item reorder level");
+           }
+           else if ($itemCostPrice >= $itemSellingPrice) {
+                $this->setMessageReport("The item cost price must be higher than the selling price");
+           }
+           else {
+                $inventorySaveProductSQL = "INSERT INTO inventories (itemName, itemCategory, itemBarcode, itemQuantity, itemReorderLevel, itemExpirationDate, itemCostPrice, itemSellingPrice) VALUES
+                (:itemName, :itemCategory, :itemBarcode, :itemQuantity, :itemReorderLevel, :itemExpirationDate, :itemCostPrice, :itemSellingPrice)";
+                $this->database = new Database();
+                $this->conn = $this->database->connect();
+                $stmt = $this->conn->prepare($inventorySaveProductSQL);
+                $stmt->bindValue(":itemName", $itemName);
+                $stmt->bindValue(":itemCategory", $itemCategory);
+                $stmt->bindValue(":itemBarcode", $itemBarcode);
+                $stmt->bindValue(":itemQuantity", $itemQuantity);
+                $stmt->bindValue(":itemReorderLevel", $itemReorderLevel);
+                $stmt->bindValue(":itemExpirationDate", $itemExpirationDate);
+                $stmt->bindValue(":itemCostPrice", $itemCostPrice);
+                $stmt->bindValue(":itemSellingPrice", $itemSellingPrice);
+                $stmt->execute();
+                $this->setMessageReport("Product $itemName successfully added to inventory");
+                $this->setFormValidation("Validated");
+           }
+        }
+        $this->view("/EmployeeManager/Inventories/addInventory", [
+            "messageReport" => $this->getMessageReport(),
+            "userDatas" => $userDatas,
+            "categories" => $inventoryCategories,
+            "formValidation" => $this->getFormValidation()
+        ]);
+    }
 
     public function employeeAttendancePage() {
         
@@ -51,25 +218,6 @@ class EmployeeManagerController extends Controller {
         $this->view("/EmployeeManager/addEmployee", $userDatas);
     }
 
-    // public function inventoryForm () {
-    //     $userDatas = $this->userProfile();
-    //     $this->view("/EmployeeManager/inventory", $userDatas);
-    // }
-
-    // public function employeeForm () {
-    //     $userDatas = $this->userProfile();
-    //     $this->view("/EmployeeManager/employee", $userDatas);
-    // }
-
-    // public function payrollForm () {
-    //     $userDatas = $this->userProfile();
-    //     $this->view("/EmployeeManager/payroll", $userDatas);
-    // }
-
-    // public function salesForm () {
-    //     $userDatas = $this->userProfile();
-    //     $this->view("/EmployeeManager/sales", $userDatas);
-    // }
 
  
     

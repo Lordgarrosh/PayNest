@@ -1,6 +1,6 @@
     <?php
 
-
+        
 
     ?>
 
@@ -35,19 +35,27 @@
     <div class="d-flex justify-content-between  " style=" width: 100%;" >
         <div class="d-flex gap-3" style="width: 70%" >
 
-        <div class="searchbar d-flex align-items-center flex-grow-1">
+        <div class="searchbar d-flex align-items-center ">
             <label>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <button style="border: none;" id="searchbarBtn">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                 </svg>
+                </button>
+               
             </label>
-            <input class="search flex-grow-1" name="search" placeholder="Search">
+            <input class="search flex" name="searchInventoryItem" id="searchInventoryItem" placeholder="Search Inventory...">
         </div>
 
-        <select class="inventoryCategoryField flex-grow-1">
-            <option>All Category</option>
-            <option>Beverage</option>
-            <option>Consumables</option>
+        <select name="categoryChosen" class="inventoryCategoryField" onchange="location = this.value">
+            
+                           <?php foreach ($categories as $cat): ?>
+                                
+    <option value="?page=1&category=<?= urlencode($cat['categoryName']) ?>&search=<?= urlencode($inventoryItemSearch) ?>">
+        <?= $cat['categoryName'] ?>
+    </option>
+<?php endforeach; ?>
+<option value="?page=1&category=">All Category</option>
         </select>
 
         </div>
@@ -56,11 +64,57 @@
         </div>
     </div>
 
-    <!-- RIGHT BUTTON -->
-    
 
 </div>
+    <table class="mt-5 productTable">
+                          
+   <tr>
+    <th>Item Name</th>
+    <th>Category</th>
+    <th>Stock</th>
+    <th>Price</th>
+    <th>Status</th>
+    <th>Action</th>
+   </tr>
+<?php foreach ($inventoryCategories as $cat): ?>
+       <tr>
+        <td><?= $cat['itemName'] ?></td>
+     <td><?= $cat['itemCategory'] ?></td>
+      <td><?= $cat['itemQuantity'] ?></td>
+       <td><?= $cat['itemSellingPrice'] ?></td>
+        <td><button class="test">inStock</button></td>
+        <td><button class="test">View</button></td>
+       </tr>
+       <?php
+    $endPage++;
+    endforeach; ?>
+    </option>
+    </table>
+
+    <div class="d-flex justify-content-between mt-5">
+        <p>Showing <?= $currentPage ?> to <?= $endPage ?> items out of <?= $totalInventories ?> items</p>
+        <div class="paginationLinks d-flex gap-5">
+            <?php 
+            for ($i = 1; $i <= $paginationCount; $i++ ) {
+                echo "<a href='?page=$i&category=". urlencode($categoryChosen) ."&search=". urlencode($inventoryItemSearch) ."'>$i</a>";   
+            }
+            ?>
+        </div>
+    </div>
         </main>
+        <script>
+          const inventorySearch =  document.getElementById("searchInventoryItem");
+          inventorySearch.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" ) {
+                const search = inventorySearch.value;
+                window.location.href = '?page=1&category=<?= urlencode($categoryChosen) ?>&search=' + encodeURIComponent(search);
+                }
+            });
+            document.getElementById("searchbarBtn").addEventListener("click", () => {
+                const search = inventorySearch.value;
+                window.location.href = '?page=1&category=<?= urlencode($categoryChosen) ?>&search=' + encodeURIComponent(search);
+            });
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </body>
