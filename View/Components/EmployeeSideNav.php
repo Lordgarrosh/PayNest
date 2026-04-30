@@ -20,7 +20,7 @@
             <p>Dashboard</p>
             </a>
 
-            <a class="d-flex align-items-center gap-3 mt-4" href="">
+            <a class="d-flex align-items-center gap-3 mt-4" href="/EmployeeManager/reportDashboard">
                 <svg width="40" height="38" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect width="50" height="50" fill="url(#pattern0_13_25)"/>
 <defs>
@@ -69,6 +69,11 @@
 </defs>
 </svg>
             <p>Settings</p>
+            </a>
+
+                <a class="d-flex align-items-center gap-4 mt-4" href="/EmployeeManager/pos">
+    <img src="../assets/cashier.png" width="30" height="30" alt="">
+            <p>POS</p>
             </a>
          </div>
     </div>

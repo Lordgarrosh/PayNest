@@ -78,11 +78,26 @@
    </tr>
 <?php foreach ($inventoryCategories as $cat): ?>
        <tr>
+        <?php
+            $stocks = $cat['itemReorderLevel'];
+            $stockStatus = $stocks / 2;
+            // echo "<script>alert('$stockStatus')</script>";
+        ?>
         <td><?= $cat['itemName'] ?></td>
      <td><?= $cat['itemCategory'] ?></td>
       <td><?= $cat['itemQuantity'] ?></td>
        <td><?= $cat['itemSellingPrice'] ?></td>
-        <td><button class="test">inStock</button></td>
+       <?php 
+       if ($cat['itemQuantity'] > $stockStatus) {
+        echo " <td><button class='test'>inStock</button></td>";
+       }
+       else if ($cat['itemQuantity'] == 0) {
+        echo " <td><button class='test'>Out of Stock</button></td>";
+       }
+       else if ($cat['itemQuantity'] <= $stockStatus) {
+        echo " <td><button class='test'>Low Stock</button></td>";
+       }
+       ?>
         <td><button class="test">View</button></td>
        </tr>
        <?php

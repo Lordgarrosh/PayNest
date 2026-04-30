@@ -44,6 +44,15 @@ require __DIR__ . "/../Controller/EmployeeManagerController.php";
                       RouteHandler::get('/leaveRequest', function () {
                          (new EmployeeManagerController())->userCurrentPage("Employees/employeeLeaveRequest");
                     });
+                      RouteHandler::get('/employee', function () {
+                         (new EmployeeManagerController())->userCurrentPage("Employees/employee");
+                    });
+                     RouteHandler::get('/pos', function () {
+                         (new EmployeeManagerController())->userCurrentPage("POS/pos");
+                    });
+                     RouteHandler::get('/reportDashboard', function () {
+                         (new EmployeeManagerController())->userCurrentPage("Reports/reportDashboard");
+                    });
                      RouteHandler::get('/subscriptionPlan', function () {
                          (new EmployeeManagerController())->subscriptionPlan();
                     });

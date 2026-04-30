@@ -95,7 +95,7 @@ class EmployeeManagerController extends Controller {
            
             $sqlCategories = "SELECT * FROM categories";
             $inventoryCategories = $this->conn->query($sqlCategories);
-            $sqlInventories = "SELECT inventoryID, itemName, itemCategory, itemQuantity, itemSellingPrice FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName LIMIT :startTable, 5";
+            $sqlInventories = "SELECT inventoryID, itemName, itemCategory, itemQuantity, itemReorderLevel, itemSellingPrice FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName LIMIT :startTable, 5";
             $inventorySTMT = $this->conn->prepare($sqlInventories);
             $inventorySTMT->bindValue(":itemCategory", "%$categoryChosen%");
             $inventorySTMT->bindValue(':startTable', $startTable, PDO::PARAM_INT);

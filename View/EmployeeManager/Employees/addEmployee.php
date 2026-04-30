@@ -19,47 +19,153 @@
     </head>
     <body>
     <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
-    <main class="mainContainer d-flex justify-content-center mt-3 gap-5 ms-auto align-items-center ">
-       
-        <div class="addEmployeeContainer py-5 ">
-             <form action="/EmployeeManager/addEmployee" class="d-flex gap-5" method="post">
-            <div class="d-flex flex-column gap-5 employeeFields ms-5" >
-                  <div class="d-flex gap-5 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-person-fill addEmployeeIcon" viewBox="0 0 16 16">
-  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-</svg>
-<h1>Add Employee</h1>
-            </div>
-      <div class="d-flex flex-column gap-3">
-                <input type="text" class="userEmployeeFields" name="employeeName"  placeholder="Full Name">
-                <input type="text" class="userEmployeeFields" name="tin"  placeholder="TIN">
-                <input type="text" class="userEmployeeFields" name="sss"  placeholder="SSS Number">
-                <input type="text" class="userEmployeeFields" name="philHealth"  placeholder="PhilHealth Number">
-                <input type="text" class="userEmployeeFields" name="pagIbig"  placeholder="Pag-ibig Number">
-            </div>
-            </div>
-            <div class="d-flex justify-content-center flex-column salary-container gap-3">
-                <p>Salary Type</p>
-                <div class="d-flex gap-3">
-<input type="radio" id="btn-check" class="btn-check" name="salaryType" value="Daily">
-<label class="btn btn-outline-secondary testBtn" for="btn-check">Daily</label>
-
-<input type="radio" id="btn-check-2" class="btn-check" name="salaryType" value="Weekly">
-<label class="btn btn-outline-secondary testBtn" for="btn-check-2">Weekly</label>
-
-<input type="radio" id="btn-check-3" class="btn-check" name="salaryType" value="Monthly">
-<label class="btn btn-outline-secondary testBtn" for="btn-check-3">Monthly</label>
+    <main class="mainContainer p-5">
+               <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column">
+                    <h1>Employee</h1>
+                    <div class="d-flex gap-5">
+                        <h5>Employee</h5>
+                        <h5>></h5>
+                        <p>Add employee </p>
+                    </div>
                 </div>
-                <p>Basic Salary</p>
-                <div class="d-flex gap-1">
-                <p class="pesoSign">₱</p>
-                <input type="text" placeholder="Enter your Salary" class="salaryField" name="salaryAmount" id="">
+            </div>  
+                        <div class="d-flex gap-3 containerShadow px-4 py-2 align-items-center">
+              <div class="addEmployeeIconContainer d-flex align-items-center justify-content-center" > <img src="../assets/addInventoryPerson.png" class="addEmployeeIconTitle ps-1" alt=""></div> 
+                <div class="d-flex flex-column">
+                    <h3 class="m-0" >Add inventory item</h3>
+                    <p class="m-0" >fill in the details below to add a new inventory item to the system</p>
                 </div>
-                <button class="btn" name="submitBtn" style="background-color: #c2a56d; width: 2in;">Save Employee</button>
-                
-            </div>
-             </form>
-        </div>
+             </div>
+
+             <div class="addEmployeeContainer mt-5 containerShadow p-5 d-flex gap-5" style="width: 100%;" >
+                <div class="fullEmployeeInfo" style="width: 65%;" >
+                <div class="personalInformationContainer" style="width: 100%;" >
+                    <div class="addEmployeeTitle d-flex gap-3 align-items-center">
+                       <div class="d-flex p-3" style="background-color: #D4F1C5; border-radius: 50%;" >
+                        <img src="../assets/employee.png" alt="" class="addEmployeeIcon">
+                       </div> 
+                        <h4>Personal Information</h4>
+                    </div>
+                    <div class="d-flex gap-4 mt-5"  >
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;" >
+                            <p class="m-0" >First Name</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter first name" >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >First Name</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter first name" >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >First Name</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter first name" >
+                        </div>
+                    </div>
+                    
+                        <div class="d-flex gap-4 mt-5">
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Birthdate</p>
+                            <input type="date" class="addEmployeeInput ps-2"  >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Civil Status</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter civil status" >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Gender</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter your gender" >
+                        </div>
+                    </div>
+
+                           <div class="d-flex gap-4 mt-5">
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Phone Number</p>
+                            <input type="number" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Email Address</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter email address" >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Address</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter address" >
+                        </div>
+                    </div>  
+                </div>
+
+
+                  <div class="personalInformationContainer mt-5" style="width: 100%;" >
+                    <div class="addEmployeeTitle d-flex gap-3 align-items-center">
+                       <div class="d-flex p-3" style="background-color: #D4F1C5; border-radius: 50%;" >
+                        <img src="../assets/employee.png" alt="" class="addEmployeeIcon">
+                       </div> 
+                        <h4>Employment Information</h4>
+                    </div>
+                    <div class="d-flex gap-4 mt-5"  >
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;" >
+                            <p class="m-0" >Employment Position</p>
+                            <select name="" id="" class="addEmployeeInput ps-2">
+                                <option value="">asd</option>
+                                <option value="">asd</option>
+                                <option value="">asd</option>
+                                <option value="">asd</option>
+                                <option value="">asd</option>
+                            </select>
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Work Status</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter first name" >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Employment Type</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter first name" >
+                        </div>
+                    </div>
+                    
+                        <div class="d-flex gap-4 mt-5">
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >SSS Number</p>
+                            <input type="date" class="addEmployeeInput ps-2"  >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Philhealth Number</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter civil status" >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >Pag-Ibig Number</p>
+                            <input type="text" class="addEmployeeInput ps-2" placeholder="Enter your gender" >
+                        </div>
+                    </div>
+
+                           <div class="d-flex gap-4 mt-5">
+                        <div class="d-flex gap-2 flex-column" style="width: 20%;">
+                            <p class="m-0" >TIN</p>
+                            <input type="number" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                        </div>
+                    </div>  
+                </div>
+                </div>
+                    <div class="authInfo">
+                        <div class="addEmployeeTitle d-flex gap-3 align-items-center">
+                       <div class="d-flex p-3" style="background-color: #D4F1C5; border-radius: 50%;" >
+                        <img src="../assets/employee.png" alt="" class="addEmployeeIcon">
+                       </div> 
+                        <h5>Account Information</h5>
+                    </div>
+                    <div class="d-flex gap-2 flex-column" style="width: 100%;">
+                            <p class="m-0" >TIN</p>
+                            <input type="number" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 100%;">
+                            <p class="m-0" >TIN</p>
+                            <input type="number" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                        </div>
+                        <div class="d-flex gap-2 flex-column" style="width: 100%;">
+                            <p class="m-0" >TIN</p>
+                            <input type="number" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                        </div>
+                    </div>
+             </div>
     </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
