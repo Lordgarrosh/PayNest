@@ -238,48 +238,57 @@ class EmployeeManagerController extends Controller {
     }
 
     public function addEmployeeData () {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submitBtn'])) {
-            
-            $employeeName = $_POST['employeeName'];
-            $tin = $_POST['tin'];
-            $sss = $_POST['sss'];
-            $philHealth = $_POST['philHealth'];
-            $pagIbig = $_POST['pagIbig'];
-            $salaryType = $_POST['salaryType'] ?? null;
-            $salaryAmount = $_POST['salaryAmount'];
-            if (empty($employeeName) || empty($tin) || empty($sss) || empty($philHealth) || empty($pagIbig) || empty($salaryType) || empty($salaryAmount)) {
-              $this->view("/EmployeeManager/addEmployee", [
-                "userValidation" => "Not Validated",
-                    "messageReport" => "Please input all the input fields"
-              ]);
-        
-            }
-            else {
-                 $this->startSession();
-            $userSubscription = $this->fetchUserSubscription();
-            $this->database = new Database();
-            $this->conn = $this->database->connect();
-            $employeeQuery = "INSERT INTO employee (employeeName, tin, sss, philHealth, pagIbig, salaryType, salaryAmount,  userSubscriptionID) VALUES 
-            (:employeeName, :tin, :sss, :philHealth, :pagIbig, :salaryType, :salaryAmount, :userSubscriptionID)";
-            $stmt = $this->conn->prepare($employeeQuery);
-            $stmt->bindValue(":employeeName", $employeeName);
-            $stmt->bindValue(":tin", $tin);
-            $stmt->bindValue(":sss", $sss);
-            $stmt->bindValue(":philHealth", $philHealth);
-            $stmt->bindValue(":pagIbig", $pagIbig);
-            $stmt->bindValue(":salaryType", $salaryType);
-            $stmt->bindValue(":salaryAmount", $salaryAmount);
-            $stmt->bindValue(":userSubscriptionID", $userSubscription['userSubscriptionID']);
-            $stmt->execute();   
-             $this->view("/EmployeeManager/addEmployee", [
-                    "userValidation" => "Validated",
-                    "messageReport" => "Employee Added Successfully"
-              ]);
-            }
+        $userSubscription = $this->fetchUserSubscription();
+           $this->startSession();
+         $this->database = new Database();
+        $this->conn = $this->database->connect();
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addEmployee'])) {
+                //personal information
+                $firstName = $_POST['firstName'];
+                $middleName = $_POST['middleName'];
+                $lastName = $_POST['lastName'];
+                $birthdate = $_POST['birthdate'];
+                $civilStatus = $_POST['civilStatus'];
+                $gender = $_POST['gender'];
+                $phoneNumb = $_POST['phoneNumb'];
+                $email = $_POST['email'];
+                $address = $_POST['address'];
+                $personalInformationSQL = "INSERT INTO employeepersonalinformation 
+                (firstName, middleName, lastName, birthDate, civilStatus, gender, phoneNumb, email, address) VALUES
+                (:firstName, :middleName, :lastName, :birthDate, :civilStatus, :gender, :phoneNumb, :email, :address)";
+                $personalInformationSTMT = $this->conn->prepare($personalInformationSQL);
+                $personalInformationSTMT->bindValue(":firstName", $firstName);
+                $personalInformationSTMT->bindValue(":middleName", $middleName);
+                $personalInformationSTMT->bindValue(":lastName", $lastName);
+                $personalInformationSTMT->bindValue(":birthdate", $birthdate);
+                $personalInformationSTMT->bindValue(":civilStatus", $civilStatus);
+                $personalInformationSTMT->bindValue(":gender", $gender);
+                $personalInformationSTMT->bindValue(":phoneNumb", $phoneNumb);
+                $personalInformationSTMT->bindValue(":email", $email);
+                $personalInformationSTMT->execute();
 
-            
-        }
-   
+                //employment information
+                $employmentPosition = $_POST['employmentPosition'];
+                $workStatus = $_POST['workStatus'];
+                $employmentType = $_POST['employmentType'];
+                $sssNumber = $_POST['sssNumber'];
+                $philhealthNumber = $_POST['philhealthNumber'];
+                $pagIbigNumber = $_POST['pagIbigNumber'];
+                $tinNumber = $_POST['tinNumber'];
+                $employmentInformationSQL = "INSERT INTO employeeemploymentinformation 
+                (employeePosition, workStatus, employmentType, sssNumber, philHealthNumber, pagIbigNumber, tinNumber) VALUES
+                (:employeePosition, :workStatus, :employmentType, :sssNumber, :philHealthNumber, :pagIbigNumber, :tinNumber)";
+                $employmentInformationSTMT = $this->conn->prepare($employmentInformationSQL);
+                $employmentInformationSTMT->bindValue(":employeePosition", $employmentPosition);
+                
+                //account information
+                $username = $_POST['username'];
+                $password = $_POST['password'];
+                $confirmPassword = $_POST['confirmPassword'];
+                $accountInformationSQL = "";
+
+                
+            }
     }
 
     private function fetchUserSubscription () {

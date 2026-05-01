@@ -63,3 +63,9 @@
     box-shadow: 0 2pt 2px rgb(0, 0, 0, 0.5);
     border-radius: 4pt;
 }
+
+.buttonCancel {
+     box-shadow: 1px 5pt 5pt rgb(0, 0, 0, 0.3);
+     border: none;
+     border-radius: 5pt;
+}

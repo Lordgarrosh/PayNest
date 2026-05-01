@@ -56,6 +56,9 @@ require __DIR__ . "/../Controller/EmployeeManagerController.php";
                      RouteHandler::get('/subscriptionPlan', function () {
                          (new EmployeeManagerController())->subscriptionPlan();
                     });
+                    RouteHandler::post('/addEmployee', function () {
+                         (new EmployeeManagerController())->addEmployeeData();
+                    });
                     RouteHandler::get('/employeeAttendance', [new EmployeeManagerController(), 'employeeAttendancePage']);
                     RouteHandler::post('/subscriptionPlan', [new EmployeeManagerController(), 'chooseSubscriptionPlan']);
                     RouteHandler::post('/addInventory', [new EmployeeManagerController(), 'addInventory']);

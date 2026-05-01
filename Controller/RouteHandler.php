@@ -69,7 +69,7 @@ self::set($route, $handler, 'GET');
         http_response_code(404);
        }
        else {
-          echo "Test";
+          // echo "Test";
         http_response_code(200);
        }
        
