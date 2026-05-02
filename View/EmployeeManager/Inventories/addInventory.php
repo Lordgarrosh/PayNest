@@ -136,7 +136,7 @@ $categories = $data['categories'];
                         </button>
                         <button type="submit" name="addInventory" class="btn btn-success d-flex gap-3 justify-content-center align-items-center">
                              <img src="../assets/downloadIcon.png" width="20" height="20" alt="">
-                            <p class="m-0" >Exit</p>
+                            <p class="m-0" >Save</p>
                         </button>
                     </div>
                 </form>

@@ -1,6 +1,9 @@
 <?php
 require_once 'Controller.php';
 require_once __DIR__ . "/../Users/Users.php";
+require_once __DIR__ . "/../Users/EmployeeAccountInformation.php";
+require_once __DIR__ . "/../Users/EmployeeEmploymentInformation.php";
+require_once __DIR__ . "/../Users/EmployeePersonalInformation.php";
 require_once __DIR__ . "/../Users/Employee.php";
 require_once __DIR__ . "/../Users/UserSubscription.php";
 require_once __DIR__ . "/../Model/Database.php";
@@ -27,7 +30,7 @@ class EmployeeManagerController extends Controller {
         $this->formValidation = $formValidation;
     }
 
-    public function userCurrentPage ($currentPage) {
+    public function userCurrentPage (string $currentPage) {
         $userSubscription = $this->fetchUserSubscription();
           $this->startSession();
           
@@ -238,57 +241,154 @@ class EmployeeManagerController extends Controller {
     }
 
     public function addEmployeeData () {
-        $userSubscription = $this->fetchUserSubscription();
-           $this->startSession();
+             $this->startSession();
          $this->database = new Database();
         $this->conn = $this->database->connect();
+             $userDatas = $this->userProfile();
+        $this->setFormValidation("Not Validated");
             if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addEmployee'])) {
                 //personal information
-                $firstName = $_POST['firstName'];
-                $middleName = $_POST['middleName'];
-                $lastName = $_POST['lastName'];
-                $birthdate = $_POST['birthdate'];
-                $civilStatus = $_POST['civilStatus'];
-                $gender = $_POST['gender'];
-                $phoneNumb = $_POST['phoneNumb'];
-                $email = $_POST['email'];
-                $address = $_POST['address'];
+                $personalInformation = new EmployeePersonalInformation(
+                   firstName: $_POST['firstName'],
+                  middleName:  $_POST['middleName'],
+                  lastName:  $_POST['lastName'],
+                  birthDate:  $_POST['birthdate'],
+                  civilStatus:  $_POST['civilStatus'],
+                  gender:  $_POST['gender'],
+                  phoneNumb:  $_POST['phoneNumb'],
+                  email:  $_POST['email'],
+                   address: $_POST['address']
+                );
+               
+
+                //employment information
+                $employmentInformation = new EmployeeEmploymentInformation(
+                    employeePosition: $_POST['employmentPosition'],
+                    workStatus: $_POST['workStatus'],
+                    employmentType: $_POST['employmentType'],
+                    sssNumber: $_POST['sssNumber'],
+                    philHealthNumber: $_POST['philhealthNumber'],
+                    pagIbigNumber: $_POST['pagIbigNumber'],
+                    tinNumber: $_POST['tinNumber']
+                );
+
+                
+                //account information
+                $accountInformation = new EmployeeAccountInformation(
+                    username: $_POST['username'],
+                    password: $_POST['password']
+                );
+                $confirmPassword = $_POST['confirmPassword'];
+
+                
+
+                if (empty($_POST['firstName']) || empty($_POST['middleName']) || empty($_POST['lastName']) || empty($_POST['birthdate']) || 
+                empty($_POST['civilStatus']) || empty($_POST['gender']) || empty($_POST['phoneNumb']) || empty($_POST['email']) || empty($_POST['address'])) {
+                    // echo "<script>alert('personal')</script>";
+                    
+                    // echo "<p>fname " . $personalInformation->getFirstName() . "<p><break>";
+                    // echo "<p>mname " . $personalInformation->getMiddleName() . "<p><break>";
+                    // echo "<p>lname " . $personalInformation->getLastName() . "<p><break>";
+                    // echo "<p>bday " . $personalInformation->getBirthDate() . "<p><break>";
+                    // echo "<p>civilstatus " . $personalInformation->getCivilStatus() . "<p><break>";
+                    // echo "<p>gender " . $personalInformation->getGender() . "<p><break>";
+                    // echo "<p>phone " . $personalInformation->getPhoneNumb() . "<p><break>";
+                    // echo "<p>email " . $personalInformation->getEmail() . "<p><break>";
+                    // echo "<p>address " . $personalInformation->getAddress() . "<p><break>";
+                    $this->setMessageReport("Please fill up the employee personal information");
+                }
+                else if (empty($_POST['employmentPosition']) || empty($_POST['workStatus']) || empty($_POST['employmentType']) || empty($_POST['sssNumber']) ||
+                 empty($_POST['philhealthNumber']) || empty($_POST['pagIbigNumber']) || empty($_POST['tinNumber'])) {
+                    //  $_POST['employmentPosition'],
+                    // workStatus: $_POST['workStatus'],
+                    // employmentType: $_POST['employmentType'],
+                    // sssNumber: $_POST['sssNumber'],
+                    // philHealthNumber: $_POST['philhealthNumber'],
+                    // pagIbigNumber: $_POST['pagIbigNumber'],
+                    // tinNumber: $_POST['tinNumber']
+                    // echo "<script>alert('employment')</script>";
+                    // echo "<p>position " . $employmentInformation->getEmployeePosition() . "<p><break>";
+                    // echo "<p>workstatus " . $employmentInformation->getWorkStatus() . "<p><break>";
+                    // echo "<p>employmenttype " . $employmentInformation->getEmploymentType() . "<p><break>";
+                    // echo "<p>sssnumber " . $employmentInformation->getSSSNumber() . "<p><break>";
+                    // echo "<p>philhealth " . $employmentInformation->getPhilHealthNumber() . "<p><break>";
+                    // echo "<p>pagibig " . $employmentInformation->getPagIbigNumber() . "<p><break>";
+                    // echo "<p>tin " . $employmentInformation->getTinNumber() . "<p><break>";
+                    $this->setMessageReport("Please fill up the employee employment information");
+                }
+                else if (empty($_POST['username']) || empty($_POST['password'])) {
+                    //   echo "<p>username " . $accountInformation->getUsername() . "<p><break>";
+                    // echo "<p>password " . $accountInformation->getPassword() . "<p><break>";
+                    $this->setMessageReport("Please fill up the employee account information");
+                }
+                else if ($_POST['password'] != $_POST['confirmPassword']) {
+                    $this->setMessageReport("The password and confirm password does not match");
+                }
+                else {
+                //save employee personal information
+                $this->setMessageReport("Added Employee Successfully");
+                $this->setFormValidation("Validated");
                 $personalInformationSQL = "INSERT INTO employeepersonalinformation 
                 (firstName, middleName, lastName, birthDate, civilStatus, gender, phoneNumb, email, address) VALUES
                 (:firstName, :middleName, :lastName, :birthDate, :civilStatus, :gender, :phoneNumb, :email, :address)";
                 $personalInformationSTMT = $this->conn->prepare($personalInformationSQL);
-                $personalInformationSTMT->bindValue(":firstName", $firstName);
-                $personalInformationSTMT->bindValue(":middleName", $middleName);
-                $personalInformationSTMT->bindValue(":lastName", $lastName);
-                $personalInformationSTMT->bindValue(":birthdate", $birthdate);
-                $personalInformationSTMT->bindValue(":civilStatus", $civilStatus);
-                $personalInformationSTMT->bindValue(":gender", $gender);
-                $personalInformationSTMT->bindValue(":phoneNumb", $phoneNumb);
-                $personalInformationSTMT->bindValue(":email", $email);
+                $personalInformationSTMT->bindValue(":firstName", $personalInformation->getFirstName());
+                $personalInformationSTMT->bindValue(":middleName", $personalInformation->getMiddleName());
+                $personalInformationSTMT->bindValue(":lastName", $personalInformation->getLastName());
+                $personalInformationSTMT->bindValue(":birthDate", $personalInformation->getBirthDate());
+                $personalInformationSTMT->bindValue(":civilStatus", $personalInformation->getCivilStatus());
+                $personalInformationSTMT->bindValue(":gender", $personalInformation->getGender());
+                $personalInformationSTMT->bindValue(":phoneNumb", $personalInformation->getPhoneNumb());
+                $personalInformationSTMT->bindValue(":email", $personalInformation->getEmail());
+                $personalInformationSTMT->bindValue(":address", $personalInformation->getAddress());
                 $personalInformationSTMT->execute();
+               $personalInformationID = $this->conn->lastInsertID();
+                // $personalInformationSTMT->last
+                
 
-                //employment information
-                $employmentPosition = $_POST['employmentPosition'];
-                $workStatus = $_POST['workStatus'];
-                $employmentType = $_POST['employmentType'];
-                $sssNumber = $_POST['sssNumber'];
-                $philhealthNumber = $_POST['philhealthNumber'];
-                $pagIbigNumber = $_POST['pagIbigNumber'];
-                $tinNumber = $_POST['tinNumber'];
+
+                
+                //save employee employment information
                 $employmentInformationSQL = "INSERT INTO employeeemploymentinformation 
                 (employeePosition, workStatus, employmentType, sssNumber, philHealthNumber, pagIbigNumber, tinNumber) VALUES
                 (:employeePosition, :workStatus, :employmentType, :sssNumber, :philHealthNumber, :pagIbigNumber, :tinNumber)";
                 $employmentInformationSTMT = $this->conn->prepare($employmentInformationSQL);
-                $employmentInformationSTMT->bindValue(":employeePosition", $employmentPosition);
-                
-                //account information
-                $username = $_POST['username'];
-                $password = $_POST['password'];
-                $confirmPassword = $_POST['confirmPassword'];
-                $accountInformationSQL = "";
+                $employmentInformationSTMT->bindValue(":employeePosition", $employmentInformation->getEmployeePosition());
+                $employmentInformationSTMT->bindValue(":workStatus", $employmentInformation->getWorkStatus());
+                $employmentInformationSTMT->bindValue(":employmentType", $employmentInformation->getEmploymentType());
+                $employmentInformationSTMT->bindValue(":sssNumber", $employmentInformation->getSSSNumber());
+                $employmentInformationSTMT->bindValue(":philHealthNumber", $employmentInformation->getPhilHealthNumber());
+                $employmentInformationSTMT->bindValue(":pagIbigNumber", $employmentInformation->getPagIbigNumber());
+                $employmentInformationSTMT->bindValue(":tinNumber", $employmentInformation->getTinNumber());
+                $employmentInformationSTMT->execute();
+               $employmentInformationID = $this->conn->lastInsertId();
 
-                
+
+                //save employee account information 
+                $accountInformationSQL = "INSERT INTO employeeaccountinformation (username, password) VALUES (:username, :password);"; 
+                $accountInformationSQL = $this->conn->prepare($accountInformationSQL);
+                $accountInformationSQL->bindValue(":username", $accountInformation->getUsername());
+                $accountInformationSQL->bindValue(":password", $accountInformation->getPassword());
+                $accountInformationSQL->execute();               
+                $accountInformationID = $this->conn->lastInsertId();
+
+
+
+                //save employee information using the last ids of the newly created employee
+                $employeeSQL = "INSERT INTO employee (personalInformationID, employmentInformationID, accountInformationID) 
+                VALUES (:personalInformationID, :employmentInformationID, :accountInformationID)";
+                $employeeSTMT = $this->conn->prepare($employeeSQL);
+                $employeeSTMT->bindValue(":personalInformationID", $personalInformationID);
+                $employeeSTMT->bindValue(":employmentInformationID", $employmentInformationID);
+                $employeeSTMT->bindValue(":accountInformationID", $accountInformationID);
+                $employeeSTMT->execute();
+                }
             }
+            $this->view("/EmployeeManager/Employees/addEmployee", [
+                "userDatas" => $userDatas,
+                "messageReport" => $this->getMessageReport(),
+                "userValidation" => $this->getFormValidation()
+            ]);
     }
 
     private function fetchUserSubscription () {

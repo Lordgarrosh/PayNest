@@ -25,6 +25,10 @@ class EmployeePersonalInformation {
        $this->address = $address;
     }
 
+    // public function __construct()
+    // {
+    // }
+
     //setters
     public function setFirstName (string $firstName) {
         $this->firstName = $firstName;
@@ -99,6 +103,8 @@ class EmployeePersonalInformation {
     public function getAddress () {
         return $this->address;
     }
+
+    
 }
 
 ?>

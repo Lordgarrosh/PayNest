@@ -9,6 +9,10 @@ class EmployeeAccountInformation {
         $this->password = $password;
     }
 
+    // public function __construct()
+    // {
+    // }
+
     //setters
     public function setUsername(string $username) {
         $this->username = $username;

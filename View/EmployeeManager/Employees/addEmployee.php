@@ -144,7 +144,7 @@
                         <div class="d-flex gap-4 mt-5">
                         <div class="d-flex gap-2 flex-column" style="width: 100%;">
                             <p class="m-0" >SSS Number</p>
-                            <input type="date" name="sssNumber" class="addEmployeeInput ps-2"  >
+                            <input type="text" name="sssNumber" class="addEmployeeInput ps-2" placeholder="Enter your SSS Number"  >
                         </div>
                         <div class="d-flex gap-2 flex-column" style="width: 100%;">
                             <p class="m-0" >Philhealth Number</p>
@@ -159,7 +159,7 @@
                            <div class="d-flex gap-4 mt-5">
                         <div class="d-flex gap-2 flex-column" style="width: 30%;">
                             <p class="m-0" >TIN</p>
-                            <input type="number" name="tinNumber" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="text" name="tinNumber" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
                         </div>
                     </div>  
                 </div>
@@ -173,20 +173,20 @@
                     </div>
                     <div class="d-flex gap-2 flex-column mt-5" style="width: 100%;">
                             <p class="m-0" >Username</p>
-                            <input type="number" name="username" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="text" name="username" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
                         </div>
                         <div class="d-flex gap-2 flex-column mt-5" style="width: 100%;">
                             <p class="m-0" >Password</p>
-                            <input type="number" name="password" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="text" name="password" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
                         </div>
                         <div class="d-flex gap-2 flex-column mt-5" style="width: 100%;">
                             <p class="m-0" >Confirm Password</p>
-                            <input type="number" name="confirmPassword" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="text" name="confirmPassword" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
                         </div>
                     </div>
                     </div>
                            <div class="button-container d-flex gap-5 justify-content-end pe-5 pb-5">
-                        <button onclick="window.location.href='/EmployeeManager/inventory'" type="button" style="width: 15%;" class="buttonCancel d-flex gap-3 justify-content-center align-items-center">
+                        <button onclick="window.location.href='/EmployeeManager/employee'" type="button" style="width: 15%;" class="buttonCancel d-flex gap-3 justify-content-center align-items-center">
                             <img src="../assets/Exit.png" width="20" height="20" alt="">
                             <p class="m-0" >Exit</p>
                         </button>
@@ -207,7 +207,7 @@
 
 <?php
 if (!empty($userValidation) && !empty($messageReport)) {
-if ($userValidation == "Not Validated" || empty($messageReport)) {
+if ($userValidation == "Not Validated" && !empty($messageReport)) {
     echo "<script>Swal.fire({
                 icon: 'error',
                 title: 'Login Failed',

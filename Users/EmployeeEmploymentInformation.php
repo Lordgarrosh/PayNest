@@ -21,6 +21,10 @@ class EmployeeEmploymentInformation {
        $this->tinNumber = $tinNumber;
     }
 
+    // public function __construct()
+    // {
+    // }
+
     //setters
     public function setEmployeePosition (string $employeePosition) {
         $this->employeePosition = $employeePosition;
@@ -64,11 +68,11 @@ class EmployeeEmploymentInformation {
     }
     
     public function getSSSNumber () {
-        return $this->sssNumber
+        return $this->sssNumber;
     }
 
     public function getPhilHealthNumber () {
-        return $philHealthNumber;
+        return $this->philHealthNumber;
     }
 
     public function getPagIbigNumber () {
