@@ -48,7 +48,39 @@ class EmployeeManagerController extends Controller {
             $this->redirect("/EmployeeManager/subscriptionPlan");
         }
     }
-
+    
+    public function posSystem () {
+                $userSubscription = $this->fetchUserSubscription();
+          $this->startSession();
+           $this->database = new Database();
+        $this->conn = $this->database->connect();
+          $sqlCategories = "SELECT * FROM categories";
+            $inventoryCategories = $this->conn->query($sqlCategories);
+            $itemName = $_GET['itemName'] ?? '';
+            $itemCategory = $_GET['itemCategory'] ?? '';
+            $sqlProducts = "SELECT * FROM inventories WHERE itemName LIKE :itemName AND itemCategory LIKE :itemCategory";
+            $productSTMT = $this->conn->prepare($sqlProducts);
+            $productSTMT->bindValue(":itemName", "%$itemName%");
+            $productSTMT->bindValue(":itemCategory", "%$itemCategory%");
+            $productSTMT->execute();
+            $productItems = $productSTMT->fetchAll(PDO::FETCH_ASSOC);
+          
+        if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+           $this->redirect("/login");
+        }
+        else if ($userSubscription !== null) {
+            $userDatas = $this->userProfile();
+            $data = [
+                "userDatas" => $userDatas,
+                "categories" => $inventoryCategories,
+                "productItems" => $productItems
+            ];
+        $this->view("/EmployeeManager/POS/pos", $data);
+        }
+        else {
+            $this->redirect("/EmployeeManager/subscriptionPlan");
+        }
+    }
 
 
     public function subscriptionPlan () {

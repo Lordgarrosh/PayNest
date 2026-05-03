@@ -20,11 +20,13 @@
     </head>
     <body>
     <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
+
+
         <main class="mainContainer p-5">
             <div class="posChooseProduct" style="width: 50%;">
                 <h1>POS System</h1>
-                
-        <div class="searchbar d-flex align-items-center" style="width: 80%;" >
+                <div class="seaerchProducts d-flex gap-3">
+                            <div class="searchbar d-flex align-items-center" style="width: 80%;" >
             <label>
                 <button style="border: none;" id="searchbarBtn">
                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -35,6 +37,29 @@
             </label>
             <input class="search flex" name="searchInventoryItem" id="searchInventoryItem" placeholder="Search Inventory...">
         </div>
+        <select name="selectCategories" class="selectCategories" id="selectCategories">
+               <?php foreach ($categories as $cat): ?>
+                                
+    <option value="?page=1&category=<?= urlencode($cat['categoryName']) ?>&search=<?= urlencode($inventoryItemSearch) ?>">
+        <?= $cat['categoryName'] ?>
+    </option>
+<?php endforeach; ?>
+<option value="?page=1&category=">All Category</option>
+        </select>
+                </div>
+            </div>
+
+            <div class="chooseItemContainer" style="width: 50%;" >
+                <?php foreach ($productItems as $product): ?>
+                    <div class="itemContainer p-3" >
+                    <div class="d-flex align-items-center justify-content-center">
+                        <img width="50" height="50" src="<?php echo "/InventoryPic/".  $product['inventoryItemImage'] ?>">
+                    </div>
+                    <h3 class="m-0" ><?= $product['itemName'] ?></h3>
+                    <p><?= $product['itemCategory'] ?></p>
+                    <div class="d-flex-justifty-content-between"></div>
+                    </div>
+                    <?php endforeach; ?>
             </div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

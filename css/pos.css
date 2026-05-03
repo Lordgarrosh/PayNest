@@ -25,3 +25,47 @@
     transform: translateY(-50%);
     opacity: 0.5;
 }
+
+
+.displayCategories {
+    box-shadow: 0 2pt 5pt rgb(0, 0, 0, 0.5);
+    background: none;
+    border: none;
+    border-radius: 1em;
+}
+
+
+.modalContainer {
+    z-index: 3;
+    background-color: rgb(0, 0, 0, 0.5);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+.categoryContainer {
+    background-color: white;
+    height: 50%;
+    width: 50%;
+}
+
+
+.selectCategories {
+    border: none;
+    border-radius: 1em;
+    box-shadow: 0 2pt 3pt rgb(0, 0, 0, 0.5);
+}
+
+
+.chooseItemContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1em;
+}
+
+.itemContainer {
+       border: none;
+    border-radius: 1em;
+    box-shadow: 0 2pt 3pt rgb(0, 0, 0, 0.5);
+
+}
