@@ -16,6 +16,40 @@ $categories = $data['categories'];
           <link rel="stylesheet" href="../css/sidenav.css">
            <link rel="stylesheet" href="../css/addInventory.css">
         <title>PayNest</title>
+             <style>
+    .image-upload-container {
+      width: 100%;
+      max-width: 300px;
+      height: 300px;
+      border: 2px dashed #ccc;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      background-color: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-upload-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: none;
+    }
+
+    .image-upload-label {
+      position: absolute;
+      color: #666;
+      text-align: center;
+      padding: 10px;
+      pointer-events: none;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+  </style>
     </head>
     <body>
     <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
@@ -40,21 +74,29 @@ $categories = $data['categories'];
              </div>
 
             <div class="InventoryFormContainer mt-5 containerShadow px-4 py-5">
-                <form action="/EmployeeManager/addInventory" method="post">
+                <form action="/EmployeeManager/addInventory" method="post" enctype="multipart/form-data">
                     <div class="detailContainer mt-4">
                         <div class="detailTitle d-flex gap-3">
                            <div class="detailIcon d-flex align-items-center justify-content-center" ><img src="../assets/checklist.png" class="ps-1" width="40" height="40" alt="asd"></div> 
                             <h3>Product Information</h3>
                         </div>
-                        <div class="detailInputContainer d-flex gap-5 ms-3 mt-4" style="width: 100%;" >
-                            <div class="inventoryDetailContainer" style="width: 25% !important;">
+                        <div class="detailInputContainer d-flex gap-5 ms-3 mt-4" style="width: 80%;" >
+                                <div class="prof-image-container d-flex justify-content-center align-items-center " style="width: 50%;" >
+                                <label for="imageInput" class="image-upload-container">
+                                    <span class="image-upload-label">Click to upload image</span>
+                                    <img id="imagePreview" alt="Image Preview">
+                                    <input type="file" id="imageInput" name="inventoryItemPic" accept="image/*">
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-column align-items-center justify-content-center gap-5" style="width: 50%;" >
+                            <div class="inventoryDetailContainer" style="width: 100% !important;">
                                 <div class="d-flex gap-2 ms-1 detailLabel">
                                     <p>Item Name</p>
                                     <p>*</p>
                                 </div>
                                 <input type="text" name="itemName" class="detailInputShadow ps-2">
                             </div>
-                            <div class="inventoryDetailContainer" style="width: 25% !important;">
+                            <div class="inventoryDetailContainer" style="width: 100% !important;">
                                 <div class="d-flex gap-2 detailLabel">
                                     <p>Category</p>
                                     <p>*</p>
@@ -67,12 +109,13 @@ $categories = $data['categories'];
 <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="inventoryDetailContainer" style="width: 25% !important;">
+                            <div class="inventoryDetailContainer" style="width: 100% !important;">
                                 <div class="d-flex gap-2 detailLabel">
                                     <p>Barcode</p>
                                     <p>*</p>
                                 </div>
                                 <input type="text" name="itemBarcode" class="detailInputShadow ps-2">
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -145,6 +188,33 @@ $categories = $data['categories'];
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+              const imageInput = document.getElementById('imageInput');
+  const imagePreview = document.getElementById('imagePreview');
+  const labelText = document.querySelector('.image-upload-label');
+
+  imageInput.addEventListener('change', function () {
+    const file = this.files[0];
+    console.log("asdasdasdasd");
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = function (e) {
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = 'block';
+        labelText.style.display = 'none';
+         console.log("wut");
+      }
+
+      reader.readAsDataURL(file);
+    } else {
+      console.log("asd");
+      imagePreview.style.display = 'none';
+      labelText.style.display = 'block';
+    }
+  });
+
+        </script>
     </body>
     </html>
 
@@ -160,7 +230,7 @@ if
             Swal.fire({
                 icon: 'error',
                 title: 'Registration Failed',
-                text: '<?= $messageReport    ?>'
+                text: '$messageReport'
             });
         </script>";
     }
@@ -169,7 +239,7 @@ if
             Swal.fire({
                 icon: 'success',
                 title: 'Registration success',
-                text: '<?= $messageReport ?>'
+                text: '$messageReport'
             }).then(() => {
               window.location.href = '/EmployeeManager/dashboard';
             });

@@ -98,7 +98,7 @@ class EmployeeManagerController extends Controller {
            
             $sqlCategories = "SELECT * FROM categories";
             $inventoryCategories = $this->conn->query($sqlCategories);
-            $sqlInventories = "SELECT inventoryID, itemName, itemCategory, itemQuantity, itemReorderLevel, itemSellingPrice FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName LIMIT :startTable, 5";
+            $sqlInventories = "SELECT inventoryID, itemName, itemCategory, itemQuantity, itemReorderLevel, itemSellingPrice, inventoryItemImage FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName LIMIT :startTable, 5";
             $inventorySTMT = $this->conn->prepare($sqlInventories);
             $inventorySTMT->bindValue(":itemCategory", "%$categoryChosen%");
             $inventorySTMT->bindValue(':startTable', $startTable, PDO::PARAM_INT);
@@ -159,7 +159,7 @@ class EmployeeManagerController extends Controller {
          $this->database = new Database();
         $this->conn = $this->database->connect();
             $sqlCategories = "SELECT * FROM categories";
-            $inventoryCategories = $this->conn->prepare($sqlCategories);
+            $inventoryCategories = $this->conn->query($sqlCategories);
              $userDatas = $this->userProfile();
         $this->setFormValidation("Not Validated");
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addInventory'])) {
@@ -173,6 +173,8 @@ class EmployeeManagerController extends Controller {
             $itemExpirationDate = $_POST['itemExpirationDate'];
             $itemCostPrice = $_POST['itemCostPrice'];
             $itemSellingPrice = $_POST['itemSellingPrice'];
+
+     
            if (empty($itemName) || empty($itemCategory) || empty($itemBarcode) || empty($itemQuantity) || empty($itemReorderLevel) || empty($itemExpirationDate)
             || empty($itemCostPrice) || empty($itemSellingPrice)) {
                 $this->setMessageReport("Please fill all the input fields");
@@ -184,8 +186,18 @@ class EmployeeManagerController extends Controller {
                 $this->setMessageReport("The item cost price must be higher than the selling price");
            }
            else {
-                $inventorySaveProductSQL = "INSERT INTO inventories (itemName, itemCategory, itemBarcode, itemQuantity, itemReorderLevel, itemExpirationDate, itemCostPrice, itemSellingPrice) VALUES
-                (:itemName, :itemCategory, :itemBarcode, :itemQuantity, :itemReorderLevel, :itemExpirationDate, :itemCostPrice, :itemSellingPrice)";
+                        	$img_name = $_FILES['inventoryItemPic']['name'];       //getting image name
+			$img_typ = $_FILES['inventoryItemPic']['type'];            //getting image name
+			$tmp_name = $_FILES['inventoryItemPic']['tmp_name'];   //set temporary name
+			$img_explode = explode('.', $img_name);   // let's Explode Image
+			$img_extension = end($img_explode);
+			$extensions = ['png', 'jpeg', 'jpg'];       //these are some valid extensions
+      $time = time();
+      $inventoryPic = $time . $img_name;
+      echo "<script>alert('$tmp_name')</script>";
+             if (move_uploaded_file($tmp_name,__DIR__ . "/../InventoryPic/" . $inventoryPic)) {
+                $inventorySaveProductSQL = "INSERT INTO inventories (itemName, itemCategory, itemBarcode, itemQuantity, itemReorderLevel, itemExpirationDate, itemCostPrice, itemSellingPrice, inventoryItemImage) VALUES
+                (:itemName, :itemCategory, :itemBarcode, :itemQuantity, :itemReorderLevel, :itemExpirationDate, :itemCostPrice, :itemSellingPrice, :inventoryItemImage)";
                 $this->database = new Database();
                 $this->conn = $this->database->connect();
                 $stmt = $this->conn->prepare($inventorySaveProductSQL);
@@ -197,9 +209,14 @@ class EmployeeManagerController extends Controller {
                 $stmt->bindValue(":itemExpirationDate", $itemExpirationDate);
                 $stmt->bindValue(":itemCostPrice", $itemCostPrice);
                 $stmt->bindValue(":itemSellingPrice", $itemSellingPrice);
+                $stmt->bindValue(":inventoryItemImage", $inventoryPic); 
                 $stmt->execute();
                 $this->setMessageReport("Product $itemName successfully added to inventory");
                 $this->setFormValidation("Validated");
+             }
+             else {
+                $this->setMessageReport("Image not Uploaded");
+             }
            }
         }
         $this->view("/EmployeeManager/Inventories/addInventory", [

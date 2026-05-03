@@ -69,6 +69,7 @@
     <table class="mt-5 productTable">
                           
    <tr>
+    <th>Item Image</th>
     <th>Item Name</th>
     <th>Category</th>
     <th>Stock</th>
@@ -83,6 +84,7 @@
             $stockStatus = $stocks / 2;
             // echo "<script>alert('$stockStatus')</script>";
         ?>
+        <td><img src="<?php echo "/InventoryPic/".  $cat['inventoryItemImage'] ?>" width="40" height="40" alt="d"></td>
         <td><?= $cat['itemName'] ?></td>
      <td><?= $cat['itemCategory'] ?></td>
       <td><?= $cat['itemQuantity'] ?></td>
