@@ -1,0 +1,41 @@
+.timeSelector {
+    display: flex;
+    align-items: center;
+    background: #f1f1f1;
+    padding: 5px;
+    border-radius: 50px;
+    width: fit-content;
+    gap: 5px;
+}
+
+.timeSelector input[type="radio"] {
+    display: none;
+}
+
+.timeSelector label {
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+
+.timeSelector input[type="radio"]:checked + label {
+    background: #000;
+    color: white;
+}
+
+.containerShadow {
+    box-shadow: 1pt 2pt 3pt rgb(0, 0, 0, 0.3);
+    border-radius: 1em;
+}
+
+.iconBG {
+    background-color: #D4F1C5;
+    width: 20%;
+    height: 40%;
+    border-radius: 50%;
+}

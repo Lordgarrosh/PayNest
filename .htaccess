@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Ignore real files and directories (VERY IMPORTANT)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Root → index.php
+RewriteRule ^$ index.php?url=/ [L,QSA]
+
+# Everything else → index.php?url=...
+RewriteRule ^(.+)$ index.php?url=$1 [L,QSA]

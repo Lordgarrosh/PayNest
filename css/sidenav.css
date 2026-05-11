@@ -1,0 +1,11 @@
+.sidenav {
+    background-color: rgba(0, 0, 0, 0.3 );
+    width: 23%;
+    height: 100%;
+    position: fixed;
+}
+
+.userProfile {
+    width: 1.5in;
+    border-radius: 50%;
+}

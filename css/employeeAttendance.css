@@ -1,0 +1,36 @@
+body {
+    background-color: #547a95   ;
+}
+
+
+.modalDark {
+    z-index: 2;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);   
+}
+
+.addEmployeeAttendanceForm {
+    background-color: white;
+    height: 80%;
+    width: 50%;
+}
+
+
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: flex;
+}
+
+.close-btn {
+        background-color: red;
+        border: none;
+        border-radius: 50%;
+        width: 1.5cm;
+        font-size: 2em;
+        color: white;
+}

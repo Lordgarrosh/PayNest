@@ -1,0 +1,29 @@
+.reportContainer {
+    box-shadow: 0 2pt 4pt rgb(0, 0, 0, 0.5);
+}
+
+.reportImgIcon {
+    background-color: #D4F1C5;
+    padding: 10pt;
+    border-radius: 50%;
+}
+
+.userLinks a{
+    color: #2E7906;
+    text-decoration: none;
+}
+
+.reportSummaryContainer {
+    box-shadow: 1pt 2pt 5pt rgb(0, 0, 0, 0.5);
+    padding: 1em;
+    width: 100% !important;
+}
+
+.boxContainerDesign {
+    box-shadow: 0 2pt 2pt rgb(0, 0, 0, 0.3);
+    border: none;
+    width: 100%;
+    border-radius: 5pt;
+    padding-left: 1em;
+    color: gray;
+}

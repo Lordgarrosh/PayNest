@@ -1,0 +1,25 @@
+.employeeActions {
+    box-shadow: 0 2pt 5pt rgba(0, 0, 0, 0.5);
+    
+}
+
+.testinghere {
+    margin-bottom: 1em;
+}
+
+    .employeeTitle {
+        margin: 0;
+    background-color: gray;
+    }
+
+    .employeeTitle h3{
+        margin: 0;
+    }
+
+
+    .redirectEmployee {
+        color: green;
+        text-decoration: none;
+        width: 100%;
+        
+    }
