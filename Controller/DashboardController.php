@@ -92,6 +92,34 @@ LIMIT 5;";
     }
 
 
+    public function revenueSalesItem () {
+        $this->startSession();
+        $userDatas = $this->userProfile();
+        $this->database = new Database();
+        $this->conn = $this->conn->connect();
+        $revenueSalesItemSQL = "SELECT SUM(
+        (salesitem.salesTotalPrice)
+        -
+        (salesitem.salesTotalPrice * (sales.salesDiscountPercent / 100))
+        -
+        (inventories.itemCostPrice * salesitem.salesQuantity)
+        ) AS salesItemTotalRevenue
+        , inventories.itemName FROM salesitem 
+        INNER JOIN sales ON salesitem.salesID = sales.salesID
+        INNER JOIN inventories ON salesitem.inventoryID = inventories.inventoryID
+        WHERE userID = :userID
+        GROUP BY salesitem.salesID, salesitem.inventoryID
+        ORDER BY salesItemTotalRevenue DESC
+        LIMIT 5;
+        ";
+        $revenueSalesItemSTMT = $this->conn->prepare($revenueSalesItemSQL);
+        $revenueSalesItemSTMT->bindValue(":userID", $userDatas['userID']);
+        $revenueSalesItemSTMT->execute();
+        $_SESSION['revenueItem'] = $revenueSalesItem->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($_SESSION['revenueItem']);
+    }
+
+
 }
 
 ?>
