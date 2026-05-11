@@ -151,7 +151,7 @@
     data: {
       labels: result.revenueYear,
       datasets: [{
-        label: 'Sales Report for the nasasdis',
+        label: 'Sales Report for the nazis',
         data: result.revenueValue,
         borderWidth: 1
       }]
