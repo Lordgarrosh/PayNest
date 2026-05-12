@@ -120,9 +120,17 @@
         </div>
     </div>
 </div>
-<div class="containerShadow mt-5">
-    <h1 style="border-bottom: 2px solid black" >Top Selling Item Revenue</h1>
+<div class="d-flex gap-3" style="width: 100%;">
+    <div class="containerShadow" style="width: 60%;">
+            <h1 style="border-bottom: 2px solid black" >Top Selling Item Revenue</h1>
     <div id="topSellingItemContainer"></div>
+    </div>
+    <div class="containerShadow" style="width: 40%;" >
+        <h1>Revenue by Category</h1>
+        <div class="d-flex justify-content-center" style="height: 90%;" >
+            <canvas id="revenueCategorySales"></canvas>
+        </div>
+    </div>
 </div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -131,18 +139,84 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
     $(document).ready(function () {
+        $.ajax({
+            url: "/Report/computeCategoryRevenue", 
+            type: "GET",
+            dataType: "json",
+            success: (result) => {
+                let totalRevenue = 0;
+                console.log(result);
+                let salesCategoryTotalValues = [];
+                let itemCategory = [];
+                 $.each(result, (index, categoryRevenueSummary) => {
+                    salesCategoryTotalValues.push(categoryRevenueSummary.salesCategoryTotalRevenue);
+                    itemCategory.push(categoryRevenueSummary.itemCategory);
+                     totalRevenue += Number(
+        categoryRevenueSummary.salesCategoryTotalRevenue
+    );
+});
+                              const ctx = document.getElementById('revenueCategorySales');
+const centerTextPlugin = {
+    id: 'centerText',
+    afterDatasetsDraw(chart, args, options) {
+        const { ctx } = chart;
+        const { text, color, font } = options;
+
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = font || 'bold 24px sans-serif';
+        ctx.fillStyle = color || '#000';
+
+        const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+        const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
+
+        ctx.fillText(text, x, y);
+        ctx.restore();
+    }
+};
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: itemCategory,
+      datasets: [{
+        label: 'Revenue Report Category',
+        data: salesCategoryTotalValues,
+        borderWidth: 1
+      }]
+    },
+    options: {
+            plugins: {
+
+            centerText: {
+                text:  "₱" + totalRevenue,
+                color: 'black',
+                font: 'bold 24px Arial'
+            }
+            }
+    },
+     plugins: [centerTextPlugin]
+  });
+console.log("Total Revenue= " + totalRevenue);
+            }
+        });
     $.ajax({
        url: "/Report/computeItemRevenue",
        type: "GET",
-       dataType: "json"
+       dataType: "json",
        success: (result) => {
         let html = "";
         $.each(result, (index, itemRevenueSummary) => {
-            html+= `<div class="d-flex justify-content-between" style="border-bottom: 2px solid black">
-        <h5>${result.itemName}</h5>
-        <h5>${result.salesItemTotalRevenue}</h5>
-    </div>`;
-        }
+           
+            html+= `<div class="row text-center border-bottom py-2">
+    <div class="col fw-bold">${itemRevenueSummary.itemName}</div>
+    <div class="col">${itemRevenueSummary.itemCategory}</div>
+    <div class="col">${itemRevenueSummary.totalQuantity}</div>
+    <div class="col text-success">
+        ₱${itemRevenueSummary.salesItemTotalRevenue}
+    </div>
+</div>`;
+        });
         $("#topSellingItemContainer").html(html);
     }
     });
@@ -155,7 +229,7 @@
             $("#revenueHighestAmount").text("₱" + result.maxRevenue);
             $("#revenueLowestAmount").text("₱" + result.minRevenue);
             $("#netRevenue").text("₱" + result.totalRevenue);
-            console.log(result);
+            // console.log(result);
         }
     });
         $.ajax({
@@ -163,7 +237,7 @@
             type: "GET",
             dataType: "json",
             success: (result) => {
-                console.log(result);
+                // console.log(result);
                               const ctx = document.getElementById('revenueOverview');
 
   new Chart(ctx, {
@@ -171,7 +245,7 @@
     data: {
       labels: result.revenueYear,
       datasets: [{
-        label: 'Sales Report for the nazis',
+        label: 'Revenue Report for this Month',
         data: result.revenueValue,
         borderWidth: 1
       }]

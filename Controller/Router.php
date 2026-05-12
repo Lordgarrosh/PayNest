@@ -132,6 +132,12 @@ require __DIR__ . "/../Controller/ReportController.php";
                      RouteHandler::get('/revenueSummary', function () {
                          (new ReportController())->revenueSummary();
                     });
+                    RouteHandler::get('/computeItemRevenue', function () {
+                         (new ReportController())->revenueSalesItem();
+                    });
+                     RouteHandler::get('/computeCategoryRevenue', function () {
+                         (new ReportController())->revenueSalesCategory();
+                    });
                });  
 
     // RouteHandler::set('/authOTP',)

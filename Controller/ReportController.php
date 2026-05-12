@@ -74,27 +74,56 @@ FROM sales WHERE userID = :userID";
         $this->startSession();
         $userDatas = $this->userProfile();
         $this->database = new Database();
-        $this->conn = $this->conn->connect();
+        $this->conn = $this->database->connect();
         $revenueSalesItemSQL = "SELECT SUM(
         (salesitem.salesTotalPrice)
         -
         (salesitem.salesTotalPrice * (sales.salesDiscountPercent / 100))
         -
         (inventories.itemCostPrice * salesitem.salesQuantity)
-        ) AS salesItemTotalRevenue
-        , inventories.itemName FROM salesitem 
+        ) AS salesItemTotalRevenue,
+        SUM(salesitem.salesQuantity) AS totalQuantity
+        , inventories.itemName, inventories.itemCategory FROM salesitem 
         INNER JOIN sales ON salesitem.salesID = sales.salesID
         INNER JOIN inventories ON salesitem.inventoryID = inventories.inventoryID
-        WHERE userID = :userID
-        GROUP BY salesitem.salesID, salesitem.inventoryID
-        ORDER BY salesItemTotalRevenue DESC
+        WHERE salesitem.userID = :userID
+        GROUP BY salesitem.inventoryID
+        ORDER BY totalQuantity DESC
         LIMIT 5;
         ";
         $revenueSalesItemSTMT = $this->conn->prepare($revenueSalesItemSQL);
         $revenueSalesItemSTMT->bindValue(":userID", $userDatas['userID']);
         $revenueSalesItemSTMT->execute();
-        $_SESSION['revenueItem'] = $revenueSalesItem->fetchAll(PDO::FETCH_ASSOC);
+        $_SESSION['revenueItem'] = $revenueSalesItemSTMT->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($_SESSION['revenueItem']);
+    }
+
+
+    public function revenueSalesCategory () {
+        $this->startSession();
+        $userDatas = $this->userProfile();
+        $this->database = new Database();
+        $this->conn = $this->database->connect();
+        $revenueSalesCategorySQL = "SELECT SUM(
+        (salesitem.salesTotalPrice)
+        -
+        (salesitem.salesTotalPrice * (sales.salesDiscountPercent / 100))
+        -
+        (inventories.itemCostPrice * salesitem.salesQuantity)
+        ) AS salesCategoryTotalRevenue,
+        SUM(salesitem.salesQuantity) AS totalQuantity
+        ,  inventories.itemCategory FROM salesitem 
+        INNER JOIN sales ON salesitem.salesID = sales.salesID
+        INNER JOIN inventories ON salesitem.inventoryID = inventories.inventoryID
+        WHERE inventories.userID = :userID
+        GROUP BY inventories.itemCategory
+        ORDER BY salesCategoryTotalRevenue DESC
+        ";
+        $revenueSalesCategorySTMT = $this->conn->prepare($revenueSalesCategorySQL);
+        $revenueSalesCategorySTMT->bindValue(":userID", $userDatas['userID']);
+        $revenueSalesCategorySTMT->execute();
+        $_SESSION['revenueSalesCategory'] = $revenueSalesCategorySTMT->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($_SESSION['revenueSalesCategory']);
     }
 
 }
