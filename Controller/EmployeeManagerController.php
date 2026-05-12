@@ -171,19 +171,22 @@ class EmployeeManagerController extends Controller {
             $itemName = $_POST['itemName'];
             $itemCategory = $_POST['itemCategory'];
             $itemBarcode = $_POST['itemBarcode'];
-            $itemQuantity = $_POST['itemQuantity'];
+            $itemQuantity = $_POST['itemQuantity'] ?? 0;
             $itemReorderLevel = $_POST['itemReorderLevel'];
             $itemExpirationDate = $_POST['itemExpirationDate'];
             $itemCostPrice = $_POST['itemCostPrice'];
             $itemSellingPrice = $_POST['itemSellingPrice'];
 
      
-           if (empty($itemName) || empty($itemCategory) || empty($itemBarcode) || empty($itemQuantity) || empty($itemReorderLevel) || empty($itemExpirationDate)
+           if (empty($itemName) || empty($itemCategory) || empty($itemBarcode) ||  empty($itemReorderLevel) || empty($itemExpirationDate)
             || empty($itemCostPrice) || empty($itemSellingPrice)) {
                 $this->setMessageReport("Please fill all the input fields");
            }
-           else if ($itemQuantity <= $itemReorderLevel) {
-                $this->setMessageReport("The Item quantity is lower than the item reorder level");
+           else if ($itemQuantity < 0) {
+                $this->setMessageReport("The Item quantity cannot be lower than zero");
+           }
+           else if ($itemReorderLevel <= 0) {
+                $this->setMessageReport("The Item reorder level must not be empty or lower than zero ");
            }
            else if ($itemCostPrice >= $itemSellingPrice) {
                 $this->setMessageReport("The item cost price must be higher than the selling price");

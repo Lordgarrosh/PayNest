@@ -241,7 +241,7 @@ if
                 title: 'Registration success',
                 text: '$messageReport'
             }).then(() => {
-              window.location.href = '/EmployeeManager/dashboard';
+              window.location.href = '/EmployeeManager/inventory';
             });
         </script>";
     }
