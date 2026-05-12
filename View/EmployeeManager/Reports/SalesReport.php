@@ -120,6 +120,10 @@
         </div>
     </div>
 </div>
+<div class="containerShadow mt-5">
+    <h1 style="border-bottom: 2px solid black" >Top Selling Item Revenue</h1>
+    <div id="topSellingItemContainer"></div>
+</div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -127,6 +131,22 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
     $(document).ready(function () {
+    $.ajax({
+       url: "/Report/computeItemRevenue",
+       type: "GET",
+       dataType: "json"
+       success: (result) => {
+        let html = "";
+        $.each(result, (index, itemRevenueSummary) => {
+            html+= `<div class="d-flex justify-content-between" style="border-bottom: 2px solid black">
+        <h5>${result.itemName}</h5>
+        <h5>${result.salesItemTotalRevenue}</h5>
+    </div>`;
+        }
+        $("#topSellingItemContainer").html(html);
+    }
+    });
+        
     $.ajax({
         url: "/Report/revenueSummary",
         type: "GET",
