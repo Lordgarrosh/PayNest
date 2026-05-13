@@ -123,7 +123,7 @@
 <script>
 $(document).ready(function () {
     let start = 0;
-    const limit = 15;
+    const limit = 6;
     let loading = false;
 
     function loadItems() {
@@ -141,10 +141,16 @@ $(document).ready(function () {
             success: (data) => {
                 console.log(data);
 
-                if (data.length === 0) {
-                    $("#loadMoreItems").hide();
-                    return;
-                } 
+                if (data.length < limit) {
+    $("#loadMoreItems").hide();
+}
+else {
+    $("#loadMoreItems").show();
+}
+
+if (data.length === 0) {
+    return;
+}
 
                 let html = "";
 
@@ -178,17 +184,30 @@ $(document).ready(function () {
     $("#loadMoreItems").click(() => {
         loadItems();
     });
-
+    $("#searchInventoryItem").on('keydown', function(e) {
+          if (e.key === "Enter" ) {
+               findItems ();
+                }
+    });
+     $("#searchbarBtn").on('click', function() {
+       
+               findItems ();
+                
+    });
     $("#selectCategories").on('change', function() {
-         if (loading) return;
+   findItems ();
+    });
+
+    function findItems () {
+              if (loading) return;
         loading = true;
-   let selectedItem = $(this).val();
+   let selectedItem = $("#selectCategories").val();
    let searchItem = $("#searchInventoryItem").val();
    
     start = 0;
     $("#chooseItemContainer").html(""); // clear old items
     $("#loadMoreItems").show();
-//    console.log(searchItem);
+   console.log("Test are " + searchItem);
 //    console.log(selectedItem);
         $.ajax({
            url: "/POS/loadItem",
@@ -203,10 +222,16 @@ $(document).ready(function () {
            success: (data) => {
                
 
-                if (data.length === 0) {
-                    $("#loadMoreItems").hide();
-                    return;
-                }
+               if (data.length < limit) {
+    $("#loadMoreItems").hide();
+}
+else {
+    $("#loadMoreItems").show();
+}
+
+if (data.length === 0) {
+    return;
+}
 
                 let html = "";
 
@@ -234,7 +259,7 @@ $(document).ready(function () {
             loading = false; // safety
         }
         });
-    });
+    }
     $.ajax({
         url: "/POS/getCart",
         type: "GET",

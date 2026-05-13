@@ -135,14 +135,14 @@ FROM sales WHERE userID = :userID";
         $date->sub(new DateInterval('P1D')); // Subtract 1 day
         $yesterday = $date->format('M/d/Y');
         $today = date("M/d/Y");
-        $timelineSQL = "SELECT SUM(salesGrandAmount - (salesDiscountPrice + salesOriginalPrice) AS totalSales, salesDate FROM sales WHERE userID = :userID GROUP BY salesDate"
+        $timelineSQL = "SELECT SUM(salesGrandAmount - (salesDiscountPrice + salesOriginalPrice) AS totalSales, AVG(SUM(salesGrandAmount - (salesDiscountPrice + salesOriginalPrice))) salesDate FROM sales WHERE userID = :userID GROUP BY salesDate";
         $timelineSTMT = $this->conn->prepare($timelineSQL);
-        $timelineSTMT = $this->bindValue(":userID", $userDatas['userID']);
+        $timelineSTMT->bindValue(":useriD", $userDatas['userID']);
         $timelineSTMT->execute();
         $_SESSION['revenueTimeline'] = [
             "todayRevenue" => 0,
-            "yesterdayRevenue => 0
-        ]
+            "yesterdayRevenue" => 0
+        ];
         while ($row = $timelineSTMT->fetch(PDO::FETCH_ASSOC)) {
                 if ($row['salesDate'] == $today) {
                     $_SESSION['revenuTimeline']['todayRevenue'] = $row['totalSales'];

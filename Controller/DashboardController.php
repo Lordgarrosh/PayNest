@@ -60,7 +60,12 @@ $salesMonthValues = array_fill_keys($months, 0);
     "salesYear" => array_keys($salesMonthValues),
     "salesGrandAmount" => array_values($salesMonthValues)
 ];
-        $_SESSION['averageDailySales'] /= $totalSales;
+       if ($totalSales != 0) {
+    $_SESSION['averageDailySales'] /= $totalSales;
+}
+else {
+    $_SESSION['averageDailySales'] = 0;
+}
         echo json_encode([
                 "salesOverView" => $_SESSION['salesReportOverview'],
                 "averageDailySales" => $_SESSION['averageDailySales'],
