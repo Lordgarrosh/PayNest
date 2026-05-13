@@ -117,6 +117,44 @@
                             </a>
                     </div>
                 </div>
+
+                            <div class="row gap-5">
+                    <div class="col employeeActions g-5 px-0">
+                        <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
+                            <img src="../assets/roles.png" width="50" height="50" alt="asd" class="employeeIcon">
+                            <h3>Roles</h3>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Manage User roles and permissions</p></div>
+                            <a href="/EmployeeManager/employeeRoleManage" class="d-flex justify-content-center gap-5 redirectEmployee" >
+                                <p>Manage Roles</p>
+                                <p>></p>
+                            </a>
+                    </div>
+
+                     <div class="col employeeActions g-5 px-0">
+                        <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
+                            <img src="../assets/payroll.png" width="40" alt="asd" class="employeeIcon">
+                            <h3>Payroll</h3>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Process and manage employee salaries and payments</p></div>
+                            <a href="/EmployeeManager/payroll" class="d-flex justify-content-center gap-5 redirectEmployee" >
+                                <p>Go to Payroll</p>
+                                <p>></p>
+                            </a>
+                    </div>
+
+                     <div class="col employeeActions g-5 px-0">
+                        <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
+                            <img src="../assets/leaveRequest.png" width="40" alt="asd" class="employeeIcon">
+                            <h3>Leave Request</h3>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Review and manage leave request</p></div>
+                            <a href="/EmployeeManager/leaveRequest" class="d-flex justify-content-center gap-5 redirectEmployee" >
+                                <p>View Request</p>
+                                <p>></p>
+                            </a>
+                    </div>
+                </div>
             </div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

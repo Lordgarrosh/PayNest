@@ -58,7 +58,7 @@
 </svg>
             <p>Employee</p>
             </a>
-            <a class="d-flex align-items-center gap-3 mt-4" href="">
+            <a class="d-flex align-items-center gap-3 mt-4" href="/EmployeeManager/settings">
                 <svg width="40" height="38" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect width="58" height="58" fill="url(#pattern0_13_28)"/>
 <defs>

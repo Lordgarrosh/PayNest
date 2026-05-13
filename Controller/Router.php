@@ -20,6 +20,9 @@ require __DIR__ . "/../Controller/ReportController.php";
                     RouteHandler::get('/dashboard', function () {
                          (new EmployeeManagerController())->userCurrentPage("Dashboard/dashboard");
                     });
+                    RouteHandler::get('/settings', function () {
+                         (new EmployeeManagerController())->userCurrentPage("User/settings");
+                    });
                   RouteHandler::get('/inventory', function () {
                          (new EmployeeManagerController())->inventoryForm();
                     });
