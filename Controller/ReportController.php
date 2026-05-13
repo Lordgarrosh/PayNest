@@ -126,6 +126,34 @@ FROM sales WHERE userID = :userID";
         echo json_encode($_SESSION['revenueSalesCategory']);
     }
 
+    public function timelineRevenue () {
+        $this->startSession();
+        $userDatas = $this->userProfile();
+        $this->database = new Database();
+        $this->conn = $this->database->connect();
+        $date = new DateTime();
+        $date->sub(new DateInterval('P1D')); // Subtract 1 day
+        $yesterday = $date->format('M/d/Y');
+        $today = date("M/d/Y");
+        $timelineSQL = "SELECT SUM(salesGrandAmount - (salesDiscountPrice + salesOriginalPrice) AS totalSales, salesDate FROM sales WHERE userID = :userID GROUP BY salesDate"
+        $timelineSTMT = $this->conn->prepare($timelineSQL);
+        $timelineSTMT = $this->bindValue(":userID", $userDatas['userID']);
+        $timelineSTMT->execute();
+        $_SESSION['revenueTimeline'] = [
+            "todayRevenue" => 0,
+            "yesterdayRevenue => 0
+        ]
+        while ($row = $timelineSTMT->fetch(PDO::FETCH_ASSOC)) {
+                if ($row['salesDate'] == $today) {
+                    $_SESSION['revenuTimeline']['todayRevenue'] = $row['totalSales'];
+                }
+                else if ($row['salesDate'] == $yesterday) {
+                    $_SESSION['revenueTimeLine']['yesterdayRevenue'] = $row['totalSales'];
+                }
+        }
+        echo json_encode($_SESSION['totalSales']);
+    }
+
 }
 
 ?>
