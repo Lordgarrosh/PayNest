@@ -136,7 +136,7 @@ FROM sales WHERE userID = :userID";
         $yesterday = $date->format('M/d/Y');
         $today = date("M/d/Y");
                 // $timelineSQL = "SELECT SUM(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS totalSales, AVG(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS avgsales, sales.salesDate, AVG(salesitem.salesQuantity) FROM sales INNER JOIN salesitem ON sales.salesID = salesitem.salesID WHERE sales.userID = :userID GROUP BY sales.salesDate;";
-        $timelineSQL = "SELECT SUM(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS totalSales, sales.salesDate, AVG(salesitem.salesQuantity) FROM sales INNER JOIN salesitem ON sales.salesID = salesitem.salesID WHERE sales.userID = :userID GROUP BY sales.salesDate;";
+        $timelineSQL = "SELECT SUM(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS totalSales, AVG(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS avgsales, sales.salesDate, SUM(salesitem.salesQuantity) AS totalOrders, AVG(salesitem.salesQuantity)AS totalQuantity FROM sales INNER JOIN salesitem ON sales.salesID = salesitem.salesID WHERE sales.userID = :userID GROUP BY sales.salesDate;";
         $timelineSTMT = $this->conn->prepare($timelineSQL);
         $timelineSTMT->bindValue(":userID", $userDatas['userID']);
         $timelineSTMT->execute();
@@ -157,8 +157,7 @@ FROM sales WHERE userID = :userID";
                 else if ($row['salesDate'] == $yesterday) {
                     $_SESSION['revenueTimeline']['yesterdayTotalRevenue'] = $row['salesDate'];
                     $_SESSION['revenueTimeline']['yesterdayTotalOrder'] = $row['totalSales'];
-                    $_SESSION['revenueTimeline']['yesterdayTotalRevenue'] = $row['salesDate'];
-                    $_SESSION['revenueTimeline']['yesterdayTotalOrder'] = $row['totalSales'];
+                    $_SESSION['revenueTimeline']['yesterdayAverageOrders'] = $row['salesDate'];
                 }
         }
         echo json_encode($_SESSION['revenueTimeline']);

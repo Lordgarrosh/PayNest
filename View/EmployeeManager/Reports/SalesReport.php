@@ -148,7 +148,7 @@
             type: "GET",
             dataType: "json",
             success: (event) => {
-                $("#totalRevenue").text("₱" + event.totalRevenue);
+                $("#totalRevenue").text("₱" + event.yesterdayTotalRevenue);
             }
         });
         
