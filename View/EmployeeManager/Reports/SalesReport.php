@@ -63,7 +63,7 @@
         </div>
       <div class="d-flex flex-column" style="width: 60%;">
         <p>Total Revenue</p>
-        <p>12,250</p>
+        <p id="totalRevenue" >12,250</p>
         <p>21% vs yesterday</p>
       </div>
     </div>
@@ -73,8 +73,8 @@
              <img src="/assets/dollar.png" width="30" height="30" alt="">
         </div>
       <div class="d-flex flex-column" style="width: 60%;">
-        <p>Total Revenue</p>
-        <p>12,250</p>
+        <p>Total Orders</p>
+        <p id="totalOrder">12,250</p>
         <p>21% vs yesterday</p>
       </div>
     </div>
@@ -84,11 +84,12 @@
              <img src="/assets/dollar.png" width="30" height="30" alt="">
         </div>
       <div class="d-flex flex-column" style="width: 60%;">
-        <p>Total Revenue</p>
-        <p>12,250</p>
+        <p>Average Order Value</p>
+        <p id="averageOrder">12,250</p>
         <p>21% vs yesterday</p>
       </div>
     </div>
+    
 </div>
 
 <div class="revenueOverview mt-5 p-3 d-flex gap-3" style="width: 100%;" >
@@ -120,6 +121,8 @@
         </div>
     </div>
 </div>
+
+
 <div class="d-flex gap-3" style="width: 100%;">
     <div class="containerShadow" style="width: 60%;">
             <h1 style="border-bottom: 2px solid black" >Top Selling Item Revenue</h1>
@@ -139,13 +142,24 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
     $(document).ready(function () {
+
+        $.ajax({
+            url: "/Report/TimelineRevenue",
+            type: "GET",
+            dataType: "json",
+            success: (event) => {
+                $("#totalRevenue").text("₱" + event.totalRevenue);
+            }
+        });
+        
+
         $.ajax({
             url: "/Report/computeCategoryRevenue", 
             type: "GET",
             dataType: "json",
             success: (result) => {
                 let totalRevenue = 0;
-                console.log(result);
+                // console.log(result);
                 let salesCategoryTotalValues = [];
                 let itemCategory = [];
                  $.each(result, (index, categoryRevenueSummary) => {
@@ -197,7 +211,7 @@ const centerTextPlugin = {
     },
      plugins: [centerTextPlugin]
   });
-console.log("Total Revenue= " + totalRevenue);
+// console.log("Total Revenue= " + totalRevenue);
             }
         });
     $.ajax({

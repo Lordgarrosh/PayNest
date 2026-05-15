@@ -56,8 +56,8 @@
                     
                         <div class="col employeeActions g-5 px-0">
                         <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
-                            <img src="../assets/userGroups.png" width="40" alt="asd" class="employeeIcon">
-                            <h3>Employee List</h3>
+                            <img src="../assets/roles.png" width="40" alt="asd" class="employeeIcon"  >
+                            <h3>User Role</h3>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">View and manage all employee records</p></div>
                             <a href="/EmployeeManager/employeeList" class="d-flex justify-content-center gap-5 redirectEmployee" >
@@ -68,8 +68,8 @@
 
                         <div class="col employeeActions g-5 px-0">
                         <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
-                            <img src="../assets/addEmployee.png" width="40" alt="asd" class="employeeIcon">
-                            <h3>Add Employee</h3>
+                            <img src="../assets/payrollSetting.png" width="40" alt="asd" class="employeeIcon">
+                            <h3>Payroll Setting</h3>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Add new employee and set up their profile</p></div>
                             <a href="/EmployeeManager/addEmployee" class="d-flex justify-content-center gap-5 redirectEmployee" >
@@ -84,7 +84,7 @@
                     <div class="col employeeActions g-5 px-0">
                         <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
                             <img src="../assets/roles.png" width="50" height="50" alt="asd" class="employeeIcon">
-                            <h3>Roles</h3>
+                            <h3>Inventory Setting</h3>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Manage User roles and permissions</p></div>
                             <a href="/EmployeeManager/employeeRoleManage" class="d-flex justify-content-center gap-5 redirectEmployee" >
@@ -96,7 +96,7 @@
                      <div class="col employeeActions g-5 px-0">
                         <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
                             <img src="../assets/payroll.png" width="40" alt="asd" class="employeeIcon">
-                            <h3>Payroll</h3>
+                            <h3>Company</h3>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Process and manage employee salaries and payments</p></div>
                             <a href="/EmployeeManager/payroll" class="d-flex justify-content-center gap-5 redirectEmployee" >
@@ -108,7 +108,7 @@
                      <div class="col employeeActions g-5 px-0">
                         <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
                             <img src="../assets/leaveRequest.png" width="40" alt="asd" class="employeeIcon">
-                            <h3>Leave Request</h3>
+                            <h3>POS Setting</h3>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Review and manage leave request</p></div>
                             <a href="/EmployeeManager/leaveRequest" class="d-flex justify-content-center gap-5 redirectEmployee" >
@@ -122,7 +122,7 @@
                     <div class="col employeeActions g-5 px-0">
                         <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
                             <img src="../assets/roles.png" width="50" height="50" alt="asd" class="employeeIcon">
-                            <h3>Roles</h3>
+                            <h3>Notification</h3>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Manage User roles and permissions</p></div>
                             <a href="/EmployeeManager/employeeRoleManage" class="d-flex justify-content-center gap-5 redirectEmployee" >
@@ -134,7 +134,7 @@
                      <div class="col employeeActions g-5 px-0">
                         <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
                             <img src="../assets/payroll.png" width="40" alt="asd" class="employeeIcon">
-                            <h3>Payroll</h3>
+                            <h3>Subscription</h3>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Process and manage employee salaries and payments</p></div>
                             <a href="/EmployeeManager/payroll" class="d-flex justify-content-center gap-5 redirectEmployee" >
@@ -146,7 +146,7 @@
                      <div class="col employeeActions g-5 px-0">
                         <div class="d-flex align-items-center gap-3 employeeTitle py-2 ps-3">
                             <img src="../assets/leaveRequest.png" width="40" alt="asd" class="employeeIcon">
-                            <h3>Leave Request</h3>
+                            <h3>Security & backup</h3>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mt-3"><p style="width: 80%;">Review and manage leave request</p></div>
                             <a href="/EmployeeManager/leaveRequest" class="d-flex justify-content-center gap-5 redirectEmployee" >
