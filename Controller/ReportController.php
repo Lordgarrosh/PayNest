@@ -132,11 +132,10 @@ FROM sales WHERE userID = :userID";
         $this->database = new Database();
         $this->conn = $this->database->connect();
         $date = new DateTime();
-        $date->sub(new DateInterval('P1M')); // Subtract 1 day
-        $yesterday = $date->format('M/d/Y');
-        $today = date("M/d/Y");
+     
+        $today = date("M");
                 // $timelineSQL = "SELECT SUM(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS totalSales, AVG(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS avgsales, sales.salesDate, AVG(salesitem.salesQuantity) FROM sales INNER JOIN salesitem ON sales.salesID = salesitem.salesID WHERE sales.userID = :userID GROUP BY sales.salesDate;";
-        $timelineSQL = "SELECT SUM(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS totalSales, AVG(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS avgsales, sales.salesDate, SUM(salesitem.salesQuantity) AS totalOrders, AVG(salesitem.salesQuantity)AS totalQuantity FROM sales INNER JOIN salesitem ON sales.salesID = salesitem.salesID WHERE sales.userID = :userID GROUP BY sales.salesDate;";
+        $timelineSQL = "SELECT SUM(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS totalSales, AVG(sales.salesGrandAmount - (sales.salesDiscountAmount + sales.salesOriginalPrice)) AS avgsales, sales.salesDate, SUM(salesitem.salesQuantity) AS totalQuantity, AVG(salesitem.salesQuantity)AS avgQuantity FROM sales INNER JOIN salesitem ON sales.salesID = salesitem.salesID WHERE sales.userID = :userID GROUP BY sales.salesDate;";
         $timelineSTMT = $this->conn->prepare($timelineSQL);
         $timelineSTMT->bindValue(":userID", $userDatas['userID']);
         $timelineSTMT->execute();
@@ -146,20 +145,40 @@ FROM sales WHERE userID = :userID";
             "todayAverageOrder" => 0,
             "yesterdayTotalRevenue" => 0,
             "yesterdayTotalOrder" => 0,
-            "yesterdayAverageOrders" => 0
+            "yesterdayAverageOrders" => 0,
+            "yesterdayYear" => "",
+            "todayYear" => "",
+   
         ];
-        while ($row = $timelineSTMT->fetch(PDO::FETCH_ASSOC)) {
-                if ($row['salesDate'] == $today) {
-                    $_SESSION['revenueTimeline']['todayTotalRevenue'] = $row['totalSales'];
-                    $_SESSION['revenueTimeline']['todayTotalOrders'] = $row['salesDate'];
-                    $_SESSION['revenueTimeline']['todayAverageOrder'] = $row['salesDate'];
-                }
-                else if ($row['salesDate'] == $yesterday) {
-                    $_SESSION['revenueTimeline']['yesterdayTotalRevenue'] = $row['salesDate'];
-                    $_SESSION['revenueTimeline']['yesterdayTotalOrder'] = $row['totalSales'];
-                    $_SESSION['revenueTimeline']['yesterdayAverageOrders'] = $row['salesDate'];
-                }
-        }
+   while ($row = $timelineSTMT->fetch(PDO::FETCH_ASSOC)) {
+$dateObject = DateTime::createFromFormat('M/d/Y', $row['salesDate']);
+
+if ($dateObject) {
+    $rowMonth = $dateObject->format('M/Y');
+}
+
+    $currentMonth = date("M/Y");
+    $lastMonth = date("M/Y", strtotime("-1 month"));
+
+    $_SESSION['revenueTimeline']['todayYear'] = $rowMonth;
+    $_SESSION['revenueTimeline']['test'] = $lastMonth;
+
+    if ($rowMonth == $currentMonth) {
+
+        $_SESSION['revenueTimeline']['todayTotalRevenue'] += $row['totalSales'];
+        $_SESSION['revenueTimeline']['todayTotalOrders'] += $row['totalQuantity'];
+        $_SESSION['revenueTimeline']['todayAverageOrder'] += $row['avgQuantity'];
+
+    }
+    else if ($rowMonth == $lastMonth) {
+
+        $_SESSION['revenueTimeline']['yesterdayTotalRevenue'] += $row['totalSales'];
+        $_SESSION['revenueTimeline']['yesterdayTotalOrder'] += $row['totalQuantity'];
+        $_SESSION['revenueTimeline']['yesterdayAverageOrders'] += $row['avgQuantity'];
+        $_SESSION['revenueTimeline']['yesterdayYear'] = $rowMonth;
+
+    }
+}
         echo json_encode($_SESSION['revenueTimeline']);
     }
 

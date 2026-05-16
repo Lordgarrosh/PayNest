@@ -15,7 +15,28 @@
 <div style="width: 100%;" class="d-flex justify-content-center" >
      <!-- Login part -->
 <div class="login-box p-5 rounded-start ">
-    <h2 class="text-center mb-4 namdhinggo-regular"  >PayNest</h2>
+    <h2 class="text-center namdhinggo-regular m-0"  >PayNest</h2>
+    <p class="text-success d-flex justify-content-center mb-4">Welcome back! Please sign in to your account.</p>
+    <p class="d-flex justify-content-center mb-3">Sign up as</p>
+    <div class="d-flex gap-4">
+      <button style="background: none; border: none;" >
+           <div class="d-flex containerShadow gap-5 justify-content-center align-items-center py-2 px-2">
+        <img src="/assets/Vector.png" alt="d" width="35" >
+        <h5>Admin</h5>
+      </div>
+      </button>
+    <button style="background: none; border: none;" >
+            <div class="d-flex containerShadow gap-5 justify-content-center align-items-center py-2 px-2">
+        <img src="/assets/employeeGroup.png" alt="d" width="35" >
+        <h5>Employee</h5>
+      </div>
+    </button>
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+      <hr style="width: 50%;" >
+      <p class="m-0" >Or</p>
+      <hr style="width: 50%;">
+    </div>
    <form action="/login" method="POST" enctype="multipart/form-data">
          <div class="mb-3">
           <label for="email" class="form-label">Email or Username</label>
@@ -28,7 +49,7 @@
         </div>
 
         <div class="d-grid mb-3">
-          <button type="submit" name="submitLogin" class="btn btn-info fw-bold text-dark">Login</button>
+          <button type="submit" name="submitLogin" style="background-color: #2E7906; color: white;" class="btn fw-bold">Login</button>
         </div>
         <div class="d-flex gap-3 align-items-center justify-content-center">
           <a href="/register" style="margin: 0; color: black; " >Don't have an account?</a>

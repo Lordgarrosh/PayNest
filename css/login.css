@@ -8,14 +8,14 @@ body {
 }
 
 .login-box {
-    background-color: #9ad872;
+    background-color: white;
+    box-shadow: 0 3pt 3pt rgb(0, 0, 0, 0.5);
     color: black;
-    width: 30%;
+     width: 30%;
 }
 
 .login-field {
-    box-shadow: 1px 1px 7px 7px rgb(0, 0, 0, 0.2) !important;
-    border: solid rgba(0, 0, 0) 3px;
+    box-shadow: 0 2pt 1pt 0 rgb(0, 0, 0, 0.3) !important;
     font-size: 1em;
 }
 
@@ -29,4 +29,8 @@ body {
   font-weight: 400;
   font-style: normal;
   font-size: 2cm !important;
+}
+
+.containerShadow {
+    box-shadow: 1pt 2pt 3pt rgb(0, 0, 0, 0.5);
 }

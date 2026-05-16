@@ -64,7 +64,7 @@
       <div class="d-flex flex-column" style="width: 60%;">
         <p>Total Revenue</p>
         <p id="totalRevenue" >12,250</p>
-        <p>21% vs yesterday</p>
+        <p id="totalRevenueComparison" >21% vs yesterday</p>
       </div>
     </div>
 
@@ -75,7 +75,7 @@
       <div class="d-flex flex-column" style="width: 60%;">
         <p>Total Orders</p>
         <p id="totalOrder">12,250</p>
-        <p>21% vs yesterday</p>
+        <p id="totalOrderComparison" >21% vs yesterday</p>
       </div>
     </div>
 
@@ -86,7 +86,7 @@
       <div class="d-flex flex-column" style="width: 60%;">
         <p>Average Order Value</p>
         <p id="averageOrder">12,250</p>
-        <p>21% vs yesterday</p>
+        <p id="averageOrderComparison" >21% vs yesterday</p>
       </div>
     </div>
     
@@ -126,6 +126,14 @@
 <div class="d-flex gap-3" style="width: 100%;">
     <div class="containerShadow" style="width: 60%;">
             <h1 style="border-bottom: 2px solid black" >Top Selling Item Revenue</h1>
+            <div class="row text-center border-bottom py-2 mx-0">
+    <div class="col fw-bold">Item Name</div>
+    <div class="col">Item Category</div>
+    <div class="col">Item Quantity</div>
+    <div class="col text-success">
+        Item Revenue
+    </div>
+</div>
     <div id="topSellingItemContainer"></div>
     </div>
     <div class="containerShadow" style="width: 40%;" >
@@ -151,7 +159,11 @@
             console.log(event);
                 $("#totalRevenue").text("₱" + event.todayTotalRevenue);
                   $("#totalOrder").text("₱" + event.todayTotalOrders);
-                    $("#averageOrder").text("₱" + event.todayAverageOrder);
+                   $("#averageOrder").text(`₱${parseFloat(event.todayAverageOrder).toFixed(2)}`);
+                   $("#totalRevenueComparison").text(`${parseFloat(((event.todayTotalRevenue - event.yesterdayTotalRevenue) / Math.abs(event.yesterdayTotalRevenue)) * 100).toFixed(2)}% vs yesterday`); 
+                  $("#totalOrderComparison").text(`${parseFloat(((event.todayTotalOrders - event.yesterdayTotalOrder) / Math.abs(event.yesterdayTotalOrder)) * 100).toFixed(2)}% vs yesterday`); 
+                     $("#averageOrderComparison ").text(`${parseFloat(((event.todayAverageOrder - event.yesterdayAverageOrders) / Math.abs(event.yesterdayAverageOrders)) * 100).toFixed(2)}% vs yesterday`); 
+                
             }
         });
         
@@ -175,20 +187,39 @@
                               const ctx = document.getElementById('revenueCategorySales');
 const centerTextPlugin = {
     id: 'centerText',
+
     afterDatasetsDraw(chart, args, options) {
+
         const { ctx } = chart;
-        const { text, color, font } = options;
 
         ctx.save();
+
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.font = font || 'bold 24px sans-serif';
-        ctx.fillStyle = color || '#000';
+        ctx.fillStyle = options.color || '#000';
 
-        const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
-        const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
+        const centerX =
+            (chart.chartArea.left + chart.chartArea.right) / 2;
 
-        ctx.fillText(text, x, y);
+        const centerY =
+            (chart.chartArea.top + chart.chartArea.bottom) / 2;
+
+        const lines = options.text.split('\n');
+
+        lines.forEach((line, index) => {
+
+            ctx.font =
+                index === 0
+                ? 'bold 1em Arial'
+                : 'bold 1em Arial';
+
+            ctx.fillText(
+                line,
+                centerX,
+                centerY + (index * 25) - 12
+            );
+        });
+
         ctx.restore();
     }
 };
@@ -206,9 +237,9 @@ const centerTextPlugin = {
             plugins: {
 
             centerText: {
-                text:  "₱" + totalRevenue,
+                text:  "Total \n₱" + totalRevenue.toFixed(2),
                 color: 'black',
-                font: 'bold 24px Arial'
+                font: 'bold 1em Arial'
             }
             }
     },
@@ -225,7 +256,7 @@ const centerTextPlugin = {
         let html = "";
         $.each(result, (index, itemRevenueSummary) => {
            
-            html+= `<div class="row text-center border-bottom py-2">
+            html+= `<div class="row text-center border-bottom py-2 mx-0">
     <div class="col fw-bold">${itemRevenueSummary.itemName}</div>
     <div class="col">${itemRevenueSummary.itemCategory}</div>
     <div class="col">${itemRevenueSummary.totalQuantity}</div>
