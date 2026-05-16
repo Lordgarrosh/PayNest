@@ -4,7 +4,8 @@ main {
 }
 
 .registerContainer {
-     background-color: #9ad872;
+     background-color: white;
+     box-shadow: 1pt 2pt 3pt rgb(0, 0, 0, 0.5);
      width: 80%;
 }
 
@@ -19,4 +20,12 @@ main {
 
 label {
     font-weight: 700;   
+}
+
+.registrationStep {
+    font-size: 2em;
+    color: white;
+    width: 100%;
+    border-radius: 50%;
+
 }

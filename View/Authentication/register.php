@@ -55,21 +55,24 @@
   <div class="registerContainer px-5 py-5" >
         <div class="title pb-5">
 <h1 class="text-center namdhinggo-regular" >PayNest<h1>
+  <p class="text-success text-center" style="font-size: 50%;" >Create your admin account</p>
+</div>
+<div class="d-flex justify-content-center">
+  <div>
+    <div class="registrationStep d-flex justify-content-center align-items-center" style="background-color: #2E7906;" ><p class="m-0" >1</p></div>
+    <p>AccountInformation</p>
+  </div>
+  <hr style="width: 50%;" >
+   <div>
+    <div class="registrationStep d-flex justify-content-center align-items-center" style="background-color: #2E7906;" ><p class="m-0" >1</p></div>
+    <p>AccountInformation</p>
+  </div>
 </div>
 <form action="/register" method="POST" enctype="multipart/form-data">
 
 
 <!-- <div class="d-flex"> -->
   <div class="d-flex gap-5">
-    <div style="width: 30%;">
-<div class="prof-image-container d-flex pb-5">
- <label for="imageInput" class="image-upload-container">
-      <span class="image-upload-label">Click to upload image</span>
-      <img id="imagePreview" alt="Image Preview">
-      <input type="file" id="imageInput" name="profPic" accept="image/*">
-    </label>
-</div>
-   </div>
    <div style="width: 70%;">
 <div class="row mb-1">
     
@@ -79,21 +82,12 @@
     </div>
 
     <div class="col-md-4">
-        <label for="mname" >Middle Name</label>
-        <input type="text" name="mname" id="mname" class="form-control" placeholder="Enter your Middle Name">
-    </div>
-
-    <div class="col-md-4">
         <label for="lname" >Last Name</label>
         <input type="text" name="lname" id="lname" class="form-control" placeholder="Enter your Last Name">
     </div>
 </div>
 <div class="col">
   
-         <div class="col py-2">
-       <label for="number" >Number</label>
-        <input type="number" name="number" id="number" class="form-control" placeholder="Enter your Number  ">
-        </div>
     <div class="col py-2">
        <label for="email" >Email</label>
         <input type="text" name="email" id="email" class="form-control" placeholder="Enter your Email">
