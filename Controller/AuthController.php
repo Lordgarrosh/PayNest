@@ -1,8 +1,17 @@
 <?php
 
 require_once 'Controller.php';
+
+
+// Create instance
+
+require_once 'Controller.php';
  class AuthController extends Controller {
     
+
+ public function otpForm () {
+    $this->view('/Authentication/otp');
+ }
 public function loginForm () {
     $this->view('/Authentication/login');
 }

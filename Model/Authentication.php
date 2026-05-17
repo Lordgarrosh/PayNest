@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . "/../Users/Users.php";
 require_once __DIR__ . "/../Model/UsersManager.php";
+require_once __DIR__ . '/../vendor/autoload.php';
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 class Authentication extends Users {
     private $uservalidation = "Not Validated";
     private $messageReport = "";
@@ -84,32 +90,20 @@ public function extractUserData () {
         public function registerValidation() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             
-            if (empty($_POST['fname']) || empty($_POST['mname']) || empty($_POST) || empty($_POST['lname']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['number']) || empty($_FILES['profPic'])) {
+            if (empty($_POST['fname']) || empty($_POST) || empty($_POST['lname']) || empty($_POST['email']) || empty($_POST['password'])) {
             
             $this->setMessageReport("PLease fill up all the data");
           
             }
             else {
-                if (isset($_POST['fname']) || isset($_POST['mname']) || isset($_POST) || isset($_POST['lname']) || isset($_POST['email']) || isset($_POST['password']) ||isset($_POST['number']) || isset($_FILES['profPic']))  {
+                if (isset($_POST['fname']) || isset($_POST) || isset($_POST['lname']) || isset($_POST['email']) || isset($_POST['password']))  {
                    
                          $fname = $_POST['fname'];
-$mname = $_POST['mname'];
 $lname = $_POST['lname'];
 $email = $_POST['email'];
 $password = $_POST['password'];
-	$img_name = $_FILES['profPic']['name'];       //getting image name
-			$img_typ = $_FILES['profPic']['type'];            //getting image name
-			$tmp_name = $_FILES['profPic']['tmp_name'];   //set temporary name
-			$img_explode = explode('.', $img_name);   // let's Explode Image
-			$img_extension = end($img_explode);
-			$extensions = ['png', 'jpeg', 'jpg'];       //these are some valid extensions
-      $time = time();
-      $profPic = $time . $img_name;
-
-$number = $_POST['number'];
-if (move_uploaded_file($tmp_name,__DIR__ . "/../ProfilePic/" . $profPic)) {
       $otp =  mt_rand(111111,999999);
-$userRegistration = UsersManager::userRegister($email, $password, $fname, $mname, $lname, $profPic, $number);
+$userRegistration = UsersManager::userRegister($email, $password, $fname, $lname);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
               $this->setMessageReport("Please enter a proper email format");
           
@@ -122,24 +116,45 @@ $userRegistration = UsersManager::userRegister($email, $password, $fname, $mname
              $this->setMessageReport("Email already exist");
           
         }
-        else if(!in_array($img_extension, $extensions)) {
-            $this->setMessageReport("Wrong image extension please try again");
-        }
         else {
-          $isRegistered =   $userRegistration->createUser();
+         
+$mail = new PHPMailer(true);
+
+try {
+    //Server settings
+
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'akirahinata498@gmail.com';                     //SMTP username
+    $mail->Password   = 'ezac ikkz kayw json';                               //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('akirahinata498@gmail.com', 'paynest');
+    $mail->addAddress($email, $fname . " " . $lname);     //Add a recipient
+    $mail->addReplyTo('info@example.com', 'Information');
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'OTP Verification';
+    $mail->Body    = 'Here is your otp verification <b>' . $otp . '</b>';
+
+    $mail->send();
+     $isRegistered =   $userRegistration->createUser();
           $this->setUserValidation(($isRegistered) ? "Validated" : "Not Validated");
             $this->setMessageReport("Registration success");
                     if (session_status() === PHP_SESSION_NONE) {
                    
     session_start();
 }
+} catch (Exception $e) {
+     $this->setMessageReport("Email dont exist");
+}
         $_SESSION['email'] = $userRegistration->getEmail();    
         $_SESSION['password'] = $userRegistration->getPassword();
         }
-}
-else {
-      $this->setMessageReport("Registration Failed Successfully");
-}
                 }
             }
         }

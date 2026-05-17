@@ -51,59 +51,67 @@
 <body>
 
 
-<main class="px-5 mt-5 d-flex justify-content-center" >
-  <div class="registerContainer px-5 py-5" >
+<main class="px-5 d-flex justify-content-center align-items-center" style="height: 100%; position: absolute;" >
+  <div class="registerContainer px-5 py-5" style="width: 40%;" >
         <div class="title pb-5">
 <h1 class="text-center namdhinggo-regular" >PayNest<h1>
   <p class="text-success text-center" style="font-size: 50%;" >Create your admin account</p>
 </div>
-<div class="d-flex justify-content-center">
-  <div>
-    <div class="registrationStep d-flex justify-content-center align-items-center" style="background-color: #2E7906;" ><p class="m-0" >1</p></div>
-    <p>AccountInformation</p>
-  </div>
-  <hr style="width: 50%;" >
-   <div>
-    <div class="registrationStep d-flex justify-content-center align-items-center" style="background-color: #2E7906;" ><p class="m-0" >1</p></div>
-    <p>AccountInformation</p>
-  </div>
+<div class="d-flex align-items-center justify-content-center mb-5">
+
+    <div class="text-center" style="width: 50%;" >
+        <div class="circleContainer">
+            <p class="m-0 registrationStep">1</p>
+        </div>
+        <p>Account Information</p>
+    </div>
+
+    <hr class="stepLine" style="width: 50%;" >
+
+    <div class="text-center" style="width: 50%;" >
+        <div class="circleContainer">
+            <p class="m-0 registrationStep">2</p>
+        </div>
+        <p>Verification</p>
+    </div>
+
 </div>
 <form action="/register" method="POST" enctype="multipart/form-data">
 
 
 <!-- <div class="d-flex"> -->
   <div class="d-flex gap-5">
-   <div style="width: 70%;">
-<div class="row mb-1">
+   <div style="width: 100%;">
+<div class="d-flex gap-2 mb-4"  >
     
-    <div class="col-md-4">
+    <div style="width: 50%;" class="d-flex flex-column" >
         <label for="fname"   >First Name</label>
-        <input type="text" name="fname" id="fname" class="form-control" placeholder="Enter your First Name">
+        <input type="text" name="fname" id="fname" class="userInput" placeholder="Enter your First Name">
     </div>
 
-    <div class="col-md-4">
+    <div style="width: 50%;" class="d-flex flex-column"  class="">
         <label for="lname" >Last Name</label>
-        <input type="text" name="lname" id="lname" class="form-control" placeholder="Enter your Last Name">
+        <input type="text" name="lname" id="lname" class="userInput" placeholder="Enter your Last Name">
     </div>
 </div>
-<div class="col">
+<div class="">
   
-    <div class="col py-2">
+    <div class="py-2 d-flex flex-column mb-4">
        <label for="email" >Email</label>
-        <input type="text" name="email" id="email" class="form-control" placeholder="Enter your Email">
+        <input type="text" name="email" id="email" class="userInput" placeholder="Enter your Email">
         </div>
-      <div class="col pb-4">
+      <div class="d-flex flex-column pb-4 mb-4"  >
   <label for="password" >Password</label>
   <div class="input-group">
-    <input type="password" id="password" class="form-control" name="password" placeholder="Enter Password">
-    <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
+    <input style="width: 90%;" type="password" id="password" class="userInput" name="password" placeholder="Enter Password">
+    <span class="input-group-text userInput" id="togglePassword" style="cursor: pointer; width: 10%;">
       <i class="fas fa-eye-slash"></i>
     </span>
   </div>
 </div>
 </div>
 <div class="d-flex flex-column align-items-center gap-3" >
-  <input type="submit" name="submit" value="Register" style="background-color: #ffa02e; width:  20%; height: 1cm;" class="btn register">
+  <input type="submit" name="submit" value="Continue" style="background-color: #2E7906; color: white; width:  100%; height: 1cm;" class="btn register">
 
 <a href="/login" style="color: black;" >Already have an account?</a>
         </div>
@@ -182,7 +190,7 @@
                 title: 'Registration success',
                 text: '<?= $messageReport ?>'
             }).then(() => {
-              window.location.href = "/EmployeeManager/dashboard";
+              window.location.href = "/otpVerification";
             });
         </script>
 

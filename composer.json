@@ -1,0 +1,17 @@
+{
+    "name": "paynest/inventory-system",
+    "autoload": {
+        "psr-4": {
+            "Paynest\\InventorySystem\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "akirahinata498",
+            "email": "akirahinata498@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^7.1"
+    }
+}

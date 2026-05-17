@@ -1,0 +1,41 @@
+body {
+        margin: 0;
+    height: 100vh;
+    background: url('../assets/system-bg.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+.otpContainer {
+    box-shadow: 1pt 2pt 3pt rgb(0, 0, 0, 0.5);
+    width: 40%;
+    height: 60%;
+    border-radius: 1em;
+}
+
+.otp-field {
+    width: 13%;
+    height: 2cm;
+    border-radius: 1em;
+    border: 3pt solid gray;
+    font-size: 1cm;
+    text-align: center;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.errorField {
+    background-color: rgb(255, 69, 69);
+    width: 90%;
+    border: 5pt solid rgb(181, 1, 1);
+    color: white;
+}
