@@ -161,6 +161,30 @@ try {
         return ['userValidation' => $this->getUserValidation(), 'messageReport' => $this->getMessageReport()];
     }
 
+
+    public function verifyOTP () {
+         if (session_status() === PHP_SESSION_NONE) {    
+    session_start();
+}
+            $this->userValidation("Not Verified");
+            $email = $_SESSION['email'];
+            $otpSaved = $_SESSION['otp'];
+            $otp1 = $_POST['otp1'];
+            $otp2 = $_POST['otp2'];
+            $otp3 = $_POST['otp3'];
+            $otp4 = $_POST['otp4'];
+            $otp5 = $_POST['otp5'];
+            $otp6 = $_POST['otp6'];
+            $otpInput = $otp1 . $otp2 . $otp3 . $otp4 . $otp5 . $otp6;
+            if ($userInput == $otpSaved) {
+                    $this->messageReport("OTP Verified");
+                    $this->setUserValidation("Verified");
+            }
+            else {
+                    
+            }
+    }
+
 }
 
 ?>
