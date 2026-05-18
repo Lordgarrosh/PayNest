@@ -19,6 +19,13 @@ public function registerForm () {
     $this->view('/Authentication/register');
 }
 
+public function otpVerification() {
+$authentication = $this->model('/Authentication');
+ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitOTP']) {
+  
+  }
+}
+
 public function registerData () {
   $role = isset($_GET['r']) ? $_GET['r'] : 'null';
    $authenticate =  $this->model("/Authentication");
