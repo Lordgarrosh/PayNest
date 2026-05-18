@@ -13,7 +13,8 @@ require __DIR__ . "/../Controller/ReportController.php";
     RouteHandler::get('/register', [new AuthController(), 'registerForm']);
     RouteHandler::post('/register', [new AuthController(), 'registerData']);
     RouteHandler::post('/login', [new AuthController(), 'loginUser']);
-                         RouteHandler::get('/otp', [new AuthController(), 'otpForm']);
+                         RouteHandler::get('/otpVerification', [new AuthController(), 'otpForm']);
+                          RouteHandler::post('/otpVerification', [new AuthController(), 'otpVerification']);
         RouteHandler::group(['prefix' => '/EmployeeManager'], function() {
             
 

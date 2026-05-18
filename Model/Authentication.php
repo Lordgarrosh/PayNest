@@ -39,28 +39,29 @@ class Authentication extends Users {
 
  public function authLogin() {
            
-    $queryValue =  "email = :email AND password = :password";
+    $queryValue =  "email = :email";
     $loginQuery = "SELECT * FROM userinfo WHERE $queryValue";
     $stmt = $this->conn->prepare($loginQuery);
     $stmt->bindValue(":email", $this->getEmail());
-    $stmt->bindValue(":password", $this->getPassword());
     $stmt->execute();
-
+echo "<script>alert('" . $this->getPassword() . "')</script>";
     // Fetch the full row only once
     $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($userData) {
+    if ($userData && password_verify($this->getPassword(), $userData['Password'])) {
         // if (session_status() === PHP_SESSION_NONE) {
         //     session_start();
         // }
         $this->setUserValidation("Validated");
-    
-                if (session_status() === PHP_SESSION_NONE) {    
-    session_start();
-}
-
-        $_SESSION['email'] = $userData['Email'];
-        $_SESSION['password'] = $userData['Password'];
+          $otp =  mt_rand(111111,999999);
+ $this->sendOTP(
+            $this->getEmail(),
+            $userData['FirstName'],
+            $userData['LastName'],
+            $otp,
+            $this->getPassword(),
+            "login"
+        );  
      
 
         // echo "<script>alert('Username: " . $userData['username'] . "')</script>";
@@ -103,7 +104,7 @@ $lname = $_POST['lname'];
 $email = $_POST['email'];
 $password = $_POST['password'];
       $otp =  mt_rand(111111,999999);
-$userRegistration = UsersManager::userRegister($email, $password, $fname, $lname);
+$userRegistration = UsersManager::userRegister($email, $password, $fname, $lname, $otp);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
               $this->setMessageReport("Please enter a proper email format");
           
@@ -118,7 +119,26 @@ $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname
         }
         else {
          
-$mail = new PHPMailer(true);
+        $this->sendOTP(
+            $userRegistration->getEmail(),
+            $userRegistration->getFname(),
+            $userRegistration->getLname(),
+            $userRegistration->getOTP(),
+            $userRegistration->getPassword(),
+            "registration"
+        );
+                  $this->setUserValidation("Validated");
+            $this->setMessageReport("Registration success");
+
+        }
+                }
+            }
+        }
+        return ['userValidation' => $this->getUserValidation(), 'messageReport' => $this->getMessageReport()];
+    }
+
+    public function sendOTP($email, $fname, $lname, $otp, $password, $otpPurpose) {
+        $mail = new PHPMailer(true);
 
 try {
     //Server settings
@@ -141,34 +161,35 @@ try {
     $mail->Subject = 'OTP Verification';
     $mail->Body    = 'Here is your otp verification <b>' . $otp . '</b>';
 
-    $mail->send();
-     $isRegistered =   $userRegistration->createUser();
-          $this->setUserValidation(($isRegistered) ? "Validated" : "Not Validated");
-            $this->setMessageReport("Registration success");
-                    if (session_status() === PHP_SESSION_NONE) {
+    $mail->send(); 
+                        if (session_status() === PHP_SESSION_NONE) {
                    
     session_start();
-}
+                    }
+       $_SESSION['userInfo'] = [
+            "email" => $email,
+            "password" => $password,
+            "fname" =>  $fname,
+            "lname" => $lname,
+            "otp" => $otp,
+            "otpPurpose" => $otpPurpose
+        ];
 } catch (Exception $e) {
      $this->setMessageReport("Email dont exist");
 }
-        $_SESSION['email'] = $userRegistration->getEmail();    
-        $_SESSION['password'] = $userRegistration->getPassword();
-        }
-                }
-            }
-        }
-        return ['userValidation' => $this->getUserValidation(), 'messageReport' => $this->getMessageReport()];
     }
 
 
     public function verifyOTP () {
-         if (session_status() === PHP_SESSION_NONE) {    
-    session_start();
-}
-            $this->userValidation("Not Verified");
-            $email = $_SESSION['email'];
-            $otpSaved = $_SESSION['otp'];
+        $this->startSession();
+            $this->setUserValidation("Not Validated");
+            $userInfo = $_SESSION['userInfo'];
+            $email = $userInfo['email'];
+            $password = $userInfo['password'];
+            $fname = $userInfo['fname'];
+            $lname = $userInfo['lname'];
+            $otpSaved = $userInfo['otp'];
+            $otpPurpose = $userInfo['otpPurpose'];
             $otp1 = $_POST['otp1'];
             $otp2 = $_POST['otp2'];
             $otp3 = $_POST['otp3'];
@@ -176,13 +197,31 @@ try {
             $otp5 = $_POST['otp5'];
             $otp6 = $_POST['otp6'];
             $otpInput = $otp1 . $otp2 . $otp3 . $otp4 . $otp5 . $otp6;
-            if ($userInput == $otpSaved) {
-                    $this->messageReport("OTP Verified");
-                    $this->setUserValidation("Verified");
+            if ($otpInput == $otpSaved) {
+                    $this->setMessageReport("OTP Verified");
+                    $this->setUserValidation("Validated");
+                    if ($otpPurpose == "registration") {
+                    $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname, $otpInput);
+                    $userRegistration->createUser();
+                    }
             }
             else {
-                    
+                    $this->setMessageReport("OTP Incorrect, Please try again");
+                    $this->setUserValidation("Not Validated");
             }
+            return [
+                "messageReport" => $this->getMessageReport(),
+                "userValidation" => $this->getUserValidation()
+            ];
+    }
+
+
+    public function startSession() {
+ if (session_status() === PHP_SESSION_NONE) {    
+    session_start();
+}
+
+
     }
 
 }

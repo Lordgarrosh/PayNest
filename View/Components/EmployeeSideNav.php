@@ -1,6 +1,15 @@
 <div class="sidenav">
     <div class="userContainer mt-5 d-flex flex-column align-items-center">
-        <img src="<?php echo "/ProfilePic/". $userDatas['profPic'] ?>" alt="ad" class="userProfile">
+     <button id="updateProfPic" style="background: none; border: none;  border-radius: 50%; " >
+         <img src="<?php 
+        if (empty($userDatas['profPic'])) {
+            echo "/ProfilePic/". $userDatas['profPic'] ;
+        }
+        else echo "/assets/noProfile.png";
+        ?>
+        
+        " alt="ad" class="userProfile">
+     </button>  
         <h2 class="mt-4" ><?= $userDatas['fname'] . " " . $userDatas['lname']  ?></h2>
         <p><?= $userDatas['email'] ?></p>
     </div>

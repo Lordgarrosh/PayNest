@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitLogin']) ) {
                 title: 'Registration Success',
                 text: '<?= $messageReport ?>'
             }).then(() => {
-              window.location.href = "/EmployeeManager/dashboard";
+              window.location.href = "/otpVerification";
             });
     </script>
       <?php

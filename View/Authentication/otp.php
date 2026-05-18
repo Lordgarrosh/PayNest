@@ -22,11 +22,9 @@
 <div class="otpContainer p-2 d-flex flex-column align-items-center" >
     <h1>Verify your account</h1>
     <p>The verification code has been sent to your email</p>
-    <p>example@gmail.com</p>
-    <div class="my-3 mb-5 errorField d-flex justify-content-center align-items-center">
-        <p class="m-0" >Error Test</p>
-    </div>
-    <form action="" method="post">
+    <p class="mb-5" >example@gmail.com</p>
+  
+    <form action="/otpVerification" method="POST">
             <div class="d-flex gap-4 justify-content-center mb-5" style="width: 100%;" >
 <input type="text" inputmode="numeric" placeholder="0" pattern="[0-9]*" maxlength="1" name="otp1" class="otp-field" required>
 <input type="text" inputmode="numeric" placeholder="0" pattern="[0-9]*" maxlength="1" name="otp2" class="otp-field" required>
@@ -36,7 +34,7 @@
 <input type="text" inputmode="numeric" placeholder="0" pattern="[0-9]*" maxlength="1" name="otp6" class="otp-field" required>
     </div>
     <div class="mb-5 d-flex justify-content-center" >
-        <button class="btn btn-primary">Submit</button>
+        <button name="submitOTP" class="btn btn-primary">Submit</button>
     </div>
     </form>
 
@@ -50,3 +48,31 @@
 </html>
 
 
+<?php
+
+if (!empty($messageReport) && !empty($userValidation)) {
+    if ($userValidation == "Not Validated") {
+        echo "  <script>
+ 
+            Swal.fire({
+                icon: 'error',
+                title: 'Registration Failed',
+                text: ' $messageReport '
+            });
+        </script>";
+    }
+    else if ($userValidation == "Validated") {
+        echo "   <script>
+
+        Swal.fire({
+                icon: 'success',
+                title: 'Registration success',
+                text: '$messageReport'
+            }).then(() => {
+              window.location.href = '/EmployeeManager/dashboard';
+            });
+        </script>";
+    }
+}
+
+?>

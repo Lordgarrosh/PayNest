@@ -36,6 +36,6 @@ input[type="number"] {
 .errorField {
     background-color: rgb(255, 69, 69);
     width: 90%;
-    border: 5pt solid rgb(181, 1, 1);
+    border: 5pt solid rgb(181, 1, 1); 
     color: white;
 }

@@ -2,13 +2,14 @@
 require_once __DIR__ . "/../Users/Users.php";
 require_once __DIR__ ."/../Model/Database.php";
 class UsersManager extends Users{
-public static function userRegister($email, $password, $fname, $lname) {
+public static function userRegister($email, $password, $fname, $lname, $otp) {
     $instance = new self();
         $instance->setConn();
     $instance->setEmail($email);
     $instance->setPassword($password);
     $instance->setFname($fname);
     $instance->setLname($lname);
+    $instance->setOTP($otp);
     // $instance->setVerificationStatus($verification_status);
     // $instance->setOTP($otp);
     return $instance;
@@ -22,7 +23,7 @@ public function createUser() {
         // $this->conn = $this->database->connect();
         $stmt = $this->conn->prepare("INSERT INTO userinfo (Email, Password, FirstName, LastName) VALUES (:email, :password, :fname, :lname)");
         $stmt->bindValue(':email', $this->getEmail());
-        $stmt->bindValue(':password', $this->getPassword());
+        $stmt->bindValue(':password', password_hash($this->getPassword(), PASSWORD_DEFAULT));
         $stmt->bindValue('fname', $this->getFname());
         $stmt->bindValue(':lname', $this->getLname());
         // $stmt->bindValue(':verification_status', $this->getVerificationStatus());

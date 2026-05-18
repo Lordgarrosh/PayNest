@@ -9,7 +9,7 @@ class Users {
     private String $lname;
     private String $profPic;
     // private String $verification_status;
-    // private String $otp;
+    private String $otp;
     private String $number;
 protected $conn;
 protected Database $database;
@@ -72,9 +72,9 @@ $this->number = $number;
     //     return $this->verification_status;
     // }
 
-    // public function getOTP() {
-    //     return $this->otp;
-    // }
+    public function getOTP() {
+        return $this->otp;
+    }
 
     public function setUserID($userID) {
         $this->userID = $userID;
@@ -85,7 +85,7 @@ $this->number = $number;
     }
 
     public function setPassword($password) {
-        $this->password = hash('sha256', $password);
+        $this->password = $password;
     }
 
     public function setFname($fname) {
@@ -114,9 +114,9 @@ $this->number = $number;
     //     $this->verification_status = $verification_status;
     // }
 
-    // public function setOTP ($otp) {
-    //     $this->otp = $otp;
-    // }
+    public function setOTP ($otp) {
+        $this->otp = $otp;
+    }
 
     protected function setConn() {
     $this->database = new Database();

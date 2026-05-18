@@ -419,6 +419,7 @@ class EmployeeManagerController extends Controller {
         $userData = $this->userProfile();
         $this->database = new Database();
         $this->conn = $this->database->connect();
+     
         $userQuery = "SELECT userSubscriptionID, userID, subscriptionPlan FROM userSubscription WHERE userID = :userID";
         $stmt = $this->conn->prepare($userQuery);
         $stmt->bindValue(":userID", $userData['userID']);
@@ -458,17 +459,19 @@ $stmt->execute();
 protected function userProfile () {
         $users = new Users();
          $this->startSession();
-           $email = $_SESSION['email'];
-        $password = $_SESSION['password'];
+       $userInfo = $_SESSION['userInfo'];
+            $email = $userInfo['email'];
+            $password = $userInfo['password'];
+       
           $this->database = new Database();
 $this->conn =  $this->database->connect();
-$userQuery = "SELECT * FROM userinfo WHERE email = :email AND password = :password";
+$userQuery = "SELECT * FROM userinfo WHERE email = :email";
 $stmt = $this->conn->prepare($userQuery);
 $stmt->bindValue(":email", $email);
-$stmt->bindValue(":password", $password);
+
 $stmt->execute();
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-if ($userData) {
+if ($userData && password_verify($password, $userData['Password'])){
        $userID = $userData['userID'];
        $fname = $userData['FirstName'];
        $mname = $userData['MiddleName'];

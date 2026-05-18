@@ -21,8 +21,9 @@ public function registerForm () {
 
 public function otpVerification() {
 $authentication = $this->model('/Authentication');
- if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitOTP']) {
-  
+ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitOTP'])) {
+      $otpVerification = $authentication->verifyOTP();
+      $this->view("/Authentication/otp", $otpVerification);
   }
 }
 
@@ -43,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitLogin'])) {
   $authenticate = $authenticate::userLogin($email, $password, $role);
     $userLoginValidation =  $authenticate->authLogin();
    $this->view("/Authentication/login", $userLoginValidation);
-  
     }
 }
 
