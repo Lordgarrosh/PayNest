@@ -23,6 +23,23 @@
     <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
 
 
+            <div class="modalContainer">
+                <div class="d-flex justify-content-center align-items-center" style="height: 100%; width: 100%;" >
+                    <div class="resStockContainer p-3">
+                            <h1>Low Stock Items</h1>
+                                                    <div class="row lowStockItems">
+                            <h5 class="col">Item Image</h5>
+                            <h5 class="col">Item Name</h5>
+                            <h5 class="col">Item Current Quantity</h5>
+                            <h5 class="col">Item Reorder Level</h5>
+                            <h5 class="col">Refill Stocks</h5>
+                        </div>          
+                    <div class="lowStockContainer" id="lowStockContainer" ></div>
+                    </div>
+                   
+                </div>
+            </div>
+
         <main class="mainContainer p-5">
             <div class="d-flex gap-5">
             <div class="posChooseProduct">
@@ -56,6 +73,28 @@
                 
                 </div>
                     <button id="loadMoreItems" class="btn btn-primary">Load More </button>
+                    <div class="d-flex gap-5 mt-5" style="width: 100%;" >
+                        <div class="posActions py-3 px-4 d-flex flex-column" style="width: 50%;" >
+                            <div class="d-flex gap-2 align-items-center">
+                            <img src="/assets/notification.png" height="40" width="40" alt="">
+                            <h5 class="m-0" >Auto Restock</h5>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+                                <p id="stockWarning" style="width: 50%;" class="m-0" >x items are running low</p>
+                                <h3 class="m-0 text-success">></h3>
+                            </div>
+                        </div>
+                         <div class="posActions py-3 px-4 d-flex flex-column" style="width: 50%;" >
+                            <div class="d-flex gap-2 align-items-center">
+                            <img src="/assets/recentSales.png" height="40" width="40" alt="">
+                            <h5 class="m-0" >Recent Sales</h5>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+                                <p style="width: 50%;" class="m-0" >View Recent sales</p>
+                                <h3 class="m-0 text-success">></h3>
+                            </div>
+                        </div>
+                    </div>
             </div>
             </div>
             <div class="posSalesContainer" style="width: 50%;" >
@@ -265,8 +304,9 @@ if (data.length === 0) {
         type: "GET",
         dataType: "json",
         success: function(cart) {
-
+        
             renderCart(cart);
+            $("#stockWarning").text(cart.stockWarning + " items are running low");
         }
     });
 $(document).on('click', '.addProductBtn', function () {
@@ -286,7 +326,7 @@ $(document).on('click', '.addProductBtn', function () {
             success: function(result) {
 
                 let html = "";
-                 console.log("Cart:", result.inventoryID);
+                 console.log("Cart:", result.cart);
                 renderCart(result);
                 
                
@@ -302,7 +342,7 @@ function renderTotalValue (totalValue) {
 function renderCart(cart) {
 
     let html = "";
-   console.log(cart.priceList);
+  
     $.each(cart.cart, (index, product) => {
         html += `
                    <div class="cartItemContainer p-2 py-4 d-flex justify-content-between">

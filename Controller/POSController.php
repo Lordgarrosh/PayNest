@@ -25,8 +25,8 @@ class POSController extends EmployeeManagerController {
             $productSTMT->bindValue(":userID", $userDatas['userID']);
             $productSTMT->execute();
             $productItems = $productSTMT->fetchAll(PDO::FETCH_ASSOC);
-          
-        if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+ 
+        if (!isset($_SESSION['userInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
@@ -73,15 +73,21 @@ class POSController extends EmployeeManagerController {
 
 public function getCart () {
     $this->startSession();
+    $userDatas = $this->userProfile();
     $discountPrice = $_SESSION['discountPercentage'] ?? 0.0;
-
+               $lowStockCountSQL = "SELECT COUNT(CASE WHEN itemQuantity <= itemReorderLevel THEN 1 END) AS lowStocks FROM inventories WHERE userID = :userID";
+            $lowStockCountSTMT = $this->conn->prepare($lowStockCountSQL);
+            $lowStockCountSTMT->bindValue(":userID", $userDatas['userID']);
+            $lowStockCountSTMT->execute();
+           $_SESSION['stockWarning'] = $lowStockCountSTMT->fetch(PDO::FETCH_ASSOC)['lowStocks'];
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = [];
     }
     $calculatePrice = $this->calculatePOS($discountPrice);
     echo json_encode([
         "cart" => $_SESSION['cart'],
-        "priceList" => $calculatePrice
+        "priceList" => $calculatePrice,
+        "stockWarning" => $_SESSION['stockWarning']
     ]);
 }
 
@@ -180,6 +186,12 @@ public function finalizeSales () {
    $salesSTMT->execute();
    $salesID = $this->conn->lastInsertId();
     foreach($_SESSION['cart'] as $product) {
+         $updateStockQuantitySQL = "UPDATE inventories SET itemQuantity = itemQuantity - :itemQuantity  WHERE inventoryID = :inventoryID AND userID = :userID";
+         $updateStockQuantitySTMT = $this->conn->prepare($updateStockQuantitySQL);
+         $updateStockQuantitySTMT->bindValue(":itemQuantity", $product['itemCurrentQuantity']);
+         $updateStockQuantitySTMT->bindValue(":userID", $userDatas['userID']);
+         $updateStockQuantitySTMT->bindValue(":inventoryID", $product['inventoryID']);
+         $updateStockQuantitySTMT->execute();
          $salesProductSQL = "INSERT INTO salesitem (salesQuantity, salesTotalPrice, salesID, inventoryID, userID) VALUES
          (:salesQuantity, :salesTotalPrice, :salesID, :inventoryID, :userID)";
          $salesProductSTMT = $this->conn->prepare($salesProductSQL);
@@ -265,6 +277,8 @@ public function calculatePOS ($discountPercentage) {
         "discountPercentage" => $discountPercentage
     ];
 }
+
+
 
 
 }

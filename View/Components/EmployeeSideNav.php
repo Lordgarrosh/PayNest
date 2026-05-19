@@ -8,7 +8,7 @@
         else echo "/assets/noProfile.png";
         ?>
         
-        " alt="ad" class="userProfile">
+        " alt="ad" id="userProfPic" class="userProfile">
      </button>  
         <h2 class="mt-4" ><?= $userDatas['fname'] . " " . $userDatas['lname']  ?></h2>
         <p><?= $userDatas['email'] ?></p>

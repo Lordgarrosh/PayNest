@@ -150,3 +150,21 @@ input::-webkit-inner-spin-button {
 .totalSalesContainer {
     box-shadow: 1pt 2pt 3pt rgb(0, 0, 0, 0.5);
 }
+
+.posActions {
+    box-shadow: 1pt 2pt 3pt rgb(0, 0, 0, 0.5);
+}
+
+.resStockContainer {
+    height: 50%;
+    width: 50%;
+    background-color: white;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}

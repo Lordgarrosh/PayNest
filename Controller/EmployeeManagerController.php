@@ -34,7 +34,7 @@ class EmployeeManagerController extends Controller {
         $userSubscription = $this->fetchUserSubscription();
           $this->startSession();
           
-        if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+        if (!isset($_SESSION['userInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
@@ -58,7 +58,7 @@ class EmployeeManagerController extends Controller {
               $userSubscription = $this->fetchUserSubscription();
           $this->startSession();
           
-        if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+        if (!isset($_SESSION['userInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
@@ -82,6 +82,7 @@ class EmployeeManagerController extends Controller {
             $inventoryItemSearch = $_GET['search'] ?? '';
             $startTable = 0;
             $startPage = isset($_GET['page']) ? (int)$_GET['page']: 1;
+             $userDatas = $this->userProfile();
             if (isset($_GET['page'])) {
                 if ($_GET['page'] != 1) {
                     $startTable = ($_GET['page'] - 1) * 5;
@@ -101,18 +102,19 @@ class EmployeeManagerController extends Controller {
            
             $sqlCategories = "SELECT * FROM categories";
             $inventoryCategories = $this->conn->query($sqlCategories);
-            $sqlInventories = "SELECT inventoryID, itemName, itemCategory, itemQuantity, itemReorderLevel, itemSellingPrice, inventoryItemImage FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName LIMIT :startTable, 5";
+            $sqlInventories = "SELECT inventoryID, itemName, itemCategory, itemQuantity, itemReorderLevel, itemSellingPrice, inventoryItemImage FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName AND userID = :userID LIMIT :startTable, 5";
             $inventorySTMT = $this->conn->prepare($sqlInventories);
             $inventorySTMT->bindValue(":itemCategory", "%$categoryChosen%");
             $inventorySTMT->bindValue(':startTable', $startTable, PDO::PARAM_INT);
             $inventorySTMT->bindValue(":itemName", "%$inventoryItemSearch%");
+            $inventorySTMT->bindValue(":userID", $userDatas['userID']);
             $inventorySTMT->execute();
             $productInventories = $inventorySTMT->fetchAll(PDO::FETCH_ASSOC);
-                 if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+                 if (!isset($_SESSION['userInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
-            $userDatas = $this->userProfile();
+           
             $data = [
                 "userDatas" => $userDatas,
                 "categories" => $inventoryCategories,
@@ -140,7 +142,7 @@ class EmployeeManagerController extends Controller {
             $sqlCategories = "SELECT * FROM categories";
             $inventoryCategories = $this->conn->query($sqlCategories);
             
-                 if (!isset($_SESSION['email']) && !isset($_SESSION['password'])) {
+                 if (!isset($_SESSION['userInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
