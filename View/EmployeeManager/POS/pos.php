@@ -21,20 +21,34 @@
     </head>
     <body>
     <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
+        <div class="modalContainer hide" id="recentSaleModal" >
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;" >
+                <div class="modalBoxContainer p-3">
+                    <div class="d-flex justify-content-between">
+                            <h1>Recent Sales</h1>
+                            <button class="closeBtn" onclick="displayContainer('#recentSaleModal')" >X</button>
+                          </div>
+                </div>
+            </div>
+        </div>
 
-
-            <div class="modalContainer">
+            <div class="modalContainer hide" id="lowStockModal">
                 <div class="d-flex justify-content-center align-items-center" style="height: 100%; width: 100%;" >
-                    <div class="resStockContainer p-3">
-                            <h1>Low Stock Items</h1>
-                                                    <div class="row lowStockItems">
+                    <div class="modalBoxContainer p-3"  >
+                          <div class="d-flex justify-content-between">
+                            <h1>Low Stock Containers</h1>
+                            <button class="closeBtn" onclick="displayContainer('#lowStockModal')" >X</button>
+                          </div>
+                            <div class="row lowStockItems" style="border-bottom: 2pt solid gray; margin-bottom: 1cm; background-color: gray;">
                             <h5 class="col">Item Image</h5>
                             <h5 class="col">Item Name</h5>
                             <h5 class="col">Item Current Quantity</h5>
                             <h5 class="col">Item Reorder Level</h5>
                             <h5 class="col">Refill Stocks</h5>
                         </div>          
-                    <div class="lowStockContainer" id="lowStockContainer" ></div>
+           <div class="row" id="lowStockContainer">
+
+</div>
                     </div>
                    
                 </div>
@@ -81,7 +95,7 @@
                             </div>
                             <div class="d-flex justify-content-between mt-3">
                                 <p id="stockWarning" style="width: 50%;" class="m-0" >x items are running low</p>
-                                <h3 class="m-0 text-success">></h3>
+                                    <button style="background: none; border: none;" id="autoRestockBtn" ><h3 class="m-0 text-success">></h3></button>
                             </div>
                         </div>
                          <div class="posActions py-3 px-4 d-flex flex-column" style="width: 50%;" >
@@ -91,7 +105,7 @@
                             </div>
                             <div class="d-flex justify-content-between mt-3">
                                 <p style="width: 50%;" class="m-0" >View Recent sales</p>
-                                <h3 class="m-0 text-success">></h3>
+                                <button style="background: none; border: none;" id="recentSalesBtn" ><h3 class="m-0 text-success">></h3></button>
                             </div>
                         </div>
                     </div>
@@ -164,7 +178,24 @@ $(document).ready(function () {
     let start = 0;
     const limit = 6;
     let loading = false;
+    $("#autoRestockBtn").click(function () {
+        console.log("asqweqd");
+       displayContainer("#lowStockModal");
+       $.ajax({
+        url: "/POS/displayLowStock",
+        type: "GET",
+        dataType: "json",
+        success: (event) => {
+displayLowStocks(event);
+        }
+       });
+    });
+    $("#recentSalesBtn").click(function () {
+        displayContainer("#recentSaleModal");
+    });
 
+  
+    
     function loadItems() {
         if (loading) return;
         loading = true;
@@ -464,6 +495,63 @@ $(document).on("click", "#clearCartBtn", function () {
         });
 });
 });
+
+
+  function displayContainer(activeContainer) {
+         $(activeContainer).toggleClass("hide");
+    };
+      async function refillStock (inventoryID) {
+        	
+const inputValue = "";
+const { value: refillStockValue } = await Swal.fire({
+  title: "Enter your IP address",
+  input: "text",
+  inputLabel: "Your IP address",
+  inputValue,
+  showCancelButton: true,
+  inputValidator: (value) => {
+    if (!value) return "You need to write something!";
+  }
+});
+if (refillStockValue) {
+    $.ajax({
+        url: "/POS/refillStock",
+        type: "GET",
+        dataType: "json",
+        data: {
+            stockRefillValue: refillStockValue,
+            inventoryID: inventoryID
+        },
+        success: (event) => {
+           displayLowStocks(event);
+        }
+    });
+};
+    }
+
+
+    function displayLowStocks(event) {
+                let html = "";
+            $.each(event, (index, lowStockItems) => {
+                html += `
+                <div class="row lowStockContainer align-items-center text-center">
+    <div class="col d-flex justify-content-center">
+        <img 
+            src="/InventoryPic/${lowStockItems.inventoryItemImage}" 
+            class="lowStockImage"
+            alt=""
+        >
+    </div>
+
+    <h5 class="col m-0">${lowStockItems.itemName}</h5>
+    <h5 class="col m-0">${lowStockItems.itemQuantity}</h5>
+    <h5 class="col m-0">${lowStockItems.itemReorderLevel}</h5>
+    <button class='col' style='border:none; background: none;' onclick='refillStock(${lowStockItems.inventoryID})'> <h5 class="m-0">></h5></button>
+    </div>
+`; 
+            });
+             $("#lowStockContainer").html(html);
+}
 </script>
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

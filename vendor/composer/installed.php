@@ -3,7 +3,7 @@
         'name' => 'paynest/inventory-system',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '9a3e1ff9c9489bdc6fb1ffacb61e8c428fcf0704',
+        'reference' => '4d37b5308b43b309e2b5daec4f2ed79075e3418b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'paynest/inventory-system' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '9a3e1ff9c9489bdc6fb1ffacb61e8c428fcf0704',
+            'reference' => '4d37b5308b43b309e2b5daec4f2ed79075e3418b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

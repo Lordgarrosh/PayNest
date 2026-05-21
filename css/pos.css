@@ -155,16 +155,43 @@ input::-webkit-inner-spin-button {
     box-shadow: 1pt 2pt 3pt rgb(0, 0, 0, 0.5);
 }
 
-.resStockContainer {
-    height: 50%;
+.modalBoxContainer {
+    height: 80%;
     width: 50%;
     background-color: white;
+    overflow-y: scroll;
 }
 
 .hide {
     display: none;
 }
 
-.show {
-    display: block;
+
+.lowStockContainer {
+    border-bottom: 1px solid #dcdcdc;
+
+}
+
+.lowStockContainer h5 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.lowStockImage {
+    width: 70px;
+    height: 70px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.closeBtn {
+    background: none;
+    font-size: 1cm;
+    border: none;
+    color: red;
+    font-weight: 1000;
+}
+
+.modalContainer .row {
+    margin: 0;
 }

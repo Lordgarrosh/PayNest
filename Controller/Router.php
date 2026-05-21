@@ -112,8 +112,14 @@ require __DIR__ . "/../Controller/ReportController.php";
                       RouteHandler::get('/getCart', function () {
                          (new POSController())->getCart();
                     });
+                    RouteHandler::get('/displayLowStock', function () {
+                         (new POSController())->displayLowStock();
+                    });
                      RouteHandler::post('/addDiscount', function () {
                          (new POSController())->addDiscount();
+                    });
+                      RouteHandler::get('/refillStock', function () {
+                         (new POSController())->refillStock();
                     });
                      RouteHandler::post('/finalizeSale', function () {
                          (new POSController())->finalizeSales();

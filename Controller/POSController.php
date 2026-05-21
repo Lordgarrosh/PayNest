@@ -261,6 +261,7 @@ public function findInventoryItemByID ($inventoryID) {
 public function calculatePOS ($discountPercentage) {
     $originalPrice =  0;
     $sellingPrice = 0;
+     $discountPercentage = (float) $discountPercentage;
     foreach ($_SESSION['cart'] as $product) {
         $originalPrice += $product['itemCostPrice'] * $product['itemCurrentQuantity'];
         $sellingPrice += $product['itemSellingPrice'] * $product['itemCurrentQuantity'];
@@ -276,6 +277,33 @@ public function calculatePOS ($discountPercentage) {
         "grandAmount" => $grandAmount,
         "discountPercentage" => $discountPercentage
     ];
+}
+
+public function displayLowStock () {
+    $userDatas = $this->userProfile();
+    $this->database = new Database();
+    $this->conn = $this->database->connect();
+    $lowStockSQL = "SELECT inventoryID, itemName, itemQuantity, itemReorderLevel, inventoryItemImage FROM inventories WHERE itemQuantity <= itemReorderLevel AND userID = :userID"; 
+    $lowStockSTMT = $this->conn->prepare($lowStockSQL);
+    $lowStockSTMT->bindValue(":userID", $userDatas['userID']);
+    $lowStockSTMT->execute();
+    $lowStockDisplay = $lowStockSTMT->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($lowStockDisplay);
+}
+
+public function refillStock () {
+    $userDatas = $this->userProfile();
+    $inventoryID = $_GET['inventoryID'];
+    $itemQuantity = $_GET['stockRefillValue'];
+    $this->database = new Database();
+    $this->conn = $this->database->connect();
+    $refillStockSQL = "UPDATE inventories SET itemQuantity = itemQuantity + :itemQuantity WHERE inventoryID = :inventoryID AND userID = :userID";
+    $refillStockSTMT = $this->conn->prepare($refillStockSQL);
+    $refillStockSTMT->bindValue(":itemQuantity", $itemQuantity);
+    $refillStockSTMT->bindValue(":userID", $userDatas['userID']);
+    $refillStockSTMT->bindValue(":inventoryID", $inventoryID);
+    $refillStockSTMT->execute();
+    $this->displayLowStock();
 }
 
 
