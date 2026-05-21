@@ -2,6 +2,8 @@
 require_once __DIR__ . "/../Users/Users.php";
 require_once __DIR__ . "/../Model/UsersManager.php";
 require_once __DIR__ . '/../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -137,6 +139,43 @@ $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname
         return ['userValidation' => $this->getUserValidation(), 'messageReport' => $this->getMessageReport()];
     }
 
+
+    public function googleRegistration () {
+        if (!isset($_GET['code'])) {
+    exit("Login Failed");
+}
+
+$client = new Google\Client;
+$client->setClientID($_ENV['GOOGLE_CLIENT_ID']);
+$client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
+$client->setRedirectUri($_ENV['GOOGLE_REDIRECT_URI']);
+$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+$client->setAccessToken($token['access_token']);
+$oauth = new Google\Service\OAuth2($client);
+$userinfo = $oauth->userinfo->get();
+var_dump(
+$userinfo->getEmail(),
+$userinfo->getFamilyName(),
+$userinfo->getGivenName(),
+$userinfo->getId(),
+$userinfo->getPicture(),
+);
+      if (session_status() === PHP_SESSION_NONE) {
+                   
+    session_start();
+                    }
+                $_SESSION['profilePicture'] = $userinfo->getPicture();
+      $otp =  mt_rand(111111,999999);
+    $this->sendOTP(
+            $userinfo->getEmail(),
+            $userinfo->getGivenName(),
+            $userinfo->getFamilyName(),
+            $otp,
+            $userinfo->getId(),
+            "googleRegistration"
+        );
+    }
+
     public function sendOTP($email, $fname, $lname, $otp, $password, $otpPurpose) {
         $mail = new PHPMailer(true);
 
@@ -172,8 +211,8 @@ try {
             "fname" =>  $fname,
             "lname" => $lname,
             "otp" => $otp,
-            "otpPurpose" => $otpPurpose
-        ];
+            "otpPurpose" => $otpPurpose,
+        ];  
 } catch (Exception $e) {
      $this->setMessageReport("Email dont exist");
 }
@@ -203,6 +242,10 @@ try {
                     if ($otpPurpose == "registration") {
                     $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname, $otpInput);
                     $userRegistration->createUser();
+                    }
+                    else if($otpPurpose == "googleRegistration") {
+                        $profilePicture = $_SESSION['profilePicture'];
+                         $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname, $otpInput);
                     }
             }
             else {

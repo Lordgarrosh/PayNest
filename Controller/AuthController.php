@@ -1,7 +1,10 @@
 <?php
 
 require_once 'Controller.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
 // Create instance
 
@@ -45,6 +48,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitLogin'])) {
     $userLoginValidation =  $authenticate->authLogin();
    $this->view("/Authentication/login", $userLoginValidation);
     }
+}
+
+public function googleRegistration() {
+if (!isset($_GET['code'])) {
+    exit("Login Failed");
+}
+
+$client = new Google\Client;
+$client->setClientID($_ENV['GOOGLE_CLIENT_ID']);
+$client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
+$client->setRedirectUri($_ENV['GOOGLE_REDIRECT_URI']);
+$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+$client->setAccessToken($token['access_token']);
+$oauth = new Google\Service\OAuth2($client);
+$userinfo = $oauth->userinfo->get();
+var_dump(
+$userinfo->getEmail(),
+$userinfo->getFamilyName(),
+$userinfo->getGivenName(),
+$userinfo->getId(),
+$userinfo->getPicture(),
+);
 }
 
 }

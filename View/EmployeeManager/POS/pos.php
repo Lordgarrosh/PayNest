@@ -27,7 +27,7 @@
                     <div class="d-flex justify-content-between">
                             <h1>Recent Sales</h1>
                             <button class="closeBtn" onclick="displayContainer('#recentSaleModal')" >X</button>
-                          </div>
+                    </div>
                 </div>
             </div>
         </div>

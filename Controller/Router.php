@@ -12,6 +12,7 @@ require __DIR__ . "/../Controller/ReportController.php";
     RouteHandler::get('/login', [new AuthController(), 'loginForm']);
     RouteHandler::get('/register', [new AuthController(), 'registerForm']);
     RouteHandler::post('/register', [new AuthController(), 'registerData']);
+        RouteHandler::get('/googleRedirect', [new AuthController(), 'googleRegistration']);
     RouteHandler::post('/login', [new AuthController(), 'loginUser']);
                          RouteHandler::get('/otpVerification', [new AuthController(), 'otpForm']);
                           RouteHandler::post('/otpVerification', [new AuthController(), 'otpVerification']);
