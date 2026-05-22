@@ -51,27 +51,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitLogin'])) {
 }
 
 public function googleRegistration() {
-if (!isset($_GET['code'])) {
-    exit("Login Failed");
-}
 
-$client = new Google\Client;
-$client->setClientID($_ENV['GOOGLE_CLIENT_ID']);
-$client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
-$client->setRedirectUri($_ENV['GOOGLE_REDIRECT_URI']);
-$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-$client->setAccessToken($token['access_token']);
-$oauth = new Google\Service\OAuth2($client);
-$userinfo = $oauth->userinfo->get();
-var_dump(
-$userinfo->getEmail(),
-$userinfo->getFamilyName(),
-$userinfo->getGivenName(),
-$userinfo->getId(),
-$userinfo->getPicture(),
-);
-}
+    if (!isset($_GET['code'])) {
+        exit("Login Failed");
+    }
 
+    $authenticate = $this->model("/Authentication");
+
+    // GET GOOGLE USER INFO ONLY ONCE
+    $userinfo = $authenticate->googleUserInfo();
+
+    $googleEmailSearch = $authenticate->findExistingEmail($userinfo->getEmail());
+
+    if (!$googleEmailSearch) {
+
+        $authenticate->googleAuth($userinfo, "googleRegistration");
+       
+
+    } else if($googleEmailSearch['google_id'] !== null) {
+
+        $authenticate->googleAuth($userinfo, "googleLogin");
+
+    }
+    else {
+         $authenticate->googleAuth($userinfo, "googleAddGoogleInfo");
+    }
+
+    header("Location: /otpVerification");
+}
 }
 
 

@@ -1,11 +1,16 @@
+
 <div class="sidenav">
     <div class="userContainer mt-5 d-flex flex-column align-items-center">
      <button id="updateProfPic" style="background: none; border: none;  border-radius: 50%; " >
          <img src="<?php 
-        if (empty($userDatas['profPic'])) {
-            echo "/ProfilePic/". $userDatas['profPic'] ;
+        if (!empty($userDatas['profPic'])) {
+          
+            echo ($userDatas['registerType'] == "googleRegistration") ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
         }
-        else echo "/assets/noProfile.png";
+        else {
+
+        echo "/assets/noProfile.png";
+        } 
         ?>
         
         " alt="ad" id="userProfPic" class="userProfile">

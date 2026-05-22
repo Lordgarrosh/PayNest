@@ -1,4 +1,19 @@
 
+<?php
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+$client = new Google\Client;
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
+
+$client->setClientID($_ENV['GOOGLE_CLIENT_ID']);
+$client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
+$client->setRedirectUri($_ENV['GOOGLE_REDIRECT_URI']);
+$client->addScope("openid");
+$client->addScope("email");
+$client->addScope("profile");
+$url = $client->createAuthUrl();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +62,12 @@
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control login-field" id="password" name="password" >
         </div>
-
+<div class="d-flex justify-content-center">
+   <a href="<?= $url ?>" class="google-btn">
+    <img src="https://developers.google.com/identity/images/g-logo.png" width="40" height="40" alt="Google Logo">
+    Sign in with Google
+</a>
+</div>
         <div class="d-grid mb-3">
           <button type="submit" name="submitLogin" style="background-color: #2E7906; color: white;" class="btn fw-bold">Login</button>
         </div>

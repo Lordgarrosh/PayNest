@@ -16,16 +16,37 @@ public static function userRegister($email, $password, $fname, $lname, $otp) {
 }
 
 
-public function createUser() {
+public function createUser($otpPurpose) {
  
     try {
         // $this->database = new Database();
         // $this->conn = $this->database->connect();
-        $stmt = $this->conn->prepare("INSERT INTO userinfo (Email, Password, FirstName, LastName) VALUES (:email, :password, :fname, :lname)");
+        $stmt = $this->conn->prepare("INSERT INTO userinfo (Email, Password, FirstName, LastName, registerType) VALUES (:email, :password, :fname, :lname, :registerType)");
         $stmt->bindValue(':email', $this->getEmail());
         $stmt->bindValue(':password', password_hash($this->getPassword(), PASSWORD_DEFAULT));
         $stmt->bindValue('fname', $this->getFname());
         $stmt->bindValue(':lname', $this->getLname());
+          $stmt->bindValue(':registerType', $otpPurpose);
+        // $stmt->bindValue(':verification_status', $this->getVerificationStatus());
+        // $stmt->bindValue(':otp', value: $this->getOTP());
+        return $stmt->execute();
+    }catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
+
+public function createGoogleUser($otpPurpose) {
+       try {
+        // $this->database = new Database();
+        // $this->conn = $this->database->connect();
+        $stmt = $this->conn->prepare("INSERT INTO userinfo (Email, google_id, FirstName, LastName, ProfPic, registerType) VALUES (:email, :google_id, :fname, :lname, :profPic, :registerType)");
+        $stmt->bindValue(':email', $this->getEmail());
+        $stmt->bindValue(':google_id', $this->getPassword());
+        $stmt->bindValue('fname', $this->getFname());
+        $stmt->bindValue(':lname', $this->getLname());
+        $stmt->bindValue(':profPic', $this->getProfPic());
+         $stmt->bindValue(':registerType', $otpPurpose);
         // $stmt->bindValue(':verification_status', $this->getVerificationStatus());
         // $stmt->bindValue(':otp', value: $this->getOTP());
         return $stmt->execute();
@@ -38,7 +59,7 @@ public function createUser() {
 
 public function searchUser () {
 
- $stmt = $this->conn->prepare("SELECT COUNT(*) FROM userinfo WHERE email = :email");   
+ $stmt = $this->conn->prepare("SELECT COUNT(*) FROM userinfo WHERE Email = :email");   
  $stmt->bindValue(":email", $this->getEmail());
  $stmt->execute();
      $count = $stmt->fetchColumn();

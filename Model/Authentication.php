@@ -138,28 +138,18 @@ $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname
         }
         return ['userValidation' => $this->getUserValidation(), 'messageReport' => $this->getMessageReport()];
     }
+    
+    public function findExistingEmail($email) {
+$this->setConn();
+ $stmt = $this->conn->prepare("SELECT userID, Email, google_id FROM userinfo WHERE Email = :email");   
+ $stmt->bindValue(":email", $email);
+ $stmt->execute();
+     $userEmail = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $userEmail; 
+    }
 
+    public function googleAuth ($userinfo, $purpose) {
 
-    public function googleRegistration () {
-        if (!isset($_GET['code'])) {
-    exit("Login Failed");
-}
-
-$client = new Google\Client;
-$client->setClientID($_ENV['GOOGLE_CLIENT_ID']);
-$client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
-$client->setRedirectUri($_ENV['GOOGLE_REDIRECT_URI']);
-$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-$client->setAccessToken($token['access_token']);
-$oauth = new Google\Service\OAuth2($client);
-$userinfo = $oauth->userinfo->get();
-var_dump(
-$userinfo->getEmail(),
-$userinfo->getFamilyName(),
-$userinfo->getGivenName(),
-$userinfo->getId(),
-$userinfo->getPicture(),
-);
       if (session_status() === PHP_SESSION_NONE) {
                    
     session_start();
@@ -172,7 +162,7 @@ $userinfo->getPicture(),
             $userinfo->getFamilyName(),
             $otp,
             $userinfo->getId(),
-            "googleRegistration"
+            $purpose
         );
     }
 
@@ -239,13 +229,38 @@ try {
             if ($otpInput == $otpSaved) {
                     $this->setMessageReport("OTP Verified");
                     $this->setUserValidation("Validated");
+                    echo "<script>alert('$otpPurpose')</script>";
                     if ($otpPurpose == "registration") {
                     $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname, $otpInput);
-                    $userRegistration->createUser();
+                    $userRegistration->createUser($otpPurpose);
                     }
                     else if($otpPurpose == "googleRegistration") {
+                        // echo "<script>alert('$email')</script>";
+                        // echo "<script>alert('$password')</script>";
+                        // echo "<script>alert('$fname')</script>";
+                        // echo "<script>alert('$lname')</script>";
+                        // echo "<script>alert('$email')</script>";
                         $profilePicture = $_SESSION['profilePicture'];
+                        //                         echo "<script>alert('$otpPurpose')</script>";
+                        // echo "<script>alert('$profilePicture')</script>";
                          $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname, $otpInput);
+                         $userRegistration->setProfPic($profilePicture);
+                         $userRegistration->createGoogleUser($otpPurpose);
+                    }
+                    else if ($otpPurpose == "googleAddGoogleInfo") {
+                        $profilePicture = $_SESSION['profilePicture'];
+                        $findUserInfo = $this->findExistingEmail($email);
+                        $this->setConn();
+                        $updateGoogleProfileSQL = "UPDATE userinfo SET ProfPic = :profPic, google_id = :google_id WHERE userID = :userID";
+                        $updateGoogleProfileSTMT = $this->conn->prepare($updateGoogleProfileSQL);
+                         echo "<script>alert('". $findUserInfo['userID'] ."')</script>";
+                         echo "<script>alert('".$password ."')</script>";
+                         echo "<script>alert('". $profilePicture ."')</script>";
+                         echo "<script>alert('". $email ."')</script>";
+                        $updateGoogleProfileSTMT->bindValue(":google_id", $password);
+                         $updateGoogleProfileSTMT->bindValue(":userID", $findUserInfo['userID'] );
+                        $updateGoogleProfileSTMT->bindValue(":profPic", $profilePicture);
+                        $updateGoogleProfileSTMT->execute();
                     }
             }
             else {
@@ -263,9 +278,22 @@ try {
  if (session_status() === PHP_SESSION_NONE) {    
     session_start();
 }
-
-
     }
+
+    public function googleUserInfo () {
+            if (!isset($_GET['code'])) {
+    exit("Login Failed");
+}
+
+$client = new Google\Client;
+$client->setClientID($_ENV['GOOGLE_CLIENT_ID']);
+$client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
+$client->setRedirectUri($_ENV['GOOGLE_REDIRECT_URI']);
+$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+$client->setAccessToken($token['access_token']);
+$oauth = new Google\Service\OAuth2($client);
+return $userinfo = $oauth->userinfo->get();
+}
 
 }
 

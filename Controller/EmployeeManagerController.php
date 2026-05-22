@@ -459,41 +459,58 @@ $stmt->execute();
 
 
 protected function userProfile () {
-        $users = new Users();
-         $this->startSession();
-       $userInfo = $_SESSION['userInfo'];
-            $email = $userInfo['email'];
-            $password = $userInfo['password'];
-       
-          $this->database = new Database();
-$this->conn =  $this->database->connect();
-$userQuery = "SELECT * FROM userinfo WHERE email = :email";
-$stmt = $this->conn->prepare($userQuery);
-$stmt->bindValue(":email", $email);
+    $this->startSession();
 
-$stmt->execute();
-$userData = $stmt->fetch(PDO::FETCH_ASSOC);
-if ($userData && password_verify($password, $userData['Password'])){
-       $userID = $userData['userID'];
-       $fname = $userData['FirstName'];
-       $mname = $userData['MiddleName'];
-       $lname = $userData['LastName'];
-       $profPic = $userData['ProfPic'];
-       $number = $userData['Number'];
-       return [
-        "userID" => $userID,
-        "email" => $email,
-        "fname" => $fname,
-        "mname" => $mname,
-        "lname" => $lname,
-        "profPic" => $profPic,
-        "number" => $number
-       ];
-}
-else {
+    $userInfo = $_SESSION['userInfo'];
+    $email = $userInfo['email'];
+    $registerType = $userInfo['otpPurpose'];
+    $this->database = new Database();
+    $this->conn = $this->database->connect();
+
+    $userQuery = "SELECT * FROM userinfo WHERE Email = :email";
+    $stmt = $this->conn->prepare($userQuery);
+    $stmt->bindValue(":email", $email);
+    $stmt->execute();
+
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$userData) {
+        return null;
+    }
+
+    // GOOGLE LOGIN
+    if ($userData['registerType'] == "googleRegistration") {
+
+        return [
+            "userID" => $userData['userID'],
+            "email" => $userData['Email'],
+            "fname" => $userData['FirstName'],
+            "mname" => $userData['MiddleName'],
+            "lname" => $userData['LastName'],
+            "profPic" => $userData['ProfPic'],
+            "number" => $userData['Number'],
+             "registerType" => $userData['registerType']
+        ];
+    }
+
+    // NORMAL LOGIN
+    $password = $userInfo['password'];
+
+    if (password_verify($password, $userData['Password'])) {
+
+        return [
+            "userID" => $userData['userID'],
+            "email" => $userData['Email'],
+            "fname" => $userData['FirstName'],
+            "mname" => $userData['MiddleName'],
+            "lname" => $userData['LastName'],
+            "profPic" => $userData['ProfPic'],
+            "number" => $userData['Number'],
+            "registerType" => $userData['registerType']
+        ];
+    }
+
     return null;
-}
-
 }
 
 
