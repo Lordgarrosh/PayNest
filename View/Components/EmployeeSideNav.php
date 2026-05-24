@@ -3,9 +3,9 @@
     <div class="userContainer mt-5 d-flex flex-column align-items-center">
      <button id="updateProfPic" style="background: none; border: none;  border-radius: 50%; " >
          <img src="<?php 
-        if (!empty($userDatas['profPic']) && $userDatas['profPic'] !== "No Prof Pic") {
+        if (empty($userDatas['profPic']) || $userDatas['profPic'] !== "No Prof Pic") {
           
-            echo ($userDatas['registerType'] == "googleRegistration") ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
+            echo ($userDatas['google_id'] != null) ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
         }
         else {
         echo "/assets/noProfile.png";

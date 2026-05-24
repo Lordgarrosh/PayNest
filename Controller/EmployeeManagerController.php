@@ -259,7 +259,7 @@ class EmployeeManagerController extends Controller {
             $this->startSession();
             $this->database = new Database();
             $this->conn = $this->database->connect();
-            $attendanceQuery = "INSERT INTO employeeAttendance (timein, timeout, attendanceStatus, userSubscriptionID) VALUES (:timeIn, :timeOut, :employeeAttendance)";
+            $attendanceQuery = "INSERT INTO employeeAttendance (timein, timeout, attendanceStatus, userID) VALUES (:timeIn, :timeOut, :employeeAttendance)";
             echo "Employee ID $employeeID\n";
             echo "timein $timeIn\n";
             echo "timeOut $timeOut";
@@ -401,12 +401,13 @@ class EmployeeManagerController extends Controller {
 
 
                 //save employee information using the last ids of the newly created employee
-                $employeeSQL = "INSERT INTO employee (personalInformationID, employmentInformationID, accountInformationID) 
-                VALUES (:personalInformationID, :employmentInformationID, :accountInformationID)";
+                $employeeSQL = "INSERT INTO employee (personalInformationID, employmentInformationID, accountInformationID, userID) 
+                VALUES (:personalInformationID, :employmentInformationID, :accountInformationID, :userID)";
                 $employeeSTMT = $this->conn->prepare($employeeSQL);
                 $employeeSTMT->bindValue(":personalInformationID", $personalInformationID);
                 $employeeSTMT->bindValue(":employmentInformationID", $employmentInformationID);
                 $employeeSTMT->bindValue(":accountInformationID", $accountInformationID);
+                $employeeSTMT->bindValue(":userID", $userDatas['userID']);
                 $employeeSTMT->execute();
                 }
             }
@@ -518,6 +519,7 @@ private function buildUserProfile($userData)
     return [
         "userID" => $userData['userID'],
         "email" => $userData['Email'],
+        "google_id" => $userData['google_id'],
         "fname" => $userData['FirstName'],
         "mname" => $userData['MiddleName'],
         "lname" => $userData['LastName'],

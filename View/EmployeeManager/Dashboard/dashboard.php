@@ -53,7 +53,7 @@
                         <h3 class="m-0" id="todaySalesTop" style="color: #2E7906;" >P0.00</h3>
                     </div>
                 </div>
-                <div class="containerShadow align-items-center p-3 d-flex gap-3" style="width: 50%;" >
+                <!-- <div class="containerShadow align-items-center p-3 d-flex gap-3" style="width: 50%;" >
                     <div class="p-4 imageIcon ">
                         <img src="/assets/employeeGroup.png" width="40" height="40" alt="asd">
                     </div>
@@ -61,8 +61,8 @@
                         <p class="m-0" >Today's Sales</p>
                         <h3 class="m-0" style="color: #2E7906;" >P0.00</h3>
                     </div>
-                </div>
-                <div class="containerShadow align-items-center p-3 d-flex gap-3" style="width: 50%;" >
+                </div> -->
+                <!-- <div class="containerShadow align-items-center p-3 d-flex gap-3" style="width: 50%;" >
                     <div class="p-4 imageIcon ">
                         <img src="/assets/burgerIcon.png" width="40" height="40" alt="asd">
                     </div>
@@ -70,7 +70,7 @@
                         <p class="m-0" >Today's Sales</p>
                         <h3 class="m-0" style="color: #2E7906;" >P0.00</h3>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="d-flex gap-5 mt-5" style="width: 100%;" >

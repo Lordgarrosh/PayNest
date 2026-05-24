@@ -397,10 +397,10 @@ function renderCart(cart) {
                         </div>
         `;
     });
-    $("#originalPrice").text(cart.priceList.sellingPrice);
-    $("#discountAmount").text(cart.priceList.discountAmount);
-    $("#taxAmount").text(cart.priceList.taxAmount);
-    $("#grandAmount").text(cart.priceList.grandAmount);
+    $("#originalPrice").text(parseFloat(cart.priceList.sellingPrice).toFixed(2));
+    $("#discountAmount").text(parseFloat(cart.priceList.discountAmount).toFixed(2));
+    $("#taxAmount").text(parseFloat(cart.priceList.taxAmount).toFixed(2));
+    $("#grandAmount").text(parseFloat(cart.priceList.grandAmount).toFixed(2));
     $("#cartContainer").html(html);
 }
 
@@ -504,9 +504,9 @@ $(document).on("click", "#clearCartBtn", function () {
         	
 const inputValue = "";
 const { value: refillStockValue } = await Swal.fire({
-  title: "Enter your IP address",
+  title: "Stock Refill",
   input: "text",
-  inputLabel: "Your IP address",
+  inputLabel: "Enter amount of stocks to be add for this product",
   inputValue,
   showCancelButton: true,
   inputValidator: (value) => {

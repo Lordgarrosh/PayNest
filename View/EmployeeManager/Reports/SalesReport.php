@@ -55,7 +55,7 @@
     <input type="radio" id="weekly" name="time" value="Weekly">
     <label for="weekly">
         <img src="/assets/calendar.png" width="20" height="20">
-        Weekly
+        Monthly
     </label>
 
     <input type="radio" id="yearly" name="time" value="Yearly">
@@ -72,8 +72,8 @@
              <img src="/assets/dollar.png" width="30" height="30" alt="">
         </div>
       <div class="d-flex flex-column" style="width: 60%;">
-        <p>Total Revenue</p>
-        <p id="totalRevenue" >12,250</p>
+        <p  >Total Revenue</p>
+        <p style="font-size: 2em; font-weight: 1000;" id="totalRevenue" >12,250</p>
         <p id="totalRevenueComparison" >21% vs yesterday</p>
       </div>
     </div>
@@ -84,7 +84,7 @@
         </div>
       <div class="d-flex flex-column" style="width: 60%;">
         <p>Total Orders</p>
-        <p id="totalOrder">12,250</p>
+        <p style="font-size: 2em; font-weight: 1000;" id="totalOrder">12,250</p>
         <p id="totalOrderComparison" >21% vs yesterday</p>
       </div>
     </div>
@@ -95,7 +95,7 @@
         </div>
       <div class="d-flex flex-column" style="width: 60%;">
         <p>Average Order Value</p>
-        <p id="averageOrder">12,250</p>
+        <p style="font-size: 2em; font-weight: 1000;" id="averageOrder">12,250</p>
         <p id="averageOrderComparison" >21% vs yesterday</p>
       </div>
     </div>
@@ -148,8 +148,8 @@
     </div>
     <div class="containerShadow" style="width: 40%;" >
         <h1>Revenue by Category</h1>
-        <div class="d-flex justify-content-center" id="revenueCategoryContainer" style="height: in;" >
-            <canvas id="revenueCategorySales"></canvas>
+        <div class="d-flex justify-content-center" id="revenueCategoryContainer" style="height:4in;" >
+            <!-- <canvas id="revenueCategorySales"></canvas> -->
         </div>
     </div>
 </div>
@@ -201,9 +201,15 @@ $("#averageOrderComparison").text(
         categoryRevenueSummary.salesCategoryTotalRevenue
     );
 });
+
 const revenueCategoryContainer = document.getElementById("revenueCategoryContainer");
-                              const ctx = document.getElementById('revenueCategorySales');
-const centerTextPlugin = {
+                              if (salesCategoryTotalValues.length == 0) {
+                                 revenueCategoryContainer.innerHTML = "<h5 class='my-5'>No Current Category Revenue</h5>";
+                              }
+                              else {
+                                                                revenueCategoryContainer.innerHTML = " <canvas id='revenueCategorySales'></canvas>";
+                                const ctx = document.getElementById('revenueCategorySales');
+                                const centerTextPlugin = {
     id: 'centerText',
 
     afterDatasetsDraw(chart, args, options) {
@@ -263,6 +269,7 @@ const centerTextPlugin = {
     },
      plugins: [centerTextPlugin]
   });
+                              }
 // console.log("Total Revenue= " + totalRevenue);
             }
         });
@@ -349,7 +356,7 @@ else {
     function getComparison(today, yesterday) {
 
     if (!yesterday || yesterday == 0) {
-        return "No previous data";
+        return "No previous data to compare";
     }
 
     const percent = ((today - yesterday) / Math.abs(yesterday)) * 100;

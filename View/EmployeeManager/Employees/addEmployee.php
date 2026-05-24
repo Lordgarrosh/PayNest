@@ -72,6 +72,7 @@
                         <div class="d-flex gap-2 flex-column" style="width: 100%;">
                             <p class="m-0" >Civil Status</p>
                            <select name="civilStatus" id="" class="addEmployeeInput ps-2">
+                             <option value="Single">Single</option>
                                 <option value="Married">Married</option>
                                 <option value="Divorced">Divorced</option>
                                 <option value="Widow">Widow</option>
@@ -89,7 +90,7 @@
                            <div class="d-flex gap-4 mt-5">
                         <div class="d-flex gap-2 flex-column" style="width: 100%;">
                             <p class="m-0" >Phone Number</p>
-                            <input type="number" name="phoneNumb" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="text" name="phoneNumb" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
                         </div>
                         <div class="d-flex gap-2 flex-column" style="width: 100%;">
                             <p class="m-0" >Email Address</p>
@@ -148,18 +149,18 @@
                         </div>
                         <div class="d-flex gap-2 flex-column" style="width: 100%;">
                             <p class="m-0" >Philhealth Number</p>
-                            <input type="text" name="philhealthNumber" class="addEmployeeInput ps-2" placeholder="Enter civil status" >
+                            <input type="text" name="philhealthNumber" class="addEmployeeInput ps-2" placeholder="Enter PHILHEALTH Number" >
                         </div>
                         <div class="d-flex gap-2 flex-column" style="width: 100%;">
                             <p class="m-0" >Pag-Ibig Number</p>
-                            <input type="text" name="pagIbigNumber" class="addEmployeeInput ps-2" placeholder="Enter your gender" >
+                            <input type="text" name="pagIbigNumber" class="addEmployeeInput ps-2" placeholder="Enter Pag-Ibig Number" >
                         </div>
                     </div>
 
                            <div class="d-flex gap-4 mt-5">
                         <div class="d-flex gap-2 flex-column" style="width: 30%;">
                             <p class="m-0" >TIN</p>
-                            <input type="text" name="tinNumber" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="text" name="tinNumber" class="addEmployeeInput ps-2" placeholder="Enter your TIN Number"  >
                         </div>
                     </div>  
                 </div>
@@ -173,15 +174,15 @@
                     </div>
                     <div class="d-flex gap-2 flex-column mt-5" style="width: 100%;">
                             <p class="m-0" >Username</p>
-                            <input type="text" name="username" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="text" name="username" class="addEmployeeInput ps-2" placeholder="Enter your Username"  >
                         </div>
                         <div class="d-flex gap-2 flex-column mt-5" style="width: 100%;">
                             <p class="m-0" >Password</p>
-                            <input type="text" name="password" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="password" name="password" class="addEmployeeInput ps-2" placeholder="Enter your Password"  >
                         </div>
                         <div class="d-flex gap-2 flex-column mt-5" style="width: 100%;">
                             <p class="m-0" >Confirm Password</p>
-                            <input type="text" name="confirmPassword" class="addEmployeeInput ps-2" placeholder="Enter your number"  >
+                            <input type="password" name="confirmPassword" class="addEmployeeInput ps-2" placeholder="Confirm your password"  >
                         </div>
                     </div>
                     </div>
@@ -210,7 +211,7 @@ if (!empty($userValidation) && !empty($messageReport)) {
 if ($userValidation == "Not Validated" && !empty($messageReport)) {
     echo "<script>Swal.fire({
                 icon: 'error',
-                title: 'Login Failed',
+                title: 'Employee Registration Failed',
                 text: ' $messageReport '
             });</script>";
 }
