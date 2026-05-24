@@ -26,7 +26,17 @@
                     <h5>Here is your sales report today</h3>
                 </div>
                 <div>
-                     <img style="width: 2cm; height: 2cm;" src="<?php echo "/ProfilePic/". $userDatas['profPic'] ?>" alt="ad" height="40" width="20" class="userProfile">
+                     <img style="width: 1in;" src="<?php 
+        if (empty($userDatas['profPic']) || $userDatas['profPic'] !== "No Prof Pic") {
+          
+            echo ($userDatas['google_id'] != null) ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
+        }
+        else {
+        echo "/assets/noProfile.png";
+        } 
+        ?>
+        
+        " alt="ad" id="userProfPic" class="userProfile">
                 </div>
             </div>
         <div class="ReportActions d-flex gap-5 mt-5">

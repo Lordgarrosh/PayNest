@@ -29,10 +29,10 @@
                     <p>Manage Inventories and stocks</p>
                 </div>
                 <div>
-                 <a href="">    <img style="width: 2cm" src="<?php 
-        if (!empty($userDatas['profPic']) && $userDatas['profPic'] !== "No Prof Pic") {
+                 <a href="">    <img src="<?php 
+        if (empty($userDatas['profPic']) || $userDatas['profPic'] !== "No Prof Pic") {
           
-            echo ($userDatas['registerType'] == "googleRegistration") ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
+            echo ($userDatas['google_id'] != null) ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
         }
         else {
         echo "/assets/noProfile.png";

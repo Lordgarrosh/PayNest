@@ -361,7 +361,7 @@ else {
 
     const percent = ((today - yesterday) / Math.abs(yesterday)) * 100;
 
-    return `${percent.toFixed(2)}% vs yesterday`;
+    return `${percent.toFixed(2)}% vs past month`;
 }
 </script>
     </body>

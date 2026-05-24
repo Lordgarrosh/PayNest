@@ -90,10 +90,11 @@ class EmployeeManagerController extends Controller {
             }
             $endPage = $startTable;
           
-            $countInventoriesQuery = "SELECT COUNT(*) FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName ";
+            $countInventoriesQuery = "SELECT COUNT(*) FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName AND userID = :userID ";
             $countInventorySTMT = $this->conn->prepare($countInventoriesQuery);
             $countInventorySTMT->bindValue(":itemCategory", "%$categoryChosen%");
             $countInventorySTMT->bindValue(":itemName", "%$inventoryItemSearch%");
+            $countInventorySTMT->bindValue(":userID", $userDatas['userID']);
             $countInventorySTMT->execute();
             $totalInventories = $countInventorySTMT->fetchColumn();
             //  echo "<script>alert('$totalInventories')</script>";
