@@ -3,12 +3,11 @@
     <div class="userContainer mt-5 d-flex flex-column align-items-center">
      <button id="updateProfPic" style="background: none; border: none;  border-radius: 50%; " >
          <img src="<?php 
-        if (!empty($userDatas['profPic'])) {
+        if (!empty($userDatas['profPic']) && $userDatas['profPic'] !== "No Prof Pic") {
           
             echo ($userDatas['registerType'] == "googleRegistration") ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
         }
         else {
-
         echo "/assets/noProfile.png";
         } 
         ?>
@@ -89,6 +88,26 @@
     <img src="../assets/cashier.png" width="30" height="30" alt="">
             <p>POS</p>
             </a>
+              <a class="d-flex align-items-center gap-4 mt-4" style="cursor: pointer;" onclick="test()" >
+    <img src="../assets/logout.png" width="30" height="30" alt="">
+            <p>Logout</p>
+            </a>
          </div>
     </div>
 </div>
+
+<script>
+    function test(){
+       Swal.fire({
+  title: "Are you sure?",
+  text: "There might be unsaved data that you need to save",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, logout"
+}).then((result) => {
+ if (result.isConfirmed) window.location.href="/logout";
+});
+    }
+</script>

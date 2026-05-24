@@ -15,7 +15,7 @@ $categories = $data['categories'];
         <link rel="stylesheet" href="../css/EmployeeManager.css">
           <link rel="stylesheet" href="../css/sidenav.css">
            <link rel="stylesheet" href="../css/addInventory.css">
-        <title>PayNest</title>
+        <title>Growmart</title>
              <style>
     .image-upload-container {
       width: 100%;

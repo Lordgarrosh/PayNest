@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="../css/EmployeeManager.css">
          <link rel="stylesheet" href="../css/subscriptionPlan.css">
            <link rel="stylesheet" href="../css/sidenav.css">
-        <title>PayNest</title>
+        <title>Growmart</title>
     </head>
     <body>
 <!-- <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?> -->
@@ -79,7 +79,7 @@
   showCancelButton: true,
   confirmButtonColor: "#3085d6",
   cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, delete it!"
+  confirmButtonText: "Yes, Subscribe"
 }).then((result) => {
         if (result.isConfirmed) {
             fetch('/EmployeeManager/subscriptionPlan', {
@@ -105,7 +105,7 @@
   showCancelButton: true,
   confirmButtonColor: "#3085d6",
   cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, delete it!"
+  confirmButtonText: "Yes, Subscribe"
 }).then((result) => {
         if (result.isConfirmed) {
             fetch('/EmployeeManager/subscriptionPlan', {

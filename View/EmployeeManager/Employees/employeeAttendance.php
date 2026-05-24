@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="../css/EmployeeManager.css">
       <link rel="stylesheet" href="../css/EmployeeAttendance.css">
         <link rel="stylesheet" href="../css/sidenav.css">
-        <title>PayNest</title>
+        <title>Growmart</title>
     </head>
     <body>
         <div class="modalDark d-flex justify-content-center hide" id="addAttendanceModal">

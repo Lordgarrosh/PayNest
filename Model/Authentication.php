@@ -229,7 +229,7 @@ try {
             if ($otpInput == $otpSaved) {
                     $this->setMessageReport("OTP Verified");
                     $this->setUserValidation("Validated");
-                    echo "<script>alert('$otpPurpose')</script>";
+                   
                     if ($otpPurpose == "registration") {
                     $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname, $otpInput);
                     $userRegistration->createUser($otpPurpose);

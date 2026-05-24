@@ -25,7 +25,7 @@ $url = $client->createAuthUrl();
       <link rel="stylesheet" href="../css/register.css">
     <!-- <link rel="stylesheet" href="../css/landingheader.css"> -->
 
-    <title>PayNest</title>
+    <title>Growmart</title>
      <style>
     .image-upload-container {
       width: 100%;
@@ -68,7 +68,7 @@ $url = $client->createAuthUrl();
 <main class="px-5 d-flex justify-content-center align-items-center" style="height: 100%; position: absolute;" >
   <div class="registerContainer px-5 py-5" style="width: 40%;" >
         <div class="title pb-5">
-<h1 class="text-center namdhinggo-regular" >PayNest<h1>
+<h1 class="text-center namdhinggo-regular" >Growmart<h1>
   <p class="text-success text-center" style="font-size: 50%;" >Create your admin account</p>
 </div>
 <div class="d-flex align-items-center justify-content-center mb-5">

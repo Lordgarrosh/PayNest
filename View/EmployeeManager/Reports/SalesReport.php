@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../css/EmployeeManager.css">
           <link rel="stylesheet" href="../css/sidenav.css">
             <link rel="stylesheet" href="../css/salesReport.css">
-        <title>PayNest</title>
+        <title>Growmart</title>
     </head>
     <body>
     <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
@@ -31,7 +31,17 @@
                     </div>
                 </div>
                 <div>
-                 <a href="">  <img style="width: 2cm" src="<?php echo "/ProfilePic/". $userDatas['profPic'] ?>"  alt="" class="userProfile"></a> 
+                                <a href="">    <img style="width: 2cm" src="<?php 
+        if (!empty($userDatas['profPic']) && $userDatas['profPic'] !== "No Prof Pic") {
+          
+            echo ($userDatas['registerType'] == "googleRegistration") ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
+        }
+        else {
+        echo "/assets/noProfile.png";
+        } 
+        ?>
+        
+        " alt="ad" id="userProfPic" class="userProfile"></a> 
                 </div>
             </div>
             <div class="timeSelector">
@@ -95,8 +105,8 @@
 <div class="revenueOverview mt-5 p-3 d-flex gap-3" style="width: 100%;" >
     <div class="containerShadow p-3" style="width: 70%;" >
 <h1>Revenue Overview for this month</h1>
-<div style="width: 100%;" >
-    <canvas id="revenueOverview"></canvas>
+<div style="width: 100%;" id="revenueOverviewContainer" >
+    
 </div>
     </div>
     <div class="containerShadow p-4" style="width: 30%;" >
@@ -116,7 +126,7 @@
             <h5 id="revenueLowestAmount">amountTest</h5>
         </div>
               <div class="d-flex justify-content-between py-2">
-                <h5 class="m-0" id="revenueHighestDate">Net Revenue</h5>
+                <h5 class="m-0" >Net Revenue</h5>
             <h5 id="netRevenue">amountTest</h5>
         </div>
     </div>
@@ -138,7 +148,7 @@
     </div>
     <div class="containerShadow" style="width: 40%;" >
         <h1>Revenue by Category</h1>
-        <div class="d-flex justify-content-center" style="height: 90%;" >
+        <div class="d-flex justify-content-center" id="revenueCategoryContainer" style="height: in;" >
             <canvas id="revenueCategorySales"></canvas>
         </div>
     </div>
@@ -160,10 +170,17 @@
                 $("#totalRevenue").text("₱" + event.todayTotalRevenue);
                   $("#totalOrder").text("₱" + event.todayTotalOrders);
                    $("#averageOrder").text(`₱${parseFloat(event.todayAverageOrder).toFixed(2)}`);
-                   $("#totalRevenueComparison").text(`${parseFloat(((event.todayTotalRevenue - event.yesterdayTotalRevenue) / Math.abs(event.yesterdayTotalRevenue)) * 100).toFixed(2)}% vs yesterday`); 
-                  $("#totalOrderComparison").text(`${parseFloat(((event.todayTotalOrders - event.yesterdayTotalOrder) / Math.abs(event.yesterdayTotalOrder)) * 100).toFixed(2)}% vs yesterday`); 
-                     $("#averageOrderComparison ").text(`${parseFloat(((event.todayAverageOrder - event.yesterdayAverageOrders) / Math.abs(event.yesterdayAverageOrders)) * 100).toFixed(2)}% vs yesterday`); 
-                
+                $("#totalRevenueComparison").text(
+    getComparison(event.todayTotalRevenue, event.yesterdayTotalRevenue)
+);
+
+$("#totalOrderComparison").text(
+    getComparison(event.todayTotalOrders, event.yesterdayTotalOrder)
+);
+
+$("#averageOrderComparison").text(
+    getComparison(event.todayAverageOrder, event.yesterdayAverageOrders)
+);
             }
         });
         
@@ -184,6 +201,7 @@
         categoryRevenueSummary.salesCategoryTotalRevenue
     );
 });
+const revenueCategoryContainer = document.getElementById("revenueCategoryContainer");
                               const ctx = document.getElementById('revenueCategorySales');
 const centerTextPlugin = {
     id: 'centerText',
@@ -261,7 +279,7 @@ const centerTextPlugin = {
     <div class="col">${itemRevenueSummary.itemCategory}</div>
     <div class="col">${itemRevenueSummary.totalQuantity}</div>
     <div class="col text-success">
-        ₱${itemRevenueSummary.salesItemTotalRevenue}
+        ₱${parseFloat(itemRevenueSummary.salesItemTotalRevenue || 0).toFixed(2)}
     </div>
 </div>`;
         });
@@ -274,9 +292,9 @@ const centerTextPlugin = {
         type: "GET",
         dataType: "json",
         success: (result) => {
-            $("#revenueHighestAmount").text("₱" + result.maxRevenue);
-            $("#revenueLowestAmount").text("₱" + result.minRevenue);
-            $("#netRevenue").text("₱" + result.totalRevenue);
+            $("#revenueHighestAmount").text((result.maxRevenue == null) ? "No revenue data" : "₱" + result.maxRevenue);
+            $("#revenueLowestAmount").text((result.minRevenue == null) ? "No revenue data" : "₱" + result.minRevenue);
+            $("#netRevenue").text((result.totalRevenue == null) ? "No net revenue" : "₱" + result.totalRevenue);
             // console.log(result);
         }
     });
@@ -285,9 +303,15 @@ const centerTextPlugin = {
             type: "GET",
             dataType: "json",
             success: (result) => {
-                // console.log(result);
-                              const ctx = document.getElementById('revenueOverview');
+                     const overview = result.revenueValue;
 
+const allZero = Object.values(overview).every(value => value == 0);
+
+console.log(allZero);
+const revenueOverviewContainer = document.getElementById("revenueOverviewContainer");
+if (!allZero) {
+    revenueOverviewContainer.innerHTML = "<canvas id='revenueOverview'></canvas>";
+                                  const ctx = document.getElementById('revenueOverview');
   new Chart(ctx, {
     type: 'line',
     data: {
@@ -314,9 +338,24 @@ const centerTextPlugin = {
       }
     }
   });
+}
+else {
+    revenueOverviewContainer.innerHTML = "<h1> No Revenue for this year </h1>";
+}
+
             }
         });
     });
+    function getComparison(today, yesterday) {
+
+    if (!yesterday || yesterday == 0) {
+        return "No previous data";
+    }
+
+    const percent = ((today - yesterday) / Math.abs(yesterday)) * 100;
+
+    return `${percent.toFixed(2)}% vs yesterday`;
+}
 </script>
     </body>
     </html>

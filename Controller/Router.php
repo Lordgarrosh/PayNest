@@ -16,6 +16,7 @@ require __DIR__ . "/../Controller/ReportController.php";
     RouteHandler::post('/login', [new AuthController(), 'loginUser']);
                          RouteHandler::get('/otpVerification', [new AuthController(), 'otpForm']);
                           RouteHandler::post('/otpVerification', [new AuthController(), 'otpVerification']);
+                                   RouteHandler::get('/logout', [new EmployeeManagerController(), 'logout']);
         RouteHandler::group(['prefix' => '/EmployeeManager'], function() {
             
 

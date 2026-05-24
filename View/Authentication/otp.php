@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="../css/otp.css">
     <!-- <link rel="stylesheet" href="../css/landingheader.css"> -->
 
-    <title>PayNest</title>
+    <title>Growmart</title>
 
 </head>
 

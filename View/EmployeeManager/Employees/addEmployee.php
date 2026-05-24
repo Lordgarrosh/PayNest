@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="../css/EmployeeManager.css">
         <link rel="stylesheet" href="../css/AddEmployee.css">
           <link rel="stylesheet" href="../css/sidenav.css">
-        <title>PayNest</title>
+        <title>Growmart</title>
     </head>
     <body>
     <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>

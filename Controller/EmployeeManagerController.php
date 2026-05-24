@@ -458,17 +458,24 @@ $stmt->execute();
 
 
 
-protected function userProfile () {
+protected function userProfile()
+{
     $this->startSession();
 
+    if (!isset($_SESSION['userInfo'])) {
+        return null;
+    }
+
     $userInfo = $_SESSION['userInfo'];
+
     $email = $userInfo['email'];
-    $registerType = $userInfo['otpPurpose'];
+
     $this->database = new Database();
     $this->conn = $this->database->connect();
 
-    $userQuery = "SELECT * FROM userinfo WHERE Email = :email";
-    $stmt = $this->conn->prepare($userQuery);
+    $query = "SELECT * FROM userinfo WHERE Email = :email";
+
+    $stmt = $this->conn->prepare($query);
     $stmt->bindValue(":email", $email);
     $stmt->execute();
 
@@ -478,39 +485,46 @@ protected function userProfile () {
         return null;
     }
 
-    // GOOGLE LOGIN
-    if ($userData['registerType'] == "googleRegistration") {
-
-        return [
-            "userID" => $userData['userID'],
-            "email" => $userData['Email'],
-            "fname" => $userData['FirstName'],
-            "mname" => $userData['MiddleName'],
-            "lname" => $userData['LastName'],
-            "profPic" => $userData['ProfPic'],
-            "number" => $userData['Number'],
-             "registerType" => $userData['registerType']
-        ];
+    // NORMAL LOGIN
+    if (
+        isset($userInfo['password']) &&
+        !empty($userData['Password']) &&
+        password_verify($userInfo['password'], $userData['Password'])
+    ) {
+        return $this->buildUserProfile($userData);
     }
 
-    // NORMAL LOGIN
-    $password = $userInfo['password'];
-
-    if (password_verify($password, $userData['Password'])) {
-
-        return [
-            "userID" => $userData['userID'],
-            "email" => $userData['Email'],
-            "fname" => $userData['FirstName'],
-            "mname" => $userData['MiddleName'],
-            "lname" => $userData['LastName'],
-            "profPic" => $userData['ProfPic'],
-            "number" => $userData['Number'],
-            "registerType" => $userData['registerType']
-        ];
+    // GOOGLE LOGIN
+    if (
+        isset($userData['google_id']) &&
+        !empty($userData['google_id']) &&
+        $userInfo['password'] == $userData['google_id']
+    ) {
+        return $this->buildUserProfile($userData);
     }
 
     return null;
+}
+
+public function logout () {
+    $this->startSession();
+    session_unset();
+    session_destroy();
+    $this->redirect("/login");
+}
+
+private function buildUserProfile($userData)
+{
+    return [
+        "userID" => $userData['userID'],
+        "email" => $userData['Email'],
+        "fname" => $userData['FirstName'],
+        "mname" => $userData['MiddleName'],
+        "lname" => $userData['LastName'],
+        "profPic" => $userData['ProfPic'],
+        "number" => $userData['Number'],
+        "registerType" => $userData['registerType']
+    ];
 }
 
 

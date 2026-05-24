@@ -30,7 +30,7 @@ $url = $client->createAuthUrl();
 <div style="width: 100%;" class="d-flex justify-content-center" >
      <!-- Login part -->
 <div class="login-box p-5 rounded-start ">
-    <h2 class="text-center namdhinggo-regular m-0"  >PayNest</h2>
+    <h2 class="text-center namdhinggo-regular m-0"  >Growmart</h2>
     <p class="text-success d-flex justify-content-center mb-4">Welcome back! Please sign in to your account.</p>
     <p class="d-flex justify-content-center mb-3">Sign up as</p>
     <div class="d-flex gap-4">
@@ -43,7 +43,7 @@ $url = $client->createAuthUrl();
     <button style="background: none; border: none;" >
             <div class="d-flex containerShadow gap-5 justify-content-center align-items-center py-2 px-2">
         <img src="/assets/employeeGroup.png" alt="d" width="35" >
-        <h5>Employee</h5>
+        <h5>Growmart</h5>
       </div>
     </button>
     </div>

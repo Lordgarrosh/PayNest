@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="../css/EmployeeManager.css">
           <link rel="stylesheet" href="../css/sidenav.css">
            <link rel="stylesheet" href="../css/inventory.css">
-        <title>PayNest</title>
+        <title>Growmart</title>
     </head>
     <body>
     <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
@@ -51,11 +51,19 @@
             
                            <?php foreach ($categories as $cat): ?>
                                 
-    <option value="?page=1&category=<?= urlencode($cat['categoryName']) ?>&search=<?= urlencode($inventoryItemSearch) ?>">
+     <option 
+        value="?page=1&category=<?= urlencode($cat['categoryName']) ?>&search=<?= urlencode($inventoryItemSearch) ?>"
+        <?= (isset($categoryChosen) && $categoryChosen == $cat['categoryName']) ? 'selected' : '' ?>
+    >
         <?= $cat['categoryName'] ?>
     </option>
 <?php endforeach; ?>
-<option value="?page=1&category=">All Category</option>
+<option 
+    value="?page=1&category=" 
+    <?= empty($categoryChosen) ? 'selected' : '' ?>
+>
+    All Category
+</option>
         </select>
 
         </div>
@@ -91,13 +99,13 @@
        <td><?= $cat['itemSellingPrice'] ?></td>
        <?php 
        if ($cat['itemQuantity'] > $stockStatus) {
-        echo " <td><button class='test'>inStock</button></td>";
+        echo " <td><div style='width: 80%; border-radius: 1em;  height: 1cm; background-color: green;' class='d-flex align-items-center justify-content-center'>inStock</div></td>";
        }
        else if ($cat['itemQuantity'] == 0) {
-        echo " <td><button class='test'>Out of Stock</button></td>";
+        echo " <td><div style='width: 80%; border-radius: 1em;  height: 1cm; background-color: red;' class='d-flex align-items-center justify-content-center'>Out of Stock</div></td>";
        }
        else if ($cat['itemQuantity'] <= $stockStatus) {
-        echo " <td><button class='test'>Low Stock</button></td>";
+        echo " <td><div style='width: 80%; border-radius: 1em;  height: 1cm; background-color: yellow;' class='d-flex align-items-center justify-content-center'>Low Stock</div></td>";
        }
        ?>
         <td><button class="test">View</button></td>

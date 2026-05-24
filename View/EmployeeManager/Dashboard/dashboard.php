@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../css/EmployeeManager.css">
         <link rel="stylesheet" href="../css/sidenav.css">
          <link rel="stylesheet" href="../css/dashboard.css">
-        <title>PayNest</title>
+        <title>Growmart</title>
     </head>
     <body>
 <?php require __DIR__ . "/../../../View/Components/EmployeeSideNav.php" ?>
@@ -29,7 +29,17 @@
                     <p>Manage Inventories and stocks</p>
                 </div>
                 <div>
-                 <a href="">  <img style="width: 2cm" src="<?php echo "/ProfilePic/". $userDatas['profPic'] ?>"  alt="" class="userProfile"></a> 
+                 <a href="">    <img style="width: 2cm" src="<?php 
+        if (!empty($userDatas['profPic']) && $userDatas['profPic'] !== "No Prof Pic") {
+          
+            echo ($userDatas['registerType'] == "googleRegistration") ? $userDatas['profPic'] : "/ProfilePic/". $userDatas['profPic'] ;
+        }
+        else {
+        echo "/assets/noProfile.png";
+        } 
+        ?>
+        
+        " alt="ad" id="userProfPic" class="userProfile"></a> 
                 </div>
             </div>
             <div class="d-flex gap-5">
@@ -67,8 +77,8 @@
                 <div class="d-flex gap-5 containerShadow" style="width: 66%;" >
                 <div class="salesOverviewContainer d-flex flex-column gap-2" style="width: 60%;" >
                     <h1>Sales Overview</h1>
-                     <div class="mt-5" >
-  <canvas style="height: 100%;" id="chartTest"></canvas>
+                     <div class="mt-5" id="chartContainer" >
+  <!-- <canvas style="height: 100%;" id="chartTest"></canvas> -->
 </div>
                 </div>
                 <div class="p-3 ps-5" style="border-left: solid black 1px;"> 
@@ -89,10 +99,10 @@
                     </div>
                 </div>
                 </div>
-                <div class="containerShadow p-3" style="width: 30%;">
+                <div class="containerShadow p-3"  style="width: 30%;">
                     <h5 style="color: #2E7906;" >Top Products Sale</h5>
- <div style="height: 3in;" >
-  <canvas id="pieGraph"></canvas>
+ <div style="height: 3in;" id="pieContainer" >
+  <!-- <canvas id="pieGraph"></canvas> -->
 </div> 
                 </div>
             </div>
@@ -116,9 +126,15 @@
         success: (result) => {
             const labels = result.map(item => item.itemName);
      const data = result.map(item => Number(item.totalSales));
-      console.log(data);
-             const pieGraph = document.getElementById('pieGraph');
-   new Chart(pieGraph, {
+      console.log(data.length);
+           const pieContainer = document.getElementById("pieContainer");
+             if (data.length == 0) {
+                pieContainer.innerHTML = "<h1>No current item sales</h1>";
+             }
+             else {
+                  pieContainer.innerHTML = "<canvas id='pieGraph'></canvas> ";
+                    const pieGraph = document.getElementById('pieGraph');
+                   new Chart(pieGraph, {
     type: 'pie',
     data: {
       labels: labels,
@@ -152,6 +168,8 @@
     },
     plugins: [ChartDataLabels]
   });
+             }
+
         }
    });
     $.ajax({
@@ -159,13 +177,18 @@
         type: "GET",
         dataType: "json",
         success: (result) => {
-            console.log(result);
-              const ctx = document.getElementById('chartTest');
+           const overview = result.salesOverView.salesGrandAmount;
 
-  new Chart(ctx, {
-    type: 'bar',
+const allZero = Object.values(overview).every(value => value == 0);
+
+console.log(!allZero);
+           const chartContainer = document.getElementById('chartContainer');   
+if (!allZero) {
+       chartContainer.innerHTML = `<canvas style="height: 100%;" id="chartTest"></canvas>`;
+      const ctx = document.getElementById('chartTest');   
+  new Chart(ctx, {    type: 'bar',
     data: {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      labels: result.salesOverView.salesYear,
       datasets: [{
         label: 'Sales Report for the nazis',
         data: result.salesOverView.salesGrandAmount,
@@ -188,6 +211,11 @@
       }
     }
   });
+}
+else {
+      chartContainer.innerHTML= `<h1> No Sales on the whole Year</h1>`;
+}
+
   $("#averageDailySales").text("₱" + result.averageDailySales.toFixed(2));
   $("#peakSaleValue").text("₱" + result.peakSale.peakSaleValue);
     $("#peakSaleYear").text(result.peakSale.peakSaleYear);
