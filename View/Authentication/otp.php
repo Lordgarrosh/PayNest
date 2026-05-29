@@ -21,8 +21,8 @@
 <main class="px-5 d-flex justify-content-center align-items-center" style="height: 100%; width: 100%; position: absolute;" >
 <div class="otpContainer p-2 d-flex flex-column align-items-center" >
     <h1>Verify your account</h1>
-    <p>The verification code has been sent to your email</p>
-    <p class="mb-5" >example@gmail.com</p>
+    <p>The verification code has been sent to <?= $email ?></p>
+
   
     <form action="/otpVerification" method="POST">
             <div class="d-flex gap-4 justify-content-center mb-5" style="width: 100%;" >
@@ -56,7 +56,7 @@ if (!empty($messageReport) && !empty($userValidation)) {
  
             Swal.fire({
                 icon: 'error',
-                title: 'Registration Failed',
+                title: 'OTP Verification Failed',
                 text: ' $messageReport '
             });
         </script>";
@@ -66,7 +66,7 @@ if (!empty($messageReport) && !empty($userValidation)) {
 
         Swal.fire({
                 icon: 'success',
-                title: 'Registration success',
+                title: 'OTP Verification Success',
                 text: '$messageReport'
             }).then(() => {
               window.location.href = '/EmployeeManager/dashboard';

@@ -13,7 +13,11 @@ require_once 'Controller.php';
     
 
  public function otpForm () {
-    $this->view('/Authentication/otp');
+    $this->startSession();
+    $email = $_SESSION['userInfo']['email'];
+    $this->view('/Authentication/otp', [
+        "email" => $email
+    ]);
  }
 public function loginForm () {
     $this->view('/Authentication/login');

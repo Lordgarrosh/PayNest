@@ -227,9 +227,16 @@ try {
             $otp6 = $_POST['otp6'];
             $otpInput = $otp1 . $otp2 . $otp3 . $otp4 . $otp5 . $otp6;
             if ($otpInput == $otpSaved) {
+                $_SESSION['loginInfo'] = [
+                                   "email" => $email,
+            "password" => $password,
+            "fname" =>  $fname,
+            "lname" => $lname,
+            "otp" => $otpInput,
+            "otpPurpose" => $otpPurpose,
+                ];
                     $this->setMessageReport("OTP Verified");
                     $this->setUserValidation("Validated");
-                    echo "<script>alert('$otpPurpose')</script>";
                     if ($otpPurpose == "registration") {
                     $userRegistration = UsersManager::userRegister($email, $password, $fname, $lname, $otpInput);
                     $userRegistration->createUser($otpPurpose);
@@ -253,10 +260,6 @@ try {
                         $this->setConn();
                         $updateGoogleProfileSQL = "UPDATE userinfo SET ProfPic = :profPic, google_id = :google_id WHERE userID = :userID";
                         $updateGoogleProfileSTMT = $this->conn->prepare($updateGoogleProfileSQL);
-                         echo "<script>alert('". $findUserInfo['userID'] ."')</script>";
-                         echo "<script>alert('".$password ."')</script>";
-                         echo "<script>alert('". $profilePicture ."')</script>";
-                         echo "<script>alert('". $email ."')</script>";
                         $updateGoogleProfileSTMT->bindValue(":google_id", $password);
                          $updateGoogleProfileSTMT->bindValue(":userID", $findUserInfo['userID'] );
                         $updateGoogleProfileSTMT->bindValue(":profPic", $profilePicture);
@@ -268,6 +271,7 @@ try {
                     $this->setUserValidation("Not Validated");
             }
             return [
+                "email" => $email,
                 "messageReport" => $this->getMessageReport(),
                 "userValidation" => $this->getUserValidation()
             ];

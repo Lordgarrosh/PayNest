@@ -74,7 +74,7 @@
       <div class="d-flex flex-column" style="width: 60%;">
         <p  >Total Revenue</p>
         <p style="font-size: 2em; font-weight: 1000;" id="totalRevenue" >12,250</p>
-        <p id="totalRevenueComparison" >21% vs yesterday</p>
+        <p id="totalRevenueComparison" >21% vs past month</p>
       </div>
     </div>
 
@@ -85,7 +85,7 @@
       <div class="d-flex flex-column" style="width: 60%;">
         <p>Total Orders</p>
         <p style="font-size: 2em; font-weight: 1000;" id="totalOrder">12,250</p>
-        <p id="totalOrderComparison" >21% vs yesterday</p>
+        <p id="totalOrderComparison" >21% vs past month</p>
       </div>
     </div>
 
@@ -96,7 +96,7 @@
       <div class="d-flex flex-column" style="width: 60%;">
         <p>Average Order Value</p>
         <p style="font-size: 2em; font-weight: 1000;" id="averageOrder">12,250</p>
-        <p id="averageOrderComparison" >21% vs yesterday</p>
+        <p id="averageOrderComparison" >21% vs past month</p>
       </div>
     </div>
     
@@ -113,14 +113,14 @@
         <h5 style=" border-bottom: 2px solid gray;" class="pb-2" >Revenue Summary</h5>
         <div class="d-flex justify-content-between py-2 mb-3" style=" border-bottom: 2px solid gray;" >
             <div class="d-flex gap-2 flex-column"  >
-                <p class="m-0" > Highest Day</p>
+                <p class="m-0" > Highest Revenue</p>
                 <p class="m-0"  id="revenueHighestDate">AprilTest</p>
             </div>
             <h5 id="revenueHighestAmount">amountTest</h5>
         </div>
                 <div class="d-flex justify-content-between py-2 mb-3" style=" border-bottom: 2px solid gray;" >
             <div class="d-flex gap-2 flex-column"  >
-                <p class="m-0" > Lowest Day</p>
+                <p class="m-0" > Lowest Revenue</p>
                 <p class="m-0"  id="revenueLowestDate">AprilTest</p>
             </div>
             <h5 id="revenueLowestAmount">amountTest</h5>
@@ -302,6 +302,8 @@ const revenueCategoryContainer = document.getElementById("revenueCategoryContain
             $("#revenueHighestAmount").text((result.maxRevenue == null) ? "No revenue data" : "₱" + result.maxRevenue);
             $("#revenueLowestAmount").text((result.minRevenue == null) ? "No revenue data" : "₱" + result.minRevenue);
             $("#netRevenue").text((result.totalRevenue == null) ? "No net revenue" : "₱" + result.totalRevenue);
+             $("#revenueLowestDate").text((result.minRevenueDate == null) ? "No revenue data" : "₱" + result.minRevenueDate);
+              $("#revenueHighestDate").text((result.totalRevenue == null) ? "No revenue data" : "₱" + result.maxRevenueDate);
             // console.log(result);
         }
     });

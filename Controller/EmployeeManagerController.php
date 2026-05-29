@@ -34,7 +34,7 @@ class EmployeeManagerController extends Controller {
         $userSubscription = $this->fetchUserSubscription();
           $this->startSession();
           
-        if (!isset($_SESSION['userInfo'])) {
+        if (!isset($_SESSION['loginInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
@@ -58,7 +58,7 @@ class EmployeeManagerController extends Controller {
               $userSubscription = $this->fetchUserSubscription();
           $this->startSession();
           
-        if (!isset($_SESSION['userInfo'])) {
+        if (!isset($_SESSION['loginInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
@@ -111,7 +111,7 @@ class EmployeeManagerController extends Controller {
             $inventorySTMT->bindValue(":userID", $userDatas['userID']);
             $inventorySTMT->execute();
             $productInventories = $inventorySTMT->fetchAll(PDO::FETCH_ASSOC);
-                 if (!isset($_SESSION['userInfo'])) {
+                 if (!isset($_SESSION['loginInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
@@ -143,7 +143,7 @@ class EmployeeManagerController extends Controller {
             $sqlCategories = "SELECT * FROM categories";
             $inventoryCategories = $this->conn->query($sqlCategories);
             
-                 if (!isset($_SESSION['userInfo'])) {
+                 if (!isset($_SESSION['loginInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
@@ -240,7 +240,10 @@ class EmployeeManagerController extends Controller {
     public function employeeAttendancePage() {
         
         $userDatas = $this->userProfile();
-        $this->view("/EmployeeManager/employeeAttendance", $userDatas);
+           $data = [
+                "userDatas" => $userDatas
+            ];
+        $this->view("/EmployeeManager/Employees/employeeAttendance", $data);
     }
 
     public function addEmployeeForm () {
@@ -464,11 +467,11 @@ protected function userProfile()
 {
     $this->startSession();
 
-    if (!isset($_SESSION['userInfo'])) {
+    if (!isset($_SESSION['loginInfo'])) {
         return null;
     }
 
-    $userInfo = $_SESSION['userInfo'];
+    $userInfo = $_SESSION['loginInfo'];
 
     $email = $userInfo['email'];
 

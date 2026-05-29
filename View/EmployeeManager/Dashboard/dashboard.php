@@ -85,12 +85,12 @@
                     <div class="todaySales">
                         <p>Today Sales</p>
                         <h5 id="salesToday" style="color: #2E7906;" >P0.0</h5>
-                        <p>This month</p>
+                        
                     </div>
                     <div class="averageDailySales">
                         <p>Average Daily Sales</p>
                         <h5 id="averageDailySales" style="color: #2E7906;" >P0.0</h5>
-                        <p>This month</p>
+                        
                     </div>
                     <div class="todaySales">
                         <p>Peak Sales</p>
@@ -139,7 +139,7 @@
     data: {
       labels: labels,
       datasets: [{
-        label: 'Sales Report for the nazis',
+        label: 'Top Product Sale for year ' + new Date().getFullYear(),
         data: data,
         borderWidth: 1
       }]
@@ -190,7 +190,7 @@ if (!allZero) {
     data: {
       labels: result.salesOverView.salesYear,
       datasets: [{
-        label: 'Sales Report for the nazis',
+        label: 'Sales Overview for year ' + new Date().getFullYear(),
         data: result.salesOverView.salesGrandAmount,
         borderWidth: 1
       }]

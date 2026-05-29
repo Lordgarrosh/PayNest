@@ -17,7 +17,14 @@ class DashboardController extends EmployeeManagerController {
         $this->database = new Database();
         $this->conn = $this->database->connect();
         $currentYear = date("Y");
-        $salesSQL = "SELECT * FROM sales WHERE userID = :userID AND salesDate LIKE :salesDate ORDER BY salesGrandAmount";
+        $salesSQL = "SELECT 
+    salesDate,
+    SUM(salesGrandAmount) AS totalAmount
+FROM sales
+WHERE userID = :userID
+AND salesDate LIKE :salesDate
+GROUP BY salesDate
+ORDER BY totalAmount DESC";
         $salesSTMT = $this->conn->prepare($salesSQL);
         $salesSTMT->bindValue(":userID", $userDatas['userID']);
         $salesSTMT->bindValue(":salesDate", "%$currentYear%");
@@ -39,23 +46,35 @@ class DashboardController extends EmployeeManagerController {
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 $salesMonthValues = array_fill_keys($months, 0);
-        while ($row = $salesSTMT->fetch(PDO::FETCH_ASSOC)) {
-                 $date = DateTime::createFromFormat("M/d/Y", $row['salesDate']);
+while ($row = $salesSTMT->fetch(PDO::FETCH_ASSOC)) {
 
-    if (!$date) continue; // skip invalid dates
+    $date = DateTime::createFromFormat("M/d/Y", $row['salesDate']);
+
+    if (!$date) continue;
 
     $monthIndex = (int)$date->format("n");
     $monthName = $months[$monthIndex - 1];
-      $amount = (float)$row['salesGrandAmount'];
-             if ($dateToday == $row['salesDate']) {
-                $_SESSION['salesToday'] += $row['salesGrandAmount']; 
-             }
-             $salesMonthValues[$monthName] += $row['salesGrandAmount'];
-              $_SESSION['averageDailySales'] += $row['salesGrandAmount'];
-              $totalSales++;
-              $_SESSION['peakSale']["peakSaleValue"] = $row['salesGrandAmount'];
-              $_SESSION['peakSale']["peakSaleYear"] = $row['salesDate'];
-        }
+
+    $amount = (float)$row['totalAmount'];
+
+    // sales today
+    if ($dateToday == $row['salesDate']) {
+        $_SESSION['salesToday'] = $amount;
+    }
+
+    // monthly totals
+    $salesMonthValues[$monthName] += $amount;
+
+    // average daily sales
+    $_SESSION['averageDailySales'] += $amount;
+    $totalSales++;
+
+    // peak sale
+    if ($amount > $_SESSION['peakSale']["peakSaleValue"]) {
+        $_SESSION['peakSale']["peakSaleValue"] = $amount;
+        $_SESSION['peakSale']["peakSaleYear"] = $row['salesDate'];
+    }
+}
  $_SESSION['salesReportOverview'] = [
     "salesYear" => array_keys($salesMonthValues),
     "salesGrandAmount" => array_values($salesMonthValues)

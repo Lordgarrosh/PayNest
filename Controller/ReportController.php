@@ -58,10 +58,38 @@ $revenueMonthValues = array_fill_keys($months, 0);
         $userDatas = $this->userProfile();
         $this->database = new Database();
         $this->conn = $this->database->connect();
-        $minMaxValuesSQL = "SELECT SUM(salesGrandAmount - (salesOriginalPrice + salesTaxAmount)) AS totalRevenue,
-         MAX(salesGrandAmount - (salesOriginalPrice + salesTaxAmount)) AS maxRevenue,
-MIN(salesGrandAmount - (salesOriginalPrice + salesTaxAmount)) AS minRevenue
-FROM sales WHERE userID = :userID";
+        $minMaxValuesSQL = "SELECT
+    SUM(salesGrandAmount - (salesOriginalPrice + salesTaxAmount)) AS totalRevenue,
+    (
+        SELECT salesDate
+        FROM sales
+        WHERE userID = :userID
+        ORDER BY (salesGrandAmount - (salesOriginalPrice + salesTaxAmount)) DESC
+        LIMIT 1
+    ) AS maxRevenueDate,
+
+    (
+        SELECT MAX(salesGrandAmount - (salesOriginalPrice + salesTaxAmount))
+        FROM sales
+        WHERE userID = :userID
+    ) AS maxRevenue,
+
+    (
+        SELECT salesDate
+        FROM sales
+        WHERE userID = :userID
+        ORDER BY (salesGrandAmount - (salesOriginalPrice + salesTaxAmount)) ASC
+        LIMIT 1
+    ) AS minRevenueDate,
+
+    (
+        SELECT MIN(salesGrandAmount - (salesOriginalPrice + salesTaxAmount))
+        FROM sales
+        WHERE userID = :userID
+    ) AS minRevenue
+
+FROM sales
+WHERE userID = :userID;";
         $minMaxValuesSTMT = $this->conn->prepare($minMaxValuesSQL);
         $minMaxValuesSTMT->bindValue(":userID", $userDatas['userID']);
         $minMaxValuesSTMT->execute();

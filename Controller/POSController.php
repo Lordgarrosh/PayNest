@@ -18,7 +18,7 @@ class POSController extends EmployeeManagerController {
             $inventoryCategories = $this->conn->query($sqlCategories);
             $itemName = $_GET['itemName'] ?? '';
             $itemCategory = $_GET['itemCategory'] ?? '';
-            $sqlProducts = "SELECT * FROM inventories WHERE itemName LIKE :itemName AND itemCategory LIKE :itemCategory AND userID = :userID";
+            $sqlProducts = "SELECT * FROM inventories WHERE itemName LIKE :itemName AND itemCategory LIKE :itemCategory AND itemQuantity > 0 AND userID = :userID";
             $productSTMT = $this->conn->prepare($sqlProducts);
             $productSTMT->bindValue(":itemName", "%$itemName%");
             $productSTMT->bindValue(":itemCategory", "%$itemCategory%");
@@ -26,7 +26,7 @@ class POSController extends EmployeeManagerController {
             $productSTMT->execute();
             $productItems = $productSTMT->fetchAll(PDO::FETCH_ASSOC);
  
-        if (!isset($_SESSION['userInfo'])) {
+        if (!isset($_SESSION['loginInfo'])) {
            $this->redirect("/login");
         }
         else if ($userSubscription !== null) {
@@ -55,7 +55,7 @@ class POSController extends EmployeeManagerController {
         $this->database = new Database();
         $this->conn = $this->database->connect();
         
-        $sqlLoadItem = "SELECT * FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName AND userID = :userID LIMIT :start, :limit";
+        $sqlLoadItem = "SELECT * FROM inventories WHERE itemCategory LIKE :itemCategory AND itemName LIKE :itemName AND itemQuantity > 0 AND userID = :userID LIMIT :start, :limit";
         $stmt = $this->conn->prepare($sqlLoadItem);
 
         // ✅ VERY IMPORTANT
@@ -100,7 +100,16 @@ public function updateCart() {
 $changeValue = $_POST['changeValue'] ?? 0;
 $discountprice = $_SESSION['discountPercentage'] ?? 0;
    
- 
+ $productFound = $this->findInventoryItemByID($inventoryID);
+
+if (!$productFound) {
+    echo json_encode([
+        "error" => "Product not found"
+    ]);
+    return;
+}
+$maxStock = $productFound['itemQuantity'];
+$currentQty = $_SESSION['cart'][$inventoryID]['itemCurrentQuantity'];
 
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = [];
@@ -127,7 +136,9 @@ $discountprice = $_SESSION['discountPercentage'] ?? 0;
     }
 
     if ($userAction == "addCartQuantity") {
+            if ($currentQty < $maxStock) {
         $_SESSION['cart'][$inventoryID]['itemCurrentQuantity']++;
+    }
     }
     else if ($userAction == "subtractCartQuantity") {
         $_SESSION['cart'][$inventoryID]['itemCurrentQuantity']--;
@@ -137,9 +148,20 @@ $discountprice = $_SESSION['discountPercentage'] ?? 0;
             unset($_SESSION['cart'][$inventoryID]);
         }
     }
-    else if ($userAction == "quantityField") {
-        $_SESSION['cart'][$inventoryID]['itemCurrentQuantity'] = $changeValue;
+   else if ($userAction == "quantityField") {
+
+    // prevent below 1
+    if ($changeValue < 1) {
+        $changeValue = 1;
     }
+
+    // prevent exceeding stock
+    if ($changeValue > $maxStock) {
+        $changeValue = $maxStock;
+    }
+
+    $_SESSION['cart'][$inventoryID]['itemCurrentQuantity'] = $changeValue;
+}
     else {
          $_SESSION['cart'][$inventoryID]['itemCurrentQuantity']++;
     }

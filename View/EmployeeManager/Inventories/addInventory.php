@@ -229,7 +229,7 @@ if
  
             Swal.fire({
                 icon: 'error',
-                title: 'Registration Failed',
+                title: 'Failed to Add To Inventory',
                 text: '$messageReport'
             });
         </script>";
@@ -238,7 +238,7 @@ if
         echo " <script>
             Swal.fire({
                 icon: 'success',
-                title: 'Registration success',
+                title: 'Inventory Added Successfully',
                 text: '$messageReport'
             }).then(() => {
               window.location.href = '/EmployeeManager/inventory';
